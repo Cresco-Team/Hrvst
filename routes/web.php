@@ -1,20 +1,21 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FarmersController;
+use App\Http\Controllers\MeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+Route::get('/', [DashboardController::class, 'show']);
 
-Route::get('/farmers', function () {
-    return view('farmers');
-});
+Route::get('/farmers', FarmersController::class);
 
-Route::get('/me', function () {
-    return view('me');
-});
+Route::get('/me', MeController::class);
+
+
+
+
 
 Route::get('/welcome', function () {
     return Inertia::render('welcome', [
