@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
-Route::get('/', [DashboardController::class, 'show']);
+Route::get('/', DashboardController::class);
 
 Route::get('/farmers', FarmersController::class);
 

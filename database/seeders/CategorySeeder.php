@@ -13,13 +13,11 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Category::insert([
-            ['name' => 'Vegetables'],
-            ['name' => 'Fruits'],
-            ['name' => 'Grains'],
-            ['name' => 'Tubers'],
-            ['name' => 'Pulses'],
-            ['name' => 'Beverages'],
-        ]);
+        $categories = ['Vegetables', 'Fruits', 'Grains', 'Tubers', 'Pulses', 'Beverages'];
+
+        foreach ($categories as $name) {
+            Category::firstOrCreate(['name' => $name]);
+        }
+
     }
 }
