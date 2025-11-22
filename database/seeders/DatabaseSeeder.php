@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AdminSeeder::class,
             MunicipalitySeeder::class,
             BarangaySeeder::class,
             CategorySeeder::class,  
@@ -23,13 +22,12 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(10)->create();
 
-        User::firstOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => 'password',
-                'email_verified_at' => now(),
-            ]
-        );
+        User::firstOrCreate([
+            'name' => env('ADMIN_NAME', 'Admin User'),
+            'email' => env('ADMIN_EMAIL', 'admin@email.com'),
+            'password' => bcrypt(env('ADMIN_PASSWORD', 'admin123')),
+            'role' => 'admin',
+            'status' => 'approved',
+        ]);
     }
 }
