@@ -14,7 +14,7 @@ use Inertia\Inertia;
 class AdminFarmerController extends Controller
 {
     public function index(Request $request) {
-        $query = Farmer::with(['user', 'municipality', 'barangay', 'sitio', 'crops']);
+        $query = Farmer::with(['user', 'municipality', 'barangay', 'crops']);
 
         // Filter by Municipality
         if ($request->filled('municipality_id')) {
@@ -23,10 +23,6 @@ class AdminFarmerController extends Controller
         //Filter by Barangay
         if ($request->filled('barangay_id')) {
             $query->where('barangay_id', $request->barangay_id);
-        }
-        //Filter by Sitio
-        if ($request->filled('sitio_id')) {
-            $query->where('sitio_id', $request->sitio_id);
         }
 
         $approvedFarmers = (clone $query)->whereHas('user', function($q) {
@@ -39,11 +35,11 @@ class AdminFarmerController extends Controller
 
         $municipalities = Municipality::all();
 
-        return Inertia::render('Admin/Farmers/Index', [
+        return Inertia::render('Farmers/Index', [
             'approvedFarmers' => $approvedFarmers->get(),
             'pendingFarmers' => $pendingFarmers->get(),
             'municipalities' => $municipalities,
-            'filters' => $request->only(['municipality_id', 'barangay_id', 'sitio_id']),
+            'filters' => $request->only(['municipality_id', 'barangay_id']),
         ]);
     }
 
@@ -75,7 +71,7 @@ class AdminFarmerController extends Controller
     }
 
     public function show(Farmer $farmer) {
-        $farmer->load(['user', 'municipality', 'barangay', 'sitio', 'crops.category']);
+        $farmer->load(['user', 'municipality', 'barangay', 'crops.category']);
 
         return response()->json($farmer);
     }

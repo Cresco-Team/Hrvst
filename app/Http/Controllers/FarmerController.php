@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barangay;
 use App\Models\Farmer;
 use App\Models\Municipality;
-use App\Models\Sitio;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -27,10 +27,19 @@ class FarmerController extends Controller
 
             $farmers = $query->get();
             $municipalities = Municipality::all();
+            $barangays = Barangay::all();
+            $pendingFarmers = [];
+            if (Auth::check() && Auth::user()->isAdmin) {
+                $pendingFarmers = Farmer::with(['user','municipality','barangay','crops'])
+                    ->whereHas('user', function($q){ $q->where('isApproved', false); })
+                    ->get();
+            }
 
             return Inertia::render('Farmers/Index', [
                 'farmers' => $farmers,
                 'municipalities' => $municipalities,
+                'barangays' => $barangays,
+                'pendingFarmers' => $pendingFarmers,
                 'filters' => $request->only(['municipality_id', 'barangay_id']),
             ]);
     }

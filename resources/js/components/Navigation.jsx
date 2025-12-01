@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 
-export default function Navigation({ user }) {
+export default function Navigation({ user, auth }) {
+  const currentUser = user ?? auth;
 
   return (
       <header className="bg-gray-50 border-b border-gray-200">
@@ -28,32 +29,30 @@ export default function Navigation({ user }) {
 
                   {/* Auth Buttons */}
                   <div className="flex items-center gap-3">
-                      {!user ? (
-                          <>
-                            <Link
-                                href={route('logout')}
-                                method="post"
-                                as="button"
-                                className="px-6 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors rounded-md"
-                            >
-                                Log Out
-                            </Link>
-                          </>
+                      {currentUser ? (
+                        <Link
+                          href={route('logout')}
+                          method="post"
+                          as="button"
+                          className="px-6 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors rounded-md"
+                        >
+                          Log Out
+                        </Link>
                       ) : (
-                          <>
-                              <Link
-                                  href={route('login')}
-                                  className="px-6 py-2 text-sm font-medium text-green-600 hover:text-green-700 transition-colors border border-green-600 rounded-md"
-                              >
-                                  Log in
-                              </Link>
-                              <Link
-                                  href={route('register')}
-                                  className="px-6 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors rounded-md"
-                              >
-                                  Sign up
-                              </Link>
-                          </>
+                        <>
+                          <Link
+                            href={route('login')}
+                            className="px-6 py-2 text-sm font-medium text-green-600 hover:text-green-700 transition-colors border border-green-600 rounded-md"
+                          >
+                            Log in
+                          </Link>
+                          <Link
+                            href={route('register')}
+                            className="px-6 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors rounded-md"
+                          >
+                            Sign up
+                          </Link>
+                        </>
                       )}
                   </div>
               </div>

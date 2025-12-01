@@ -10,7 +10,6 @@ class Farmer extends Model
         'user_id',
         'municipality_id',
         'barangay_id',
-        'sitio_id',
         'phone_number',
         'longitude',
         'latitude',
@@ -31,10 +30,7 @@ class Farmer extends Model
         return $this->belongsTo(Barangay::class);
     }
 
-    public function sitio()
-    {
-        return $this->belongsTo(Sitio::class);
-    }
+    
 
     public function crops()
     {

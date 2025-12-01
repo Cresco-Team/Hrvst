@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id('plant_id');
             $table->foreignId('farmer_id')->constrained('farmers')->onDelete('cascade');
             $table->foreignId('crop_id')->constrained('crops')->onDelete('cascade');
-            $table->string('yield_kg');         // Actual Kilograms produced
-            $table->date('planting_date');      // Exact Date
-            $table->date('harvesting_date');    // Expected Harvesting Date
+            $table->string('yield_kg')->nullable();         // Actual Kilograms produced
+            $table->date('planting_date')->nullable();      // Exact Date
+            $table->date('harvesting_date')->nullable();    // Expected Harvesting Date
             $table->timestamps();
         });
     }

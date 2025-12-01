@@ -2,13 +2,13 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import Navigation from '@/Components/Navigation';
 
 export default function Index() {
-    const { user } = usePage().props.auth.user ?? {};
+    const user = usePage().props.auth?.user;
 
     return (
         <>
             <div className="bg-white font-sans">
 
-            <Navigation auth={user}></Navigation>
+            <Navigation user={user} />
 
             {/* Hero Section */}
             <section className="bg-green-100 py-24 px-6 md:px-20 flex flex-col md:flex-row items-center justify-between">

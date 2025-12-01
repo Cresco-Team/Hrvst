@@ -1,7 +1,11 @@
 import InputError from '@/Components/InputError';
+import Modal from '@/Components/Modal';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Eye, EyeOff, MapPin } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import '@/utils/leafletSetup';
 
 export default function Register({ municipalities = [], crops = [] }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -12,7 +16,6 @@ export default function Register({ municipalities = [], crops = [] }) {
         phone_number: '',
         municipality_id: '',
         barangay_id: '',
-        sitio_id: '',
         latitude: '',
         longitude: '',
         crops: [],
@@ -21,61 +24,35 @@ export default function Register({ municipalities = [], crops = [] }) {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
     const [barangays, setBarangays] = useState([]);
-    const [sitios, setSitios] = useState([]);
+    
     const [locating, setLocating] = useState(false);
+    const [isMapOpen, setIsMapOpen] = useState(false);
+    const [tempLat, setTempLat] = useState('');
+    const [tempLng, setTempLng] = useState('');
+    const [municipalityName, setMunicipalityName] = useState('');
+    const [barangayName, setBarangayName] = useState('');
 
     const handleMunicipalityChange = async (municipalityId) => {
-        setData({ ...data, municipality_id: municipalityId, barangay_id: '', sitio_id: '' });
+        setData({ ...data, municipality_id: municipalityId, barangay_id: '' });
         setBarangays([]);
-        setSitios([]);
         
         if (municipalityId) {
             try {
                 const response = await fetch(`/api/barangays?municipality_id=${municipalityId}`);
                 const result = await response.json();
                 setBarangays(result);
+                const m = municipalities.find(m => String(m.id) === String(municipalityId));
+                setMunicipalityName(m ? m.name : '');
             } catch (error) {
                 console.error('Error fetching barangays:', error);
             }
         }
     };
 
-    const handleBarangayChange = async (barangayId) => {
-        setData({ ...data, barangay_id: barangayId, sitio_id: '' });
-        setSitios([]);
-        
-        if (barangayId) {
-            try {
-                const response = await fetch(`/api/sitios?barangay_id=${barangayId}`);
-                const result = await response.json();
-                setSitios(result);
-            } catch (error) {
-                console.error('Error fetching sitios:', error);
-            }
-        }
-    };
-
-    const handleLocateAddress = () => {
-        if (navigator.geolocation) {
-            setLocating(true);
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    setData({
-                        ...data,
-                        latitude: position.coords.latitude.toString(),
-                        longitude: position.coords.longitude.toString(),
-                    });
-                    setLocating(false);
-                },
-                (error) => {
-                    console.error('Error getting location:', error);
-                    alert('Unable to get your location. Please enable location services.');
-                    setLocating(false);
-                }
-            );
-        } else {
-            alert('Geolocation is not supported by your browser.');
-        }
+    const handleBarangayChange = (barangayId) => {
+        setData({ ...data, barangay_id: barangayId });
+        const b = barangays.find(b => String(b.id) === String(barangayId));
+        setBarangayName(b ? b.name : '');
     };
 
     const handleCropToggle = (cropId) => {
@@ -94,6 +71,30 @@ export default function Register({ municipalities = [], crops = [] }) {
             onFinish: () => reset('password', 'password_confirmation'),
         });
     };
+
+    const openMapModal = () => {
+        setTempLat(data.latitude || '16.4');
+        setTempLng(data.longitude || '120.6');
+        setIsMapOpen(true);
+    };
+
+    const confirmLocation = () => {
+        if (tempLat && tempLng) {
+            setData('latitude', String(tempLat));
+            setData('longitude', String(tempLng));
+        }
+        setIsMapOpen(false);
+    };
+
+    function ClickCapture() {
+        useMapEvents({
+            click(e) {
+                setTempLat(e.latlng.lat.toFixed(6));
+                setTempLng(e.latlng.lng.toFixed(6));
+            },
+        });
+        return null;
+    }
 
     return (
         <>
@@ -234,9 +235,9 @@ export default function Register({ municipalities = [], crops = [] }) {
                                 <InputError message={errors.phone_number} className="mt-2" />
                             </div>
 
-                            {/* Municipality/Barangay/Sitio Section */}
+                            {/* Municipality/Barangay Section */}
                             <div className="space-y-4">
-                                <h3 className="text-sm font-medium text-gray-900">Municipality/Barangay/Sitio</h3>
+                                <h3 className="text-sm font-medium text-gray-900">Municipality/Barangay</h3>
                                 
                                 {/* Municipality */}
                                 <div>
@@ -275,24 +276,7 @@ export default function Register({ municipalities = [], crops = [] }) {
                                     <InputError message={errors.barangay_id} className="mt-2" />
                                 </div>
 
-                                {/* Sitio */}
-                                <div>
-                                    <select
-                                        value={data.sitio_id}
-                                        onChange={(e) => setData('sitio_id', e.target.value)}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all appearance-none bg-white"
-                                        required
-                                        disabled={!data.barangay_id}
-                                    >
-                                        <option value="">Sitio</option>
-                                        {sitios.map((sitio) => (
-                                            <option key={sitio.id} value={sitio.id}>
-                                                {sitio.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <InputError message={errors.sitio_id} className="mt-2" />
-                                </div>
+                                
                             </div>
 
                             {/* Geolocation Section */}
@@ -300,7 +284,7 @@ export default function Register({ municipalities = [], crops = [] }) {
                                 <h3 className="text-sm font-medium text-gray-900">Geolocation</h3>
                                 <button
                                     type="button"
-                                    onClick={handleLocateAddress}
+                                    onClick={openMapModal}
                                     disabled={locating}
                                     className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
@@ -380,6 +364,29 @@ export default function Register({ municipalities = [], crops = [] }) {
                     </div>
                 </div>
             </div>
+            <Modal show={isMapOpen} onClose={() => setIsMapOpen(false)} maxWidth="2xl">
+                <div className="bg-white rounded-lg p-6">
+                    <div className="text-center mb-4">
+                        <h3 className="text-lg font-semibold">Locate your Farm!</h3>
+                        <p className="text-sm text-gray-600">{municipalityName || 'Municipality'}, {barangayName || 'Barangay'}</p>
+                    </div>
+                    <div className="w-full h-72 rounded-md overflow-hidden border">
+                        <MapContainer center={[parseFloat(tempLat || '16.4'), parseFloat(tempLng || '120.6')]} zoom={13} style={{ height: '100%', width: '100%' }}>
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <ClickCapture />
+                            {(tempLat && tempLng) && (
+                                <Marker position={[parseFloat(tempLat), parseFloat(tempLng)]} />
+                            )}
+                        </MapContainer>
+                    </div>
+                    <div className="mt-4">
+                        <button onClick={confirmLocation} className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700">Confirm</button>
+                    </div>
+                </div>
+            </Modal>
         </>
     );
 }

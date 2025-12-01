@@ -40,5 +40,14 @@ class DatabaseSeeder extends Seeder
             'isApproved' => true,
             'phone_number' => '091234567'
         ]);
+        User::FirstOrCreate([
+            'email' => 'test@email.com'
+        ], [
+            'name' => 'Test User',
+            'password' => Hash::make('password'),
+            'isAdmin' => false,
+            'isApproved' => false,
+            'phone_number' => '0909090909'
+        ]);
     }
 }

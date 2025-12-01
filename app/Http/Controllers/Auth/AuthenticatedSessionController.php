@@ -49,8 +49,8 @@ class AuthenticatedSessionController extends Controller
         }
 
         if ($user->isAdmin) {
-            Log::info('Redirecting to admin.crops.index');
-            return redirect()->route('admin.crops.index');
+            Log::info('Redirecting to crops.index');
+            return redirect()->route('crops.index');
         };
         if (!$user->isApproved) {
             return redirect()->route('pending');

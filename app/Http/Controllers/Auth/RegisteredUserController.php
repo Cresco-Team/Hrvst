@@ -47,7 +47,6 @@ class RegisteredUserController extends Controller
             'phone_number' => 'required|string|max:20',
             'municipality_id' => 'required|exists:municipalities,id',
             'barangay_id' => 'required|exists:barangays,id',
-            'sitio_id' => 'required|exists:sitios,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
             'crops' => 'required|array|min:1|max:5',
@@ -76,7 +75,6 @@ class RegisteredUserController extends Controller
                 'user_id' => $user->id,
                 'municipality_id' => $request->municipality_id,
                 'barangay_id' => $request->barangay_id,
-                'sitio_id' => $request->sitio_id,
                 'latitude' => $latitude,
                 'longitude' => $longitude,
             ]);
@@ -89,7 +87,7 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
 
-            return redirect()->route('pending')->with([
+            return redirect('/')->with([
                 'location_warning' => !$withinBenguet ? 'Your GPS coordinates appear to be outside Benguet Province. Your account will be reviewed by an administrator.' : null
             ]);
         } catch (\Exception $e) {

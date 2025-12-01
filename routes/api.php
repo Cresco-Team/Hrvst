@@ -14,7 +14,7 @@ Route::get('/', [CategoryController::class]);
 // --------------------------------------------------------
 // Public API Routes for registration
 // --------------------------------------------------------
-Route::get('/api/barangays', function (Request $request) {
+Route::get('/barangays', function (Request $request) {
     $barangays = Barangay::where('municipality_id', $request->municipality_id)
         ->get();
     return response()->json($barangays);

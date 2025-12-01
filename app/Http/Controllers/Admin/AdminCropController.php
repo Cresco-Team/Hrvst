@@ -16,7 +16,7 @@ class AdminCropController extends Controller
         $crops = Crop::with('category')->get();
         $categories = Category::all();
 
-        return Inertia::render('Admin/Crops/Index', [
+        return Inertia::render('Crops/Index', [
             'crops' => $crops,
             'categories' => $categories,
         ]);
@@ -26,7 +26,7 @@ class AdminCropController extends Controller
     {
         $categories = Category::all();
 
-        return Inertia::render('Admin/Crops/Create', [
+        return Inertia::render('Crops/Create', [
             'categories' => $categories,
         ]);
     }
@@ -51,7 +51,7 @@ class AdminCropController extends Controller
 
         $crop->update($validated);
 
-        return redirect()->route('admin.crops.index')->with('success', 'Crop updated successfully.');
+        return redirect()->route('crops.index')->with('success', 'Crop updated successfully.');
 
     }
 
@@ -71,7 +71,7 @@ class AdminCropController extends Controller
 
         Crop::create($validated);
 
-        return redirect()->route('admin.crops.index')->with('success', 'Crop created successfully.');
+        return redirect()->route('crops.index')->with('success', 'Crop created successfully.');
     }
 
     public function destroy(Crop $crop)
@@ -82,7 +82,7 @@ class AdminCropController extends Controller
 
     $crop->delete();
 
-    return redirect()->route('admin.crops.index')
+    return redirect()->route('crops.index')
         ->with('success', 'Crop deleted successfully.');
 }
 }
