@@ -26,13 +26,13 @@ Route::get('/', function () {
 Route::get('/farmers', [FarmerController::class, 'index'])->name('farmers.index');
 Route::get('/farmers/{farmer}', [FarmerController::class, 'show'])->name('farmers.show');
 
-Route::get('/crops', [CropController::class, 'index'])->name('crops');
+Route::get('/crops', [CropController::class, 'index'])->name('crops.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/pending', function() {
         if (Auth::user()->isApproved) {
-            return redirect()->route('crop.index');
-        } return Inertia::render('Auth/Pending');
+            return redirect()->route('farmers.index');
+        } return Inertia::render('Index');
     })->name('pending');
 });
 
