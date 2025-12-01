@@ -1,17 +1,28 @@
 import React from 'react';
+import { usePage } from '@inertiajs/react';
 
-return (
-  <nav className="">
-    <div className="">
-      <div className="">
-        
-        {/* Logo & Name */}
-        <div className="">
-          <span className="">{logo.icon}</span>
-        </div>
-      </div>4
-    </div>
-  </nav>
-);
+export default function Navigation() {
+  const { auth } = usePage().props;
 
-export default Navigation;
+  return (
+    <nav>
+      <div>
+        <div>{/* Logo Here */}</div>
+        <h3>Hrvst</h3>
+      </div>
+
+      <div>
+      {!auth.user ? (
+        <>
+          <Link href="/login">Login</Link>
+          <Link href="/register">Signup</Link>
+        </>
+      ) : (
+          <Link href="/logout" method="post" as="button">
+              Sign Out
+          </Link>
+      )}
+      </div>
+    </nav>
+  );
+}
