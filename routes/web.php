@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// --------------------------------------------------------
+// Public API routes
+// --------------------------------------------------------
 Route::get('/', function () {
     return Inertia::render('Index', [
         'canLogin' => Route::has('login'),
@@ -20,14 +23,10 @@ Route::get('/', function () {
     ]);
 });
 
-// --------------------------------------------------------
-// Public API routes for registration (No auth required)
-// --------------------------------------------------------
-Route::get('/public-api/barangays', function (Request $request) {
-    $municipalityId = $request->input('municipality_id');
-    $barangays = \App\Models\Barangay::where('municipality_id', $municipalityId)->get();
-    return response()->json($barangays);
-});
+Route::get('/farmers', [FarmerController::class, 'index'])->name('farmers.index');
+Route::get('/farmers/{farmer}', [FarmerController::class, 'show'])->name('farmers.show');
+
+Route::get('/crops', [CropController::class, 'index'])->name('crops');
 
 Route::middleware('auth')->group(function () {
     Route::get('/pending', function() {
@@ -37,32 +36,15 @@ Route::middleware('auth')->group(function () {
     })->name('pending');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 // --------------------------------------------------------
-// For All Users (Doesn't Requires checks)
+// Auth Routes for Farmers
 // --------------------------------------------------------
-
-Route::get('/crops', [CropController::class, 'index'])->name('crops');
-
-// --------------------------------------------------------
-// Dedicated Farmer Group (Requires ALL checks: auth, verified, farmer)
-// --------------------------------------------------------
-Route::middleware(['auth', 'verified', 'approved.farmer'])->group(function () {
-    Route::get('/farmers', [FarmerController::class, 'index'])->name('farmers.index');
-    Route::get('/farmers/{farmer}', [FarmerController::class, 'show'])->name('farmers.show');
-
+Route::middleware(['approved.farmer'])->group(function () {
     Route::get('/profile', [FarmerProfileController::class, 'show'])->name('profile.edit');
     Route::patch('/profile', [FarmerProfileController::class, 'update'])->name('profile.update');
-
-
-    Route::get('/api/barangays', [FarmerController::class, 'getBarangays'])->name('farmer.api.barangays');
 });
-
 // --------------------------------------------------------
-// Dedicated Admin Group (Requires ALL checks: auth, verified, admin)
+// Auth Routes for Admin
 // --------------------------------------------------------
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     //Crops

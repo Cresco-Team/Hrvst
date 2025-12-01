@@ -79,17 +79,4 @@ class AdminFarmerController extends Controller
 
         return response()->json($farmer);
     }
-
-// --------------------------------------------------------
-// Address Controller (Municipality, Barangay, Sitio)
-// --------------------------------------------------------
-    public function getBarangays(Request $request) {
-        $barangays = Barangay::where('municipality_id', $request->municipality_id)->get();
-        return response()->json($barangays);
-    }
-
-    public function getSitios(Request $request) {
-        $sitios = Sitio::where('barangay_id', $request->barangay_id)->get();
-        return response()->json($sitios );
-    }
 }
