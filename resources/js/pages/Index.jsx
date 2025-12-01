@@ -1,40 +1,14 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
+import Navigation from '@/Components/Navigation';
 
-export default function Index({ auth, laravelVersion, phpVersion }) {
-    const handleImageError = () => {
-        document
-            .getElementById('screenshot-container')
-            ?.classList.add('!hidden');
-        document.getElementById('docs-card')?.classList.add('!row-span-1');
-        document
-            .getElementById('docs-card-content')
-            ?.classList.add('!flex-row');
-        document.getElementById('background')?.classList.add('!hidden');
-    };
+export default function Index() {
+    const { user } = usePage().props.auth.user ?? {};
 
     return (
         <>
             <div className="bg-white font-sans">
-            
-            {/* Navbar */}
-            <header className="w-full py-4 px-6 flex items-center justify-between bg-white shadow-sm">
-                <div className="flex items-center space-x-2">
-                {/* Note: In a real React app, you'd import the image or use a public path */}
-                <img src="/mnt/data/Harvest_Image_Logo.png" alt="Logo" className="w-8 h-8 object-contain" />
-                <span className="text-lg font-semibold">HrvsT</span>
-                </div>
-                <div className="space-x-4">
-                <Link href={route('login')} 
-                    className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 inline-block">
-                    Log in
-                </Link>
-                <Link href={route('register')} 
-                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 inline-block">
-                    Register
-                </Link>
-                
-                </div>
-            </header>
+
+            <Navigation auth={user}></Navigation>
 
             {/* Hero Section */}
             <section className="bg-green-100 py-24 px-6 md:px-20 flex flex-col md:flex-row items-center justify-between">
@@ -50,7 +24,7 @@ export default function Index({ auth, laravelVersion, phpVersion }) {
 
                 <div className="mt-10 md:mt-0">
                 <div className="w-64 h-48 bg-green-500 rounded-lg flex items-center justify-center">
-                    <img src="/mnt/data/Harvest_Image_Logo.png" alt="Preview" className="w-32 h-24 opacity-80" />
+                    {/* <img src="/mnt/data/Harvest_Image_Logo.png" alt="Preview" className="w-32 h-24 opacity-80" /> */}
                 </div>
                 </div>
             </section>
@@ -62,7 +36,7 @@ export default function Index({ auth, laravelVersion, phpVersion }) {
                 {/* Logo */}
                 <div>
                     <div className="flex items-center space-x-2 mb-4">
-                    <img src="/mnt/data/Harvest_Image_Logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+                    {/* <img src="/mnt/data/Harvest_Image_Logo.png" alt="Logo" className="w-8 h-8 object-contain" /> */}
                     <span className="text-lg font-semibold text-white">HrvsT</span>
                     </div>
 
