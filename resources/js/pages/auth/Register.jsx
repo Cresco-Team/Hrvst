@@ -339,7 +339,7 @@ export default function Register({ municipalities = [], crops = [] }) {
                             </button>
 
                             {/* Terms and Privacy */}
-                            <div className="flex items-start gap-2 pt-4">
+                            {/* <div className="flex items-start gap-2 pt-4">
                                 <input
                                     type="checkbox"
                                     id="terms"
@@ -348,7 +348,7 @@ export default function Register({ municipalities = [], crops = [] }) {
                                 />
 
                                 
-                                {/* <label htmlFor="terms" className="text-sm text-gray-600">
+                                <label htmlFor="terms" className="text-sm text-gray-600">
                                     I've read and agree with the{' '}
                                     <a href="#" className="text-gray-900 font-medium hover:underline">
                                         Terms and Conditions
@@ -358,8 +358,8 @@ export default function Register({ municipalities = [], crops = [] }) {
                                         Privacy Policy
                                     </a>
                                     .
-                                </label> */}
-                            </div>
+                                </label>
+                            </div> */}
                         </form>
                     </div>
                 </div>

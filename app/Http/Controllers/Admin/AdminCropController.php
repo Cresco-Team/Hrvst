@@ -22,67 +22,81 @@ class AdminCropController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request, Crop $crop)
     {
-        $categories = Category::all();
-
-        return Inertia::render('Crops/Create', [
-            'categories' => $categories,
+        $validate = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0|max:999999.99',
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('crops', 'public');
+            $validate['image'] = $path;
+        }
+
+        $crop->create($validate);
+
+
+
+        return redirect()->route('crops.index')
+            ->with('success', 'Crop created successfully.');
     }
 
     public function update(Request $request, Crop $crop)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0|max:999.99',
+            'price' => 'required|numeric|min:0|max:999999.99',
             'category_id' => 'required|exists:categories,id',
-            'image_path' => 'nullable|image|mimes: jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('image_path')) {
-            if ($crop->image_path) {
-                Storage::disk('public')->delete($crop->image_path);
+        if ($request->hasFile('image')) {
+            if ($crop->image) {
+                Storage::disk('public')->delete($crop->image);
             }
 
-            $path = $request->file('image_path')->store('crops', 'public');
-            $validated['image_path'] = $path;
+            $path = $request->file('image')->store('crops', 'public');
+            $validated['image'] = $path;
         }
 
         $crop->update($validated);
 
-        return redirect()->route('crops.index')->with('success', 'Crop updated successfully.');
-
+        return redirect()->route('crops.index')
+            ->with('success', 'Crop updated successfully.');
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0|max:999.99',
+            'price' => 'required|numeric|min:0|max:999999.99',
             'category_id' => 'required|exists:categories,id',
-            'image_path' => 'nullable|image|mimes: jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('image_path')) {
-            $path = $request->file('image_path')->store('crops', 'public');
-            $validated['image_path'] = $path;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('crops', 'public');
+            $validated['image'] = $path;
         }
 
         Crop::create($validated);
 
-        return redirect()->route('crops.index')->with('success', 'Crop created successfully.');
+        return redirect()->route('crops.index')
+            ->with('success', 'Crop created successfully.');
     }
 
     public function destroy(Crop $crop)
-{
-    if ($crop->image) {
-        Storage::disk('public')->delete($crop->image);
+    {
+        if ($crop->image) {
+            Storage::disk('public')->delete($crop->image);
+        }
+
+        $crop->delete();
+
+        return redirect()->route('crops.index')
+            ->with('success', 'Crop deleted successfully.');
     }
-
-    $crop->delete();
-
-    return redirect()->route('crops.index')
-        ->with('success', 'Crop deleted successfully.');
-}
 }

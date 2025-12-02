@@ -48,12 +48,13 @@ Route::middleware(['approved.farmer'])->group(function () {
 // --------------------------------------------------------
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Crops management endpoints (no separate admin pages)
-    Route::post('/crops', [AdminCropController::class, 'store'])->name('admin.crops.store'); // Store
-    Route::post('/crops/{crop}', [AdminCropController::class, 'update'])->name('admin.crops.update'); // Update
-    Route::delete('/crops/{crop}', [AdminCropController::class, 'destroy'])->name('admin.crops.destroy'); // Delete
+    Route::get('/crops', [AdminCropController::class, 'create'])->name('crops.create'); // Index
+    Route::post('/crops', [AdminCropController::class, 'store'])->name('crops.store'); // Store
+    Route::post('/crops/{crop}', [AdminCropController::class, 'update'])->name('crops.update'); // Update
+    Route::delete('/crops/{crop}', [AdminCropController::class, 'destroy'])->name('crops.destroy'); // Delete
     // Pending Farmers actions
-    Route::post('/farmers/{user}/approve', [AdminFarmerController::class, 'approve'])->name('admin.farmers.approvedlist'); // Approve Pending Farmers
-    Route::delete('/farmers/{user}/reject', [AdminFarmerController::class, 'reject'])->name('admin.farmers.reject');    // Reject Pending Farmers
+    Route::post('/farmers/{user}/approve', [AdminFarmerController::class, 'approve'])->name('farmers.approve'); // Approve Pending Farmers
+    Route::delete('/farmers/{user}/reject', [AdminFarmerController::class, 'reject'])->name('farmers.reject');    // Reject Pending Farmers
 
     Route::get('/api/barangays', [AdminFarmerController::class, 'getBarangays'])->name('admin.api.barangays');
 });

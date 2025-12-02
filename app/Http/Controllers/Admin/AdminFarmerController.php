@@ -51,7 +51,6 @@ class AdminFarmerController extends Controller
             return redirect()->back()
                 ->with('error', 'The selected user is not a farmer.');
         }
-
         $user->update(['isApproved' => true]);
 
         return redirect()->back()->with('success', 'Farmer approved successfully.');
