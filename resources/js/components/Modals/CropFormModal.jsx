@@ -4,42 +4,29 @@ import BaseModal from './BaseModal';
 
 export default function CropFormModal({ isOpen, onClose, crop, categories }) {
     const [imagePreview, setImagePreview] = useState(null);
-    const isEditing = crop && crop.id; // Only editing if crop has an id
+    const isEditing = !!crop;
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        price: '',
-        category_id: '',
+        name: crop?.name || '',
+        price: crop?.price || '',
+        category_id: crop?.category_id || '',
         image: null,
     });
 
     useEffect(() => {
-        if (isOpen) {
-            if (crop && crop.id) {
-                // Editing existing crop
-                setData({
-                    name: crop.name,
-                    price: crop.price,
-                    category_id: crop.category_id,
-                    image: null,
-                });
-                setImagePreview(crop.image ? `/storage/${crop.image}` : null);
-            } else if (crop && crop.category_id) {
-                // Creating new crop with pre-selected category
-                setData({
-                    name: '',
-                    price: '',
-                    category_id: crop.category_id,
-                    image: null,
-                });
-                setImagePreview(null);
-            } else {
-                // Creating new crop without category
-                reset();
-                setImagePreview(null);
-            }
+        if (crop) {
+            setData({
+                name: crop.name,
+                price: crop.price,
+                category_id: crop.category_id,
+                image: null,
+            });
+            setImagePreview(crop.image ? `/storage/${crop.image}` : null);
+        } else {
+            reset();
+            setImagePreview(null);
         }
-    }, [crop, isOpen]);
+    }, [crop]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -95,7 +82,6 @@ export default function CropFormModal({ isOpen, onClose, crop, categories }) {
                         onChange={(e) => setData('name', e.target.value)}
                         className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring-green-500"
                         placeholder="e.g., Cabbage"
-                        required
                     />
                     {errors.name && (
                         <p className="text-red-600 text-sm mt-1">{errors.name}</p>
@@ -110,10 +96,9 @@ export default function CropFormModal({ isOpen, onClose, crop, categories }) {
                         value={data.category_id}
                         onChange={(e) => setData('category_id', e.target.value)}
                         className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring-green-500"
-                        required
                     >
                         <option value="">Select Category</option>
-                        {categories?.map((category) => (
+                        {categories.map((category) => (
                             <option key={category.id} value={category.id}>
                                 {category.name}
                             </option>
@@ -135,7 +120,6 @@ export default function CropFormModal({ isOpen, onClose, crop, categories }) {
                         onChange={(e) => setData('price', e.target.value)}
                         className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring-green-500"
                         placeholder="0.00"
-                        required
                     />
                     {errors.price && (
                         <p className="text-red-600 text-sm mt-1">{errors.price}</p>
