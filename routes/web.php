@@ -24,7 +24,6 @@ Route::get('/', function () {
 });
 
 Route::get('/farmers', [FarmerController::class, 'index'])->name('farmers.index');
-Route::get('/farmers/{farmer}', [FarmerController::class, 'show'])->name('farmers.show');
 
 Route::get('/crops', [CropController::class, 'index'])->name('crops.index');
 
@@ -53,10 +52,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::post('/crops/{crop}', [AdminCropController::class, 'update'])->name('crops.update'); // Update
     Route::delete('/crops/{crop}', [AdminCropController::class, 'destroy'])->name('crops.destroy'); // Delete
     // Pending Farmers actions
-    Route::post('/farmers/{user}/approve', [AdminFarmerController::class, 'approve'])->name('farmers.approve'); // Approve Pending Farmers
-    Route::delete('/farmers/{user}/reject', [AdminFarmerController::class, 'reject'])->name('farmers.reject');    // Reject Pending Farmers
-
-    Route::get('/api/barangays', [AdminFarmerController::class, 'getBarangays'])->name('admin.api.barangays');
+    Route::post('/farmers/{user}/approve', [AdminFarmerController::class, 'approve'])->name('admin.farmers.approve'); // Approve Pending Farmers
+    Route::delete('/farmers/{user}/reject', [AdminFarmerController::class, 'reject'])->name('admin.farmers.reject');    // Reject Pending Farmers
 });
 
 require __DIR__.'/auth.php';

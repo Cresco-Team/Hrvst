@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Barangay;
+use App\Http\Controllers\FarmerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -19,3 +20,10 @@ Route::get('/barangays', function (Request $request) {
         ->get();
     return response()->json($barangays);
 });
+
+// API endpoint for fetching farmer details (for modal)
+Route::get('/api/farmers/{farmer}', [FarmerController::class, 'show'])->name('api.farmers.show');
+
+// Public API routes for cascading dropdowns
+Route::get('/public-api/barangays', [FarmerController::class, 'getBarangays'])->name('public.api.barangays');
+Route::get('/public-api/sitios', [FarmerController::class, 'getSitios'])->name('public.api.sitios');
