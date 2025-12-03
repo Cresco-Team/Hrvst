@@ -118,6 +118,7 @@ export default function CropFormModal({ isOpen, onClose, crop, categories }) {
                         step="0.01"
                         value={data.price}
                         onChange={(e) => setData('price', e.target.value)}
+                        onWheel={(e) => e.target.blur()}
                         className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring-green-500"
                         placeholder="0.00"
                     />

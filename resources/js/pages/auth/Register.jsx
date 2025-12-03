@@ -3,17 +3,18 @@ import Modal from '@/Components/Modal';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { Eye, EyeOff, MapPin } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import '@/utils/leafletSetup';
 
 function RecenterMap({ lat, lng }) {
-    const map = useMapEvents({});
+    const map = useMap();
     useEffect(() => {
-        if (lat && lng) {
+        // Only recenter when both coordinates are valid finite numbers
+        if (Number.isFinite(lat) && Number.isFinite(lng)) {
             map.setView([lat, lng], 14, { animate: true });
         }
-    }, [lat, lng]);
+    }, [lat, lng, map]);
     return null;
 }
 
@@ -89,8 +90,26 @@ export default function Register({ municipalities = [], crops = [] }) {
     };
 
     const openMapModal = () => {
-        setTempLat(data.latitude || '16.4');
-        setTempLng(data.longitude || '120.6');
+        // Prefer explicit user-selected coordinates, then temp values, then municipality coords, then defaults
+        let lat = data.latitude || null;
+        let lng = data.longitude || null;
+
+        if (!lat || !lng) {
+            if (tempLat && tempLng) {
+                lat = tempLat;
+                lng = tempLng;
+            } else if (data.municipality_id) {
+                const m = municipalities.find((mm) => String(mm.id) === String(data.municipality_id));
+                lat = m?.latitude ?? '16.4';
+                lng = m?.longitude ?? '120.6';
+            } else {
+                lat = '16.4';
+                lng = '120.6';
+            }
+        }
+
+        setTempLat(String(lat));
+        setTempLng(String(lng));
         setIsMapOpen(true);
     };
 
