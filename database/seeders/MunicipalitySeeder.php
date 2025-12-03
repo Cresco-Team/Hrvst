@@ -14,23 +14,66 @@ class MunicipalitySeeder extends Seeder
     public function run(): void
     {
         $municipalities = [
-            'Atok',
-            'Bakun',
-            'Bokod',
-            'Buguias',
-            'Itogon',
-            'Kabayan',
-            'Kapangan',
-            'Kibungan',
-            'La Trinidad',
-            'Mankayan',
-            'Sablan',
-            'Tuba',
-            'Tublay',
+            [
+                'name' => 'Atok',
+                'latitude' => 16.5712,
+                'longitude' => 120.6814
+            ], [
+                'name' => 'Bakun',
+                'latitude' => 16.7909,
+                'longitude' => 120.6638
+            ], [
+                'name' => 'Bokod',
+                'latitude' => 16.4917,
+                'longitude' => 120.8296
+            ], [
+                'name' => 'Buguias',
+                'latitude' => 16.7201,
+                'longitude' => 120.8263
+            ], [
+                'name' => 'Itogon',
+                'latitude' => 16.3595,
+                'longitude' => 120.6773
+            ], [
+                'name' => 'Kabayan',
+                'latitude' => 16.6228,
+                'longitude' => 120.8380
+            ], [
+                'name' => 'Kapangan',
+                'latitude' => 16.5751,
+                'longitude' => 120.5979
+            ], [
+                'name' => 'Kibungan',
+                'latitude' => 16.6937,
+                'longitude' => 120.6539
+            ], [
+                'name' => 'La Trinidad',
+                'latitude' => 16.4617,
+                'longitude' => 120.5885
+            ], [
+                'name' => 'Mankayan',
+                'latitude' => 16.8569,
+                'longitude' => 120.7938
+            ], [
+                'name' => 'Sablan',
+                'latitude' => 16.4959,
+                'longitude' => 120.4880
+            ], [
+                'name' => 'Tuba',
+                'latitude' => 16.3927,
+                'longitude' => 120.5622
+            ], [
+                'name' => 'Tublay',
+                'latitude' => 120.5622,
+                'longitude' => 120.6329
+            ],
         ];
 
-        foreach ($municipalities as $name) {
-            Municipality::FirstOrCreate(['name' => $name]);
+        foreach ($municipalities as $municipality) {
+            Municipality::FirstOrCreate(
+                ['name' => $municipality['name']],
+                $municipality
+            );
         }
     }
 }
