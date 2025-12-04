@@ -21,7 +21,7 @@ function RecenterMap({ lat, lng, zoom }) {
 function ClickCapture({ onLocationSelect }) {
     useMapEvents({
         click(e) {
-            onLocationSelect(e.latlng.lat.toFixed(6), e.latlng.lng.toFixed(6));
+            onLocationSelect(e.lat.toFixed(6), e.lng.toFixed(6));
         },
     });
     return null;
@@ -45,12 +45,18 @@ export default function Register({ municipalities = [], crops = [] }) {
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
     const [barangays, setBarangays] = useState([]); // For Listing Brangays belonging to a Selected Municipality
     const [isMapOpen, setIsMapOpen] = useState(false);
-    const [tempLat, setTempLat] = useState('16.4');
-    const [tempLng, setTempLng] = useState('120.6');
+    const [tempLat, setTempLat] = useState(16.4);
+    const [tempLng, setTempLng] = useState(120.6);
     const [mapZoom, setMapZoom] = useState(10);
     const [municipalityName, setMunicipalityName] = useState('');
     const [barangayName, setBarangayName] = useState('');
     const [showPendingModal, setShowPendingModal] = useState(false);
+
+    console.log('barangay_id:', data.barangay_id);
+    console.log('latitude:', data.latitude);
+    console.log('longitude:', data.longitude);
+    console.log('tempLat:', tempLat);
+    console.log('tempLng:', tempLng);
 
     // --------------------------------------------------------
     // Asynchronus Function to Handle Event when a User Selects or Changes a Municipality
@@ -63,8 +69,8 @@ export default function Register({ municipalities = [], crops = [] }) {
         if (!municipalityId) { // If no Municipality Selected:
             // Resets the Municipality and Sets Temporary Lattitude & Longitude
             setMunicipalityName('');
-            setTempLat('16.4');
-            setTempLng('120.6');
+            setTempLat(16.4);
+            setTempLng(120.6);
             return;
         } // Else, a Municipality is Selected
         
@@ -121,8 +127,8 @@ export default function Register({ municipalities = [], crops = [] }) {
     // --------------------------------------------------------
     const openMapModal = () => {
         // Sets the Coordinates || If user has not yet set a Location, it Falls back to tempLat & tempLng
-        setTempLat(data.latitude || tempLat);
-        setTempLng(data.longitude || tempLng);
+        setTempLat(data.latitude || tempLat); // const [tempLat, setTempLat] = useState('16.4');
+        setTempLng(data.longitude || tempLng); // const [tempLng, setTempLng] = useState('120.6');
         setMapZoom(12);
         setIsMapOpen(true);
     };
