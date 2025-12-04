@@ -43,7 +43,7 @@ export default function Register({ municipalities = [], crops = [] }) {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
-    const [barangays, setBarangays] = useState([]);
+    const [barangays, setBarangays] = useState([]); // For Listing Brangays belonging to a Selected Municipality
     const [isMapOpen, setIsMapOpen] = useState(false);
     const [tempLat, setTempLat] = useState('16.4');
     const [tempLng, setTempLng] = useState('120.6');
@@ -52,73 +52,78 @@ export default function Register({ municipalities = [], crops = [] }) {
     const [barangayName, setBarangayName] = useState('');
     const [showPendingModal, setShowPendingModal] = useState(false);
 
+    // --------------------------------------------------------
+    // Asynchronus Function to Handle Event when a User Selects or Changes a Municipality
+    // --------------------------------------------------------
     const handleMunicipalityChange = async (municipalityId) => {
+        // Initial Municipality State Update and Clearing the Barangay for the New Municipality
         setData({ ...data, municipality_id: municipalityId, barangay_id: '' });
         setBarangays([]);
         
-        if (!municipalityId) {
+        if (!municipalityId) { // If no Municipality Selected:
+            // Resets the Municipality and Sets Temporary Lattitude & Longitude
             setMunicipalityName('');
             setTempLat('16.4');
             setTempLng('120.6');
-            setMapZoom(10);
             return;
-        }
+        } // Else, a Municipality is Selected
         
         try {
-            // Fetches the Barangays that has the corresponding Municipality.
+            // Fetches List of Barangays Belonging to the Selected Municipality.
             const response = await fetch(`/api/barangays?municipality_id=${municipalityId}`);
-            const result = await response.json();
+            const result = await response.json(); // API List response is parsed as JSON
             setBarangays(result);
 
-            // Get municipality coordinates from backend if available, otherwise use hardcoded
+            // Searches a Local List of Muicipalities
             const municipality = municipalities.find(m => String(m.id) === String(municipalityId));
             
-            // If there's Municipality Selected, Add these Data.
-            if (municipality) {
+            if (municipality) { // If Municipality is Found:
+                // Sets the Name, Latitude & Longitude
                 setMunicipalityName(municipality.name);
                 setTempLat(String(municipality.latitude));
                 setTempLng(String(municipality.longitude));
-                setMapZoom(12);
             }
-        } catch (error) {
+        } catch (error) { // Handles and Logs any Errors that Occur during Fetch Operation
             console.error('Error fetching barangays:', error);
         }
     };
-
+    
+    // --------------------------------------------------------
+    // Synchronus Function to Handle Event when a User Selects or Changes a Barangay
+    // --------------------------------------------------------
     const handleBarangayChange = (barangayId) => {
+        // Setting the Barangay to the New Value
         setData({ ...data, barangay_id: barangayId });
 
+        // Searches a Local List of Barangays
         const barangay = barangays.find(b => String(b.id) === String(barangayId));
-        if (barangay) {
-            setBarangayName(barangay.name);
-            
-            // If barangay has coordinates, zoom to it
-            if (barangay.latitude && barangay.longitude) {
-                setTempLat(String(barangay.latitude));
-                setTempLng(String(barangay.longitude));
-                setMapZoom(14); // Zoom closer for barangay
-            }
+
+        if (barangay) { // If Barangay is Found:
+            setBarangayName(barangay.name); // Sets the Name
         }
     };
 
+    // --------------------------------------------------------
+    // Synchronus Function to Handle Event when a User Selects or Changes a Barangay
+    // --------------------------------------------------------
     const handleCropToggle = (cropId) => {
         const currentCrops = data.crops;
-        if (currentCrops.includes(cropId)) {
+
+        if (currentCrops.includes(cropId)) { // Deselecting an Already Selected Crop
             setData('crops', currentCrops.filter(id => id !== cropId));
-        } else if (currentCrops.length < 5) {
+        } else if (currentCrops.length < 3) { // Selecting a New Crop
             setData('crops', [...currentCrops, cropId]);
         }
     };
 
+    // --------------------------------------------------------
+    // Synchronus Function to Locate an Address on a Map Interface
+    // --------------------------------------------------------
     const openMapModal = () => {
-        if (!data.municipality_id) {
-            alert('Please select a municipality first');
-            return;
-        }
-        
-        // Use existing coordinates or default
+        // Sets the Coordinates || If user has not yet set a Location, it Falls back to tempLat & tempLng
         setTempLat(data.latitude || tempLat);
         setTempLng(data.longitude || tempLng);
+        setMapZoom(12);
         setIsMapOpen(true);
     };
 
@@ -309,19 +314,20 @@ export default function Register({ municipalities = [], crops = [] }) {
                                 <InputError message={errors.phone_number} className="mt-2" />
                             </div>
 
-                            {/* Municipality/Barangay Section */}
+                            {/* Municipality & Barangay Section */}
                             <div className="space-y-4">
                                 <h3 className="text-sm font-medium text-gray-900">Municipality/Barangay</h3>
                                 
-                                {/* Municipality */}
+                                {/* Municipality Dropdown */}
                                 <div>
                                     <select
-                                        value={data.municipality_id}
-                                        onChange={(e) => handleMunicipalityChange(e.target.value)}
+                                        value={data.municipality_id} // Binds the Selected Municipality ID to the Form's State Data
+                                        onChange={(e) => handleMunicipalityChange(e.target.value)} // When Municipality is Selected, the Function is called with the Selected Municipality ID
                                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all appearance-none bg-white"
                                         required
                                     >
                                         <option value="">Municipality</option>
+                                        {/* Iterates over the Municipalities List & Creates Option for Each */}
                                         {municipalities.map((municipality) => (
                                             <option key={municipality.id} value={municipality.id}>
                                                 {municipality.name}
@@ -331,16 +337,17 @@ export default function Register({ municipalities = [], crops = [] }) {
                                     <InputError message={errors.municipality_id} className="mt-2" />
                                 </div>
 
-                                {/* Barangay */}
+                                {/* Barangay Dropdown */}
                                 <div>
                                     <select
-                                        value={data.barangay_id}
+                                        value={data.barangay_id} // Binds the Selected Barangay ID to the Form's State Data
                                         onChange={(e) => handleBarangayChange(e.target.value)}
                                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all appearance-none bg-white"
                                         required
                                         disabled={!data.municipality_id}
                                     >
                                         <option value="">Barangay</option>
+                                        {/* Iterates over the Barangays List & Creates Option for Each */}
                                         {barangays.map((barangay) => (
                                             <option key={barangay.id} value={barangay.id}>
                                                 {barangay.name}
@@ -356,8 +363,8 @@ export default function Register({ municipalities = [], crops = [] }) {
                                 <h3 className="text-sm font-medium text-gray-900">Geolocation</h3>
                                 <button
                                     type="button"
-                                    onClick={openMapModal}
-                                    disabled={!data.municipality_id}
+                                    onClick={openMapModal} // Calls the Modal Function
+                                    disabled={!data.barangay_id}
                                     className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     Locate your Address
@@ -371,10 +378,10 @@ export default function Register({ municipalities = [], crops = [] }) {
                             </div>
 
                             {/* Crops Selection */}
-                            {crops.length > 0 && (
+                            {crops.length > 0 && ( // If Crops List Options has More than 0 Item:
                                 <div className="space-y-3">
                                     <h3 className="text-sm font-medium text-gray-900">
-                                        Select Crops (1-5) <span className="text-gray-500">- {data.crops.length} selected</span>
+                                        Select Crops <span className="text-gray-500">- {data.crops.length}/3 selected</span>
                                     </h3>
                                     <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto p-2 border border-gray-300 rounded-lg">
                                         {crops.map((crop) => (
@@ -389,9 +396,9 @@ export default function Register({ municipalities = [], crops = [] }) {
                                                 <input
                                                     type="checkbox"
                                                     checked={data.crops.includes(crop.id)}
-                                                    onChange={() => handleCropToggle(crop.id)}
+                                                    onChange={() => handleCropToggle(crop.id)} // Calls the Function which either Adds / Removes the Crop from the Array    
                                                     className="mr-2"
-                                                    disabled={!data.crops.includes(crop.id) && data.crops.length >= 5}
+                                                    disabled={!data.crops.includes(crop.id) && data.crops.length >= 3}
                                                 />
                                                 <span className="text-sm">{crop.name}</span>
                                             </label>
@@ -420,18 +427,18 @@ export default function Register({ municipalities = [], crops = [] }) {
                     <div className="text-center mb-4">
                         <h3 className="text-lg font-semibold">Locate your Farm!</h3>
                         <p className="text-sm text-gray-600">
-                            {municipalityName || 'Municipality'}{barangayName ? `, ${barangayName}` : ''}
+                            {municipalityName}{barangayName}
                         </p>
                         <p className="text-xs text-gray-500 mt-1">Click on the map to set your exact farm location</p>
                     </div>
                     <div className="w-full h-96 rounded-md overflow-hidden border">
                         <MapContainer 
-                            center={[parseFloat(tempLat), parseFloat(tempLng)]} 
+                            center={[parseFloat(tempLat), parseFloat(tempLng)]} // Initially Centers on the Coordinates
                             zoom={mapZoom} 
                             style={{ height: '100%', width: '100%' }}
                             scrollWheelZoom={true}
                         >
-                            <TileLayer
+                            <TileLayer // Renders the Base Map Images(Tiles)
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
