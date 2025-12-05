@@ -1,8 +1,9 @@
 import { Marker, Popup } from 'react-leaflet';
 
-export default function FarmerMarker({ farmer, onViewDetails }) {
+export default function FarmerMarker({ farmer, onViewDetails, registerMarker }) {
     return (
         <Marker
+            ref={registerMarker}
             position={[parseFloat(farmer.latitude), parseFloat(farmer.longitude)]}
             eventHandlers={{
                 click: () => onViewDetails(farmer.id)

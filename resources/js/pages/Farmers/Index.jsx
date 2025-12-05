@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import MapCentricLayout from '@/Layouts/MapCentricLayout';
 import BaseMap from '@/Components/Map/BaseMap';
@@ -23,6 +23,10 @@ export default function Index({ farmers, municipalities, barangays: initialBaran
     useEffect(() => {
         setBarangays(initialBarangays || []);
     }, [initialBarangays]);
+
+    useEffect(() => {
+        markersRef.current = [];
+    }, [farmers]);
 
     const handleMunicipalityChange = (municipalityId) => {
         setSelectedMunicipality(municipalityId);
@@ -88,6 +92,22 @@ export default function Index({ farmers, municipalities, barangays: initialBaran
         }
     };
 
+    const markersRef = useRef([]);
+
+    const registerMarker = marker => {
+        if (marker && !markersRef.current.includes(marker)) {
+            markersRef.current.push(marker);
+        }
+    };
+
+    useEffect(() => {
+        setTimeout(() => {
+            markersRef.current.forEach(m => {
+                m.openPopup();
+            });
+        }, 50);
+    }, [farmers]);
+
     // Left sidebar content
     const leftSidebar = (
         <AddressFilterPanel
@@ -117,6 +137,7 @@ export default function Index({ farmers, municipalities, barangays: initialBaran
                     key={farmer.id}
                     farmer={farmer}
                     onViewDetails={handleViewDetails}
+                    registerMarker={registerMarker}
                 />
             ))}
         </BaseMap>
