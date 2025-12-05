@@ -5,11 +5,8 @@ export default function AddressFilterPanel({
     barangays,
     selectedMunicipality,
     selectedBarangay,
-    selectedSitio,
     onMunicipalityChange,
     onBarangayChange,
-    onSitioChange,
-    onClearFilters
 }) {
     return (
         <div className="space-y-8">
