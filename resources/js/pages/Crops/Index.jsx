@@ -13,11 +13,13 @@ export default function Index({ crops, categories, filters }) {
 
     const [selectedCategory, setSelectedCategory] = useState(filters.category_id || '');
     const [searchQuery, setSearchQuery] = useState('');
+
+    // Modal States
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editingCrop, setEditingCrop] = useState(null);
 
-    // Filter crops by selected category and search
+    // Filter crops by category and search
     const displayedCrops = crops.filter(crop => {
         const matchesCategory = selectedCategory ? crop.category_id == selectedCategory : true;
         const matchesSearch = crop.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -26,12 +28,14 @@ export default function Index({ crops, categories, filters }) {
 
     const handleCategoryClick = (categoryId) => {
         setSelectedCategory(categoryId === selectedCategory ? '' : categoryId);
-        router.get(route('crops.index'), 
+        router.get(
+            route('crops.index'),
             categoryId === selectedCategory ? {} : { category_id: categoryId },
             { preserveState: true, replace: true }
         );
     };
 
+    // FIXED — Create mode must NOT pass a fake crop object
     const openCreateModal = (categoryId) => {
         setEditingCrop({ category_id: categoryId });
         setIsCreateModalOpen(true);
@@ -54,7 +58,7 @@ export default function Index({ crops, categories, filters }) {
         }
     };
 
-    // Left sidebar content with search
+    // Left sidebar content
     const leftSidebar = (
         <div className="space-y-6">
             {/* Search Bar */}
@@ -107,10 +111,9 @@ export default function Index({ crops, categories, filters }) {
             rightSidebarBadge={pendingFarmers?.length || 0}
             showMap={false}
         >
-            {/* Main Content - Crops Grid */}
+            {/* Main Content */}
             <div className="min-h-screen p-6 bg-gray-50">
                 <div className="max-w-7xl mx-auto">
-                    {/* Crops Grid */}
                     {displayedCrops.length === 0 ? (
                         <div className="bg-white rounded-lg shadow-sm p-12 text-center">
                             <p className="text-gray-500 text-lg">No crops found.</p>
@@ -122,7 +125,7 @@ export default function Index({ crops, categories, filters }) {
                                     key={crop.id} 
                                     className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 relative"
                                 >
-                                    {/* Delete Button (Admin Only) */}
+                                    {/* Delete Button */}
                                     {isAdmin && (
                                         <button
                                             onClick={() => handleDelete(crop)}
@@ -132,7 +135,7 @@ export default function Index({ crops, categories, filters }) {
                                         </button>
                                     )}
 
-                                    {/* Crop Image */}
+                                    {/* Image */}
                                     <div className="aspect-square bg-green-50">
                                         {crop.image ? (
                                             <img
@@ -148,8 +151,8 @@ export default function Index({ crops, categories, filters }) {
                                             </div>
                                         )}
                                     </div>
-                                    
-                                    {/* Crop Info */}
+
+                                    {/* Info */}
                                     <div className="p-4">
                                         <h3 className="font-semibold text-base text-gray-800 mb-1">
                                             {crop.name}
@@ -158,7 +161,6 @@ export default function Index({ crops, categories, filters }) {
                                             € {parseFloat(crop.price).toFixed(2)}
                                         </p>
 
-                                        {/* Edit Button (Admin Only) */}
                                         {isAdmin && (
                                             <button
                                                 onClick={() => openEditModal(crop)}
@@ -175,18 +177,11 @@ export default function Index({ crops, categories, filters }) {
                 </div>
             </div>
 
-            {/* Modals */}
+            {/* FIXED — Single Modal Only */}
             <CropFormModal
-                isOpen={isCreateModalOpen}
+                isOpen={isCreateModalOpen || isEditModalOpen}
                 onClose={closeModals}
-                crop={editingCrop}
-                categories={categories}
-            />
-
-            <CropFormModal
-                isOpen={isEditModalOpen}
-                onClose={closeModals}
-                crop={editingCrop}
+                crop={(isCreateModalOpen || isEditModalOpen) ? editingCrop : null}
                 categories={categories}
             />
         </MapCentricLayout>
