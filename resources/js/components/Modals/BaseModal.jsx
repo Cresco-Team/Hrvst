@@ -10,7 +10,7 @@ export default function BaseModal({ isOpen, onClose, title, children, maxWidth =
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999] p-4 animate-fadeIn">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100 p-4 animate-fadeIn">
             <div className={`bg-white rounded-lg w-full ${maxWidthClasses[maxWidth]} max-h-[90vh] overflow-y-auto animate-slideIn`}>
                 <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
                     <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
