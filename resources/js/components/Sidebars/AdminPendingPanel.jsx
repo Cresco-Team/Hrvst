@@ -3,7 +3,7 @@ import { useState } from 'react';
 import BaseMap from '@/Components/Map/BaseMap';
 import MapUpdater from '../Map/MapUpdater';
 import { Marker } from 'react-leaflet';
-import BaseModal from '../Modals/BaseModal';
+import BaseModal from '../Modals/Base/BaseModal';
 
 export default function AdminPendingPanel() {
     const { pendingFarmers } = usePage().props;

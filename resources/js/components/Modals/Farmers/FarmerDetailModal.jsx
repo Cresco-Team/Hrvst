@@ -1,4 +1,4 @@
-import BaseModal from './BaseModal';
+import BaseModal from './Base/BaseModal';
 
 export default function FarmerDetailModal({ isOpen, onClose, farmer }) {
     if (!farmer) return null;
