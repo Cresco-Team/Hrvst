@@ -125,12 +125,12 @@ export default function Index({
     );
 
     // Right sidebar content
-    const rightSidebarContent = isAdmin ? (     // If User is Admin:
-        <AdminPendingPanel />                       // Use this Admin Panel
-    ) : isApprovedFarmer ? (                    // If User is Approved Farmer:
-        <FarmerProfilePanel />                      // Use this Farmer Panel
-    ) : null;                                   // Else none
-
+    const rightSidebarContent = isAdmin
+        ? <AdminPendingPanel />
+        : isApprovedFarmer
+        ? <FarmerProfilePanel />
+        : null;
+        
     // --------------------------------------------------------
     // Map Content
     // --------------------------------------------------------
