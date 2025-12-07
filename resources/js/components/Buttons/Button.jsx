@@ -1,4 +1,5 @@
-import { Link } from "@inertiajs/react";
+// resources/js/components/Buttons/Button.jsx
+import { Link } from '@inertiajs/react';
 
 const variants = {
     // Primary Actions
@@ -34,20 +35,23 @@ const sizes = {
 export default function Button({ 
     variant = 'primary',
     size = 'md',
-    href = null, 
-    method = null, 
-    children, 
+    href = null,
+    method = null,
+    disabled = false,
+    fullWidth = false,
+    className = '',
+    children,
     ...props 
 }) {
     const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-200 border disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2';
-
+    
     const variantClasses = variants[variant] || variants.primary;
     const sizeClasses = sizes[size] || sizes.md;
     const widthClass = fullWidth ? 'w-full' : '';
     
     const combinedClasses = `${baseClasses} ${variantClasses} ${sizeClasses} ${widthClass} ${className}`;
 
-    // Link Button
+    // Link button
     if (href) {
         return (
             <Link
@@ -63,7 +67,7 @@ export default function Button({
         );
     }
     
-    // Regular Button
+    // Regular button
     return (
         <button 
             className={combinedClasses}
@@ -72,5 +76,5 @@ export default function Button({
         >
             {children}
         </button>
-    )
+    );
 }
