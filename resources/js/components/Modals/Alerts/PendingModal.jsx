@@ -1,4 +1,5 @@
 import BaseModal from "@/Components/Modals/Base/BaseModal";
+import Button from "@/Components/Buttons/Button";
 
 export default function PendingModal({ isOpen, onClose }) {
     if (!isOpen) return null;
@@ -22,12 +23,9 @@ export default function PendingModal({ isOpen, onClose }) {
                 <p className="text-gray-600 mb-6">
                     Your farmer account has been submitted and is awaiting administrator approval.
                 </p>
-                <button
-                    onClick={onClose}
-                    className="w-full px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors font-medium"
-                >
+                <Button variant="secondary" fullWidth onClick={onClose}>
                     OK
-                </button>
+                </Button>
             </div>
         </BaseModal>
     );

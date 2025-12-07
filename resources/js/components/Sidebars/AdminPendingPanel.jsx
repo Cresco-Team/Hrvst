@@ -4,6 +4,7 @@ import BaseMap from '@/Components/Map/BaseMap';
 import MapUpdater from '../Map/MapUpdater';
 import { Marker } from 'react-leaflet';
 import BaseModal from '../Modals/Base/BaseModal';
+import Button from '@/Components/Buttons/Button';
 
 export default function AdminPendingPanel() {
     const { pendingFarmers } = usePage().props;
@@ -60,24 +61,15 @@ export default function AdminPendingPanel() {
                             </div>
                             
                             <div className="flex gap-2">
-                                <button
-                                    onClick={() => handleViewLocation(farmer)}
-                                    className="flex-1 px-3 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 transition-colors font-medium"
-                                >
+                                <Button variant="primary" size="sm" onClick={() => handleViewLocation(farmer)}>
                                     View Location
-                                </button>
-                                <button
-                                    onClick={() => handleApprove(farmer.user_id)}
-                                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700 transition-colors font-medium"
-                                >
+                                </Button>
+                                <Button variant="primary" size="sm" onClick={() => handleApprove(farmer.user_id)}>
                                     Approve
-                                </button>
-                                <button
-                                    onClick={() => handleReject(farmer.user_id)}
-                                    className="px-4 py-2 bg-gray-400 text-white text-sm rounded-md hover:bg-red-600 transition-colors font-medium"
-                                >
+                                </Button>
+                                <Button variant="danger" size="sm" onClick={() => handleReject(farmer.user_id)}>
                                     Reject
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     ))}

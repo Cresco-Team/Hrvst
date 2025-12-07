@@ -6,6 +6,7 @@ import GeolocationBtn from '@/Components/Buttons/GeolocationBtn';
 import CropSelection from '@/Components/Registration/CropSelection';
 import MapModal from '@/Components/Modals/Maps/MapModal';
 import PendingModal from '@/Components/Modals/Alerts/PendingModal';
+import Button from '@/Components/Buttons/Button';
 
 // Municipality coordinates for Benguet Province
 const MUNICIPALITY_COORDS = {
@@ -246,13 +247,15 @@ export default function Register({ municipalities = [], crops = [] }) {
                             )}
 
                             {/* Submit Button */}
-                            <button
-                                type="submit"
+                            <Button 
+                                type="submit" 
+                                variant="primary" 
+                                size="lg" 
+                                fullWidth 
                                 disabled={processing}
-                                className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {processing ? 'Creating Account...' : 'Create Account'}
-                            </button>
+                            </Button>
                         </form>
                     </div>
                 </div>

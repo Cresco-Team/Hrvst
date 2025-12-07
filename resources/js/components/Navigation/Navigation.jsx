@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
+import Button from '@/Components/Buttons/Button';
 
-export default function TopBar({ onMobileMenuToggle }) {
+export default function Navigation({ onMobileMenuToggle }) {
     const { auth } = usePage().props;
     const user = auth?.user;
 
@@ -47,28 +48,17 @@ export default function TopBar({ onMobileMenuToggle }) {
                     {/* Right - Auth Buttons */}
                     <div className="flex items-center space-x-3">
                         {user ? (
-                            <Link
-                                href={route('logout')}
-                                method="post"
-                                as="button"
-                                className="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
-                            >
+                            <Button variant="primary" size="md" href={route('logout')} method="post">
                                 Sign out
-                            </Link>
+                            </Button>
                         ) : (
                             <>
-                                <Link
-                                    href={route('login')}
-                                    className="px-5 py-2 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition-colors text-sm font-medium"
-                                >
+                                <Button variant="outline" size="md" href={route('login')}>
                                     Log in
-                                </Link>
-                                <Link
-                                    href={route('register')}
-                                    className="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
-                                >
+                                </Button>
+                                <Button variant="primary" size="md" href={route('register')}>
                                     Sign up
-                                </Link>
+                                </Button>
                             </>
                         )}
                     </div>

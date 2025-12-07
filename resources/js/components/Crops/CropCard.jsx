@@ -1,3 +1,5 @@
+import Button from '@/Components/Buttons/Button';
+
 export default function CropCard({ 
     crop, 
     isAdmin, 
@@ -8,12 +10,14 @@ export default function CropCard({
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 relative">
             {/* Delete Button */}
             {isAdmin && (
-                <button
+                <Button
+                    variant="black"
+                    size="sm"
                     onClick={() => onDelete(crop)}
-                    className="absolute top-3 right-3 z-10 px-4 py-1.5 bg-black text-white text-xs font-medium rounded-full hover:bg-gray-800 transition-colors"
+                    className="absolute top-3 right-3 z-10 rounded-full"
                 >
                     DELETE
-                </button>
+            </Button>
             )}
 
             {/* Image */}
@@ -43,12 +47,15 @@ export default function CropCard({
                 </p>
 
                 {isAdmin && (
-                    <button
+                    <Button
+                        variant="outlineDark"
+                        size="md"
+                        fullWidth
                         onClick={() => onEdit(crop)}
-                        className="mt-3 w-full px-4 py-2 border-2 border-black text-black text-sm font-medium rounded-full hover:bg-gray-50 transition-colors"
+                        className="mt-3 rounded-full"
                     >
                         Edit
-                    </button>
+                    </Button>
                 )}
             </div>
         </div>
