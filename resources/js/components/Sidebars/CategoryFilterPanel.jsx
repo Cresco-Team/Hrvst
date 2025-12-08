@@ -8,7 +8,7 @@ export default function CategoryFilterPanel({
     onAddCrop
 }) {
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 w-64">
             {/* Search Bar */}
             <div className="relative">
                 <input

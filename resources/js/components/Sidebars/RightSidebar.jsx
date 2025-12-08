@@ -7,6 +7,7 @@ export default function RightSidebar({ isOpen, onToggle, children, badge }) {
             <div
                 className={`
                     absolute right-0 top-0 h-full bg-white border-l transition-all duration-300 ease-in-out z-50
+                    pointer-events-auto
                     ${isOpen ? 'w-72' : 'w-16'}
                 `}
             >

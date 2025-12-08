@@ -50,7 +50,7 @@ export default function AppLayout({
                 <Navigation onMobileMenuToggle={toggleLeftSidebar} />
 
                 {/* Content */}
-                    <div className='relative flex flex-row overflow-hidden justify-between'>
+                <div className='relative flex flex-row overflow-hidden justify-between pointer-events-none h-full'>
                         
                     {/* Left Sidebar */}
                     {leftSidebar && (
@@ -64,8 +64,10 @@ export default function AppLayout({
                     )}
 
                     {/* Main Content Area */}
-                    <div className='flex-grow overflow-y-auto pr-12'>
-                        {children}
+                    <div className='flex-grow overflow-y-auto pr-12 pointer-events-none'>
+                        <div className='pointer-events-auto'>
+                            {children}
+                        </div>
                     </div>
 
                     {/* Right Sidebar */}
