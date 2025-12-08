@@ -10,6 +10,7 @@ export default function AddressFilterPanel({
 }) {
     return (
         <div className="space-y-8">
+            <h2 className="hidden md:block text-xl font-bold text-gray-800 mb-6">Address</h2>
             <div>
                 <select
                     value={selectedMunicipality}

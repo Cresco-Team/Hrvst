@@ -33,7 +33,7 @@ export default function AppLayout({
             <Navigation onMobileMenuToggle={toggleLeftSidebar} />
 
             {/* Main Layout */}
-            <div className="pt-16 min-h-screen">
+            <div className="p-0 min-h-screen">
                 {/* Map Background (if enabled) */}
                 {showMap && (
                     <div className="fixed inset-0 top-16 z-0">
@@ -58,7 +58,7 @@ export default function AppLayout({
                 )}
 
                 {/* Main Content Area */}
-                <div className={`relative ${leftSidebar ? 'md:ml-64' : ''}`}>
+                <div className={`pt-12 relative ${leftSidebar ? 'md:ml-64' : ''}`}>
                     {children}
                 </div>
 

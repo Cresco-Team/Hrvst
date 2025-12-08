@@ -2,7 +2,6 @@ export default function CategoryFilterPanel({
     categories,
     selectedCategory,
     onCategoryClick,
-    totalCrops,
     isAdmin,
     onAddCrop
 }) {
