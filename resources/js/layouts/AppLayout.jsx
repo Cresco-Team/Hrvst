@@ -29,11 +29,11 @@ export default function AppLayout({
         <>
             <Head title={title} />
             
-            {/* Navigation */}
-            <Navigation onMobileMenuToggle={toggleLeftSidebar} />
+            
 
             {/* Main Layout */}
             <div className="h-screen flex flex-col">
+
                 {/* Map Background (if enabled) */}
                 {showMap && (
                     <div className="fixed inset-0 top-16 z-0">
@@ -46,32 +46,41 @@ export default function AppLayout({
                     <div className="fixed inset-0 top-16 z-0 bg-white" />
                 )}
 
-                {/* Left Sidebar */}
-                {leftSidebar && (
-                    <LeftSidebar
-                        isOpen={isLeftSidebarOpen}
-                        onClose={() => setIsLeftSidebarOpen(false)}
-                        title={leftSidebarTitle}
-                    >
-                        {leftSidebar}
-                    </LeftSidebar>
-                )}
+                {/* Navigation */}
+                <Navigation onMobileMenuToggle={toggleLeftSidebar} />
 
-                {/* Main Content Area */}
-                <div className={`pt-12 relative ${leftSidebar ? 'md:ml-64' : ''}`}>
-                    {children}
+                {/* Content */}
+                    <div className='relative flex flex-row overflow-hidden justify-between'>
+                        
+                    {/* Left Sidebar */}
+                    {leftSidebar && (
+                        <LeftSidebar
+                            isOpen={isLeftSidebarOpen}
+                            onClose={() => setIsLeftSidebarOpen(false)}
+                            title={leftSidebarTitle}
+                        >
+                            {leftSidebar}
+                        </LeftSidebar>
+                    )}
+
+                    {/* Main Content Area */}
+                    <div className='flex-grow overflow-y-auto pr-12'>
+                        {children}
+                    </div>
+
+                    {/* Right Sidebar */}
+                    {rightSidebarContent && (
+                        <RightSidebar
+                            isOpen={isRightSidebarOpen}
+                            onToggle={toggleRightSidebar}
+                            badge={rightSidebarBadge}
+                        >
+                            {rightSidebarContent}
+                        </RightSidebar>
+                    )}
                 </div>
 
-                {/* Right Sidebar */}
-                {rightSidebarContent && (
-                    <RightSidebar
-                        isOpen={isRightSidebarOpen}
-                        onToggle={toggleRightSidebar}
-                        badge={rightSidebarBadge}
-                    >
-                        {rightSidebarContent}
-                    </RightSidebar>
-                )}
+                
             </div>
         </>
     );
