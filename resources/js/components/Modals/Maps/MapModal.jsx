@@ -52,7 +52,7 @@ export default function MapModal({
 }) {
     return (
         <BaseModal 
-            show={isOpen} 
+            isOpen={isOpen} 
             onClose={onClose} 
             maxWidth="2xl"
         >
