@@ -14,7 +14,7 @@ export default function LeftSidebar({ isOpen, onClose, children, title }) {
             {/* Sidebar */}
             <div
                 className={`
-                    flex-col w-64 m-4 rounded-lg bg-white shadow-lg z-40 border
+                    flex-none shrink-0 w-64 m-4 rounded-lg bg-white shadow-lg z-40 border
                     transition-transform duration-300 ease-in-out
                     ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
                     overflow-y-auto pointer-events-auto
