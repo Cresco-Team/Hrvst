@@ -15,7 +15,22 @@ export default {
             /* Color Palettes */
             colors: {
                 /* Main/Primary */
-                "primary" : "rgb(0,0,0)"
+                'primary'           :   '#1BFF22',
+                'primary-hover'     :   'color-mix(in srgb, black 50%, #1BFF22)',
+                
+                'secondary'         :   '#FF3912',
+                'secondary-hover'   :   'color-mix(in srgb, black 50%, #FF3912)',
+
+                'dark'              :   '#1B2226',
+                'dark-hover'        :   'color-mix(in srgb, black 50%, #1B2226)',
+
+                'safe'              :   '#263CFF',
+                'safe-hover'        :   'color-mix(in srgb, black 50%, #263CFF)',
+
+                'danger'            :   '#FF2529',
+                'danger-hover'      :   'color-mix(in srgb, black 50%, #FF2529)',
+
+                'text-highlight'    :   '#FF2529',
             },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
