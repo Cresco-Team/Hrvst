@@ -1,15 +1,15 @@
-import { Link, Head } from '@inertiajs/react';
-import Navigation from '@/Pages/Home/HomeNav';
+import { Head } from '@inertiajs/react';
+import Navigation from '@/Components/Navigation/Navigation';
 import Hero from '@/Pages/Home/Hero';
 
-export default function Welcome({ auth }) {
+export default function Index() {
     return (
         <>
             <Head title="Welcome to Hrvst" />
 
             <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-50 to-white">
                 {/* Navigation */}
-                <Navigation auth={auth}/>
+                <Navigation/>
 
                 {/* Hero Section */}
                 <Hero />
