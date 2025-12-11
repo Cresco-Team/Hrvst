@@ -49,6 +49,7 @@ class RegisteredUserController extends Controller
             'barangay_id' => 'required|exists:barangays,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
+            'image_path' => 'nullable|image|max:2048',
             'crops' => 'required|array|min:1|max:5',
             'crops.*' => 'exists:crops,id',
         ]);
@@ -77,6 +78,7 @@ class RegisteredUserController extends Controller
                 'barangay_id' => $request->barangay_id,
                 'latitude' => $latitude,
                 'longitude' => $longitude,
+                'image_path' => $request->file('image_path') ? $request->file('image_path')->store('farmer_images', 'public') : null,
             ]);
 
             $farmer->crops()->attach($request->crops);

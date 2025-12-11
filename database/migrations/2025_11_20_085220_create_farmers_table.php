@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('barangay_id')->constrained('barangays');
             $table->decimal('latitude', 16, 17);
             $table->decimal('longitude', 120, 15);
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

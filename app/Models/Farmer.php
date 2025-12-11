@@ -13,6 +13,7 @@ class Farmer extends Model
         'phone_number',
         'longitude',
         'latitude',
+        'image_path',
     ];
 
     public function user()

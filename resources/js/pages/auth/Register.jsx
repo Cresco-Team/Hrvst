@@ -37,6 +37,7 @@ export default function Register({ municipalities = [], crops = [] }) {
         barangay_id: '',
         latitude: '',
         longitude: '',
+        image_path: null,
         crops: [],
     });
 
@@ -53,6 +54,9 @@ export default function Register({ municipalities = [], crops = [] }) {
     const [markerPosition, setMarkerPosition] = useState(null);
     const [municipalityName, setMunicipalityName] = useState('');
     const [barangayName, setBarangayName] = useState('');
+
+    // Image State
+    const [imagePreview, setImagePreview] = useState(null);
 
     // Municipality Change Handler
     const handleMunicipalityChange = async (municipalityId) => {
@@ -142,6 +146,18 @@ export default function Register({ municipalities = [], crops = [] }) {
         setData('latitude', String(lat));
         setData('longitude', String(lng));
         setIsMapOpen(false);
+    };
+
+    // Image Change Handler
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setData('image_path', file);
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => setImagePreview(reader.result);
+            reader.readAsDataURL(file);
+        }
     };
 
     // Crop Toggle Handler
@@ -235,6 +251,25 @@ export default function Register({ municipalities = [], crops = [] }) {
                                 onOpenMap={openMapModal}
                                 errors={errors}
                             />
+
+                            <div>
+                                <label className="block text-sm font-medium mb-2">
+                                    Image
+                                </label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                />
+                                {errors.image_path && <p className="text-red-600 text-sm mt-1">{errors.image_path}</p>}
+                                <div className="mt-3">
+                                    <img
+                                        src={imagePreview}
+                                        alt="Preview"
+                                        className="w-full h-48 object-cover rounded-md border border-gray-200"
+                                    />
+                                </div>
+                            </div>
 
                             {crops.length > 0 && (
                                 <CropSelection
