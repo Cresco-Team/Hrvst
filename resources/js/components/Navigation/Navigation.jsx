@@ -26,18 +26,16 @@ export default function Navigation() {
                     </div>
 
                     {!isHome && (
-                        <div className="hidden md:flex space-x-8">
-                            <Link
-                                href={route('farmers.index')}
-                                className="text-gray-700 hover:text-green-600 font-medium transition-colors text-base"
-                            >
-                                Farmers
+                        <div className="flex space-x-1">
+                            <Link href={route('farmers.index')}>
+                                <Button variant='ghost'>
+                                    Farmers
+                                </Button>
                             </Link>
-                            <Link
-                                href={route('crops.index')}
-                                className="text-gray-700 hover:text-green-600 font-medium transition-colors text-base"
-                            >
-                                Crops
+                            <Link href={route('crops.index')}>
+                                <Button variant='ghost'>
+                                    Crops
+                                </Button>
                             </Link>
                         </div>
                     )}
@@ -45,17 +43,24 @@ export default function Navigation() {
                     {/* Right - Auth Buttons */}
                     <div className="flex items-center space-x-3">
                         {user ? (
-                            <Button variant="primary" size="md" href={route('logout')} method="post">
-                                Sign out
-                            </Button>
+                            <Link href={route('logout')} method="post">
+                                <Button variant='outline'>
+                                    Sign out
+                                </Button>
+                            </Link>
                         ) : (
                             <>
-                                <Button variant="outline" href={route('login')}>
-                                    Log in
-                                </Button>
-                                <Button variant="primary" href={route('register')}>
-                                    Sign up
-                                </Button>
+                                <Link href={route('login')}>
+                                    <Button variant="outline">
+                                        Log in
+                                    </Button>
+                                </Link>
+                                
+                                <Link  href={route('register')}>
+                                    <Button>
+                                        Sign up
+                                    </Button>
+                                </Link>
                             </>
                         )}
                     </div>
