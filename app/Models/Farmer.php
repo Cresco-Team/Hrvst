@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Farmer extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'municipality_id',
         'barangay_id',
-        'phone_number',
         'longitude',
         'latitude',
         'image_path',

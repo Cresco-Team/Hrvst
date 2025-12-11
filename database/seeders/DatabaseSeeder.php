@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Farmer;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,15 +22,7 @@ class DatabaseSeeder extends Seeder
             CropSeeder::class,
         ]);
 
-        // User::factory(10)->create();
-
-        // User::firstOrCreate([
-        //     'name' => env('ADMIN_NAME', 'Admin User'),
-        //     'email' => env('ADMIN_EMAIL', 'admin@email.com'),
-        //     'password' => Hash::make(env('ADMIN_PASSWORD', 'admin123')),
-        //     'role' => 'admin',
-        //     'status' => 'approved',
-        // ]);
+        Farmer::factory(20)->create(); 
 
         User::FirstOrCreate([
             'email' => 'admin@email.com'
