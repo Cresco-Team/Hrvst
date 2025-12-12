@@ -1,5 +1,9 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
+
+import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/Components/ui/card';
+
 import PersonalInfoFields from '@/Components/Registration/PersonalInfoFields';
 import LocationFields from '@/Components/Registration/LocationFields';
 import GeolocationBtn from '@/Components/Buttons/GeolocationBtn';
@@ -194,103 +198,126 @@ export default function Register({ municipalities = [], crops = [] }) {
 
     return (
         <>
+            {/* STEP 1 : Personal Information*/}
+            {/* Full name */}
+            {/* Email address */}
+            {/* Password */}
+            {/* Phone number */}
+
+            {/* STEP 2 : Address & Location */}
+            {/* Municipality */}
+            {/* Barangay */}
+            {/* Geolocation */}
+
+            {/* STEP 3 : Crops Planted */}
+            {/* Crops */}
+
             <Head title="Register" />
             
-            <div className="flex min-h-screen">
-                {/* Left Side - Dark Background */}
-                <div className="hidden lg:flex lg:w-1/2 bg-black items-center justify-center p-12">
-                    <div className="max-w-md text-center">
-                        <div className="flex justify-center mb-8">
-                            <svg className="w-24 h-24 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                            </svg>
-                        </div>
-                        <h1 className="text-5xl font-bold text-white mb-6">
-                            Create your free account
-                        </h1>
+            <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+                <div className='w-full max-w-sm md:max-w-4xl'>
+                    <div className={cn("flex flex-col gap-6")}>
+                        <Card className="overflow-hidden p-0">
+                            <CardContent className="grid p-0 md:grid-cols-2">
+                                
+                            </CardContent>
+                        </Card>
                     </div>
-                </div>
-
-                {/* Right Side - Form */}
-                <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
-                    <div className="w-full max-w-md">
-                        {/* Already have account link */}
-                        <div className="text-right mb-8">
-                            <span className="text-gray-600">Already have an account?</span>
-                            {' '}
-                            <Link
-                                href={route('login')}
-                                className="text-gray-900 font-medium hover:underline"
-                            >
-                                Sign In →
-                            </Link>
+                
+                    <div className="hidden lg:flex lg:w-1/2 bg-black items-center justify-center p-12">
+                        <div className="max-w-md text-center">
+                            <div className="flex justify-center mb-8">
+                                <svg className="w-24 h-24 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                                </svg>
+                            </div>
+                            <h1 className="text-5xl font-bold text-white mb-6">
+                                Create your free account
+                            </h1>
                         </div>
+                    </div>
 
-                        <form onSubmit={submit} className="space-y-6">
-                            <PersonalInfoFields
-                                data={data}
-                                setData={setData}
-                                errors={errors}
-                                showPassword={showPassword}
-                                setShowPassword={setShowPassword}
-                                showPasswordConfirmation={showPasswordConfirmation}
-                                setShowPasswordConfirmation={setShowPasswordConfirmation}
-                            />
-
-                            <LocationFields
-                                data={data}
-                                municipalities={municipalities}
-                                barangays={barangays}
-                                onMunicipalityChange={handleMunicipalityChange}
-                                onBarangayChange={handleBarangayChange}
-                                errors={errors}
-                            />
-
-                            <GeolocationBtn
-                                hasLocation={!!(data.latitude && data.longitude)}
-                                onOpenMap={openMapModal}
-                                errors={errors}
-                            />
-
-                            <div>
-                                <label className="block text-sm font-medium mb-2">
-                                    Image
-                                </label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                />
-                                {errors.image_path && <p className="text-red-600 text-sm mt-1">{errors.image_path}</p>}
-                                <div className="mt-3">
-                                    <img
-                                        src={imagePreview}
-                                        alt="Preview"
-                                        className="w-full h-48 object-cover rounded-md border border-gray-200"
-                                    />
-                                </div>
+                    {/* Right Side - Form */}
+                    <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
+                        <div className="w-full max-w-md">
+                            {/* Already have account link */}
+                            <div className="text-right mb-8">
+                                <span className="text-gray-600">Already have an account?</span>
+                                {' '}
+                                <Link
+                                    href={route('login')}
+                                    className="text-gray-900 font-medium hover:underline"
+                                >
+                                    Sign In →
+                                </Link>
                             </div>
 
-                            {crops.length > 0 && (
-                                <CropSelection
-                                    crops={crops}
-                                    selectedCrops={data.crops}
-                                    onCropToggle={handleCropToggle}
+                            <form onSubmit={submit} className="space-y-6">
+                                <PersonalInfoFields
+                                    data={data}
+                                    setData={setData}
+                                    errors={errors}
+                                    showPassword={showPassword}
+                                    setShowPassword={setShowPassword}
+                                    showPasswordConfirmation={showPasswordConfirmation}
+                                    setShowPasswordConfirmation={setShowPasswordConfirmation}
+                                />
+
+                                <LocationFields
+                                    data={data}
+                                    municipalities={municipalities}
+                                    barangays={barangays}
+                                    onMunicipalityChange={handleMunicipalityChange}
+                                    onBarangayChange={handleBarangayChange}
                                     errors={errors}
                                 />
-                            )}
 
-                            {/* Submit Button */}
-                            <Button 
-                                type="submit" 
-                                variant="primary" 
-                                size="lg" 
-                                fullWidth 
-                                disabled={processing}
-                            >
-                                {processing ? 'Creating Account...' : 'Create Account'}
-                            </Button>
-                        </form>
+                                <GeolocationBtn
+                                    hasLocation={!!(data.latitude && data.longitude)}
+                                    onOpenMap={openMapModal}
+                                    errors={errors}
+                                />
+
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">
+                                        Image
+                                    </label>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                    />
+                                    {errors.image_path && <p className="text-red-600 text-sm mt-1">{errors.image_path}</p>}
+                                    <div className="mt-3">
+                                        <img
+                                            src={imagePreview}
+                                            alt="Preview"
+                                            className="w-full h-48 object-cover rounded-md border border-gray-200"
+                                        />
+                                    </div>
+                                </div>
+
+                                {crops.length > 0 && (
+                                    <CropSelection
+                                        crops={crops}
+                                        selectedCrops={data.crops}
+                                        onCropToggle={handleCropToggle}
+                                        errors={errors}
+                                    />
+                                )}
+
+                                {/* Submit Button */}
+                                <Button 
+                                    type="submit" 
+                                    variant="primary" 
+                                    size="lg" 
+                                    fullWidth 
+                                    disabled={processing}
+                                >
+                                    {processing ? 'Creating Account...' : 'Create Account'}
+                                </Button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
