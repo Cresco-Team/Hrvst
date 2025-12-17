@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
-import Navigation from '@/Components/Navigation/Navigation';
-import Hero from '@/Pages/Home/Hero';
+import Navigation from '@/components/Navigation/Navigation';
+import Hero from '@/pages/Home/Hero';
 
 export default function Index() {
     return (
