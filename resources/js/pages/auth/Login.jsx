@@ -1,25 +1,24 @@
-import InputError from '@/Components/InputError';
+import InputError from '@/components/InputError';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { Button } from "@/Components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-  } from "@/Components/ui/card";
+  } from "@/components/ui/card";
 import {
     Field,
     FieldDescription,
     FieldGroup,
     FieldLabel,
-  } from "@/Components/ui/field"
-import { Input } from "@/Components/ui/input"
-import { Separator } from '@/Components/ui/separator';
+  } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
 
 export default function Login({ status, canResetPassword, className, ...props }) {
     const { data, setData, post, processing, errors, reset } = useForm({

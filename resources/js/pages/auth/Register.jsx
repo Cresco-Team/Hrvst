@@ -2,15 +2,15 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Card, CardContent } from '@/Components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
-import PersonalInfoFields from '@/Components/Registration/PersonalInfoFields';
-import LocationFields from '@/Components/Registration/LocationFields';
-import GeolocationBtn from '@/Components/Buttons/GeolocationBtn';
-import CropSelection from '@/Components/Registration/CropSelection';
-import MapModal from '@/Components/Modals/Maps/MapModal';
-import PendingModal from '@/Components/Modals/Alerts/PendingModal';
-import Button from '@/Components/Buttons/Button';
+import PersonalInfoFields from '@/components/Registration/PersonalInfoFields';
+import LocationFields from '@/components/Registration/LocationFields';
+import GeolocationBtn from '@/components/Buttons/GeolocationBtn';
+import CropSelection from '@/components/Registration/CropSelectionFields';
+import MapModal from '@/components/Modals/Maps/MapModal';
+import PendingModal from '@/components/Modals/Alerts/PendingModal';
+import Button from '@/components/Buttons/Button';
 
 // Municipality coordinates for Benguet Province
 const MUNICIPALITY_COORDS = {

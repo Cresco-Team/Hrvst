@@ -1,4 +1,4 @@
-import InputError from '@/Components/InputError';
+import InputError from '@/components/InputError';
 
 export default function GeolocationBtn({ 
     hasLocation, 
