@@ -1,14 +1,13 @@
 import { Link, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { ListFilter } from 'lucide-react';
+import { User } from 'lucide-react';
 import { MapPinned } from 'lucide-react';
 import { ChartCandlestick } from 'lucide-react';
 
 export default function Navigation() {
     const {props, url} = usePage();
-    const { auth } = props;
     const isHome = url === '/';
-    const user = auth?.user;
 
     return (
         <header className="w-full bg-white border-b border z-10">
@@ -41,20 +40,26 @@ export default function Navigation() {
                 )}
 
                 {/* Right - Auth Buttons */}
-                <div className="flex items-center space-x-3">
-                    {user ? (
-                        <Link href={route('logout')} method="post">
-                            <Button variant='outline'>Sign out</Button>
-                        </Link>
-                    ) : (<>
-                        <Link href={route('login')}>
-                            <Button variant="outline">Log in</Button>
-                        </Link>
-                        
-                        <Link href={route('register')}>
-                            <Button>Sign up</Button>
-                        </Link>
-                    </>)}
+                <div className='items-center'>
+                    <Button variant='outline' size='icon' className='md:hidden'>
+                        <User size={64} />
+                    </Button>
+
+                    <div className="hidden md:flex items-center space-x-3">
+                        {props.auth.user ? (
+                            <Link href={route('logout')} method="post">
+                                <Button variant='outline'>Sign out</Button>
+                            </Link>
+                        ) : (<>
+                            <Link href={route('login')}>
+                                <Button variant="outline">Log in</Button>
+                            </Link>
+                            
+                            <Link href={route('register')}>
+                                <Button>Sign up</Button>
+                            </Link>
+                        </>)}
+                    </div>
                 </div>
             </nav>
 
