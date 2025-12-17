@@ -31,7 +31,6 @@ class FarmerFactory extends Factory
             'barangay_id'     => $barangay->id,
             'latitude'  => $this->faker->randomFloat(6, 16.18, 16.72),
             'longitude' => $this->faker->randomFloat(6, 120.41, 120.93),
-            'image_path'      => fake()->image('public/storage/farmer_images', 400, 300, null, false),
             'image_path' => fake()->imageUrl(200, 200, 'farm', true),
         ];
     }
