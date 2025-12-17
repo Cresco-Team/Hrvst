@@ -56,7 +56,7 @@ export default function CropSelection({ data, setData, errors, categories, crops
 
             <Field className='flex-1 flex'>
                 <FieldLabel htmlFor='crops' className='flex-0 h-full'>
-                    Vegetables({data.selectedCrops.length}/3)
+                    Vegetables({data.selectedCrops?.length || 0}/3)
                 </FieldLabel>
 
                 <div className='flex-1'>
