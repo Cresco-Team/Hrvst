@@ -37,7 +37,7 @@ class AdminFarmerController extends Controller
 
         return Inertia::render('Farmers/Index', [
             'approvedFarmers' => $approvedFarmers->get(),
-            'pendingFarmers' => $pendingFarmers->get(),
+            'pendingFarmers' => $pendingFarmers->latest()->get(),
             'municipalities' => $municipalities,
             'filters' => $request->only(['municipality_id', 'barangay_id']),
         ]);
