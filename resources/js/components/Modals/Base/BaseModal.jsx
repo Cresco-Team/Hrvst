@@ -19,7 +19,7 @@ export default function BaseModal({
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100] p-4 animate-fadeIn">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-100 p-4 animate-fadeIn">
             <div className={`bg-white rounded-lg w-full ${maxWidthClasses[maxWidth]} max-h-[90vh] overflow-y-auto animate-slideIn`}>
 
                 {/* Title */}

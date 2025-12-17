@@ -43,7 +43,7 @@ export default function Button({
     children,
     ...props 
 }) {
-    const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-200 border disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2';
+    const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-200 border disabled:opacity-50 disabled:cursor-not-allowed focus:outline-hidden focus:ring-2 focus:ring-green-500 focus:ring-offset-2';
     
     const variantClasses = variants[variant] || variants.primary;
     const sizeClasses = sizes[size] || sizes.md;

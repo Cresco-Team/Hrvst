@@ -7,7 +7,7 @@ export default function Index() {
         <>
             <Head title="Welcome to Hrvst" />
 
-            <div className="flex flex-col min-h-screen bg-gradient-to-br from-green-50 to-white">
+            <div className="flex flex-col min-h-screen bg-linear-to-br from-green-50 to-white">
                 {/* Navigation */}
                 <Navigation/>
 

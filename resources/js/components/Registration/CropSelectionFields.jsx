@@ -61,7 +61,7 @@ export default function CropSelection({ data, setData, errors, categories, crops
 
                 <div className='flex-1'>
                     {selectedCrops.length > 0 && (
-                        <ItemGroup className='flex-grow h-[278px] flex flex-col gap-2 mb-3'>
+                        <ItemGroup className='grow h-[278px] flex flex-col gap-2 mb-3'>
                             {selectedCrops.map(crop => (
                                 <Item key={crop.id} variant='outline'>
                                     <ItemMedia>
@@ -102,7 +102,7 @@ export default function CropSelection({ data, setData, errors, categories, crops
                                 {categories?.map((category) => (
                                     <div key={category.id} value={String(category.id)} className='w-full p-3'>
                                         <div className='flex items-center gap-4'>
-                                            <h3 className='flex-shrink-0'>{category.name}</h3>
+                                            <h3 className='shrink-0'>{category.name}</h3>
                                         </div>
                                     
                                         <Carousel
