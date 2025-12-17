@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
+import { ListFilter } from 'lucide-react';
 import { MapPinned } from 'lucide-react';
 import { ChartCandlestick } from 'lucide-react';
 
@@ -12,9 +13,13 @@ export default function Navigation() {
     return (
         <header className="w-full bg-white border-b border z-10">
             {/* Top Navigation */}
-            <nav className="max-w-full px-6 flex justify-between items-center h-12 md:h-16">
+            <nav className="max-w-full px-3 md:px-6 flex justify-between items-center h-12 md:h-16">
+
                 {/* Left - Logo */}
-                <div className="flex items-center">
+                <div className="flex items-center gap-1">
+                    <Button variant='ghost' className='md:hidden'>
+                        <ListFilter />
+                    </Button>
                     <Link href="/" className="flex items-center">
                         <img className="w-6 md:w-8 h-8 object-contain"
                             src="/assets/hrvst.svg" 
@@ -54,7 +59,6 @@ export default function Navigation() {
             </nav>
 
             {/* Mobile Navigation */}
-            
             {!isHome && (
                 <div className='md:hidden border-t gap-2 bg-sidebar'>
                     <div className="flex w-full justify-center text-center">
@@ -71,7 +75,6 @@ export default function Navigation() {
                     </div>
                 </div>
             )}
-            
         </header>
     );
 }
