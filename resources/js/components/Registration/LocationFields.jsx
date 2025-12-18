@@ -65,18 +65,21 @@ export default function Location({ data, setData, errors, municipalities, }) {
     return (
         <>
             <div className="flex-0 flex flex-col items-center gap-2 text-center">
-                <h1 className="inline-flex items-center justify-center md:text-2xl text-lg font-bold gap-1"><MapPinned/>Set your Farm Address!</h1>
+                <h1 className="inline-flex items-center justify-center text-lg sm:text-xl md:text-2xl font-bold gap-1 sm:gap-2">
+                    <MapPinned size={20} className="sm:w-6 sm:h-6" />
+                    Set your Farm Address!
+                </h1>
             </div>
 
             <Field>
-                <FieldLabel htmlFor="municipality">Municipality</FieldLabel>
+                <FieldLabel htmlFor="municipality" className="text-sm sm:text-base">Municipality</FieldLabel>
                 <Select value={data.municipality_id}
                     onValueChange={(value) => {
                         setData('municipality_id', value);
                         setData('barangay_id', '');
                     }}
                 >
-                    <SelectTrigger className='w-[280px]'>
+                    <SelectTrigger className='w-full h-10 sm:h-11 text-sm sm:text-base'>
                         <SelectValue placeholder="Select your Municipality" />
                     </SelectTrigger>
 
@@ -97,11 +100,11 @@ export default function Location({ data, setData, errors, municipalities, }) {
             </Field>
 
             <Field>
-                <FieldLabel htmlFor="barangay">Barangay</FieldLabel>
+                <FieldLabel htmlFor="barangay" className="text-sm sm:text-base">Barangay</FieldLabel>
                 <Select value={data.barangay_id} required disabled={!data.municipality_id || loadingBarangays}
                     onValueChange={(value) => setData('barangay_id', value)}
                 >
-                    <SelectTrigger className='w-[280px]'>
+                    <SelectTrigger className='w-full h-10 sm:h-11 text-sm sm:text-base'>
                         <SelectValue placeholder={loadingBarangays ? <Spinner/> : 'Select Barangay'}/>
                     </SelectTrigger>
 

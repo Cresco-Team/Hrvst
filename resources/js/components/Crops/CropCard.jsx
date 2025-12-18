@@ -43,7 +43,10 @@ export default function CropCard({
                     {crop.name}
                 </h3>
                 <p className="text-lg font-bold text-gray-900">
-                    ₱ {parseFloat(crop.price).toFixed(2)}
+                    ₱{parseFloat(crop.low_price).toFixed(2)} - ₱{parseFloat(crop.high_price).toFixed(2)}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                    Harvest: {crop.harvest_weeks} weeks
                 </p>
 
                 {isAdmin && (

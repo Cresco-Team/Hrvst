@@ -17,7 +17,15 @@ class FarmerProfileController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $farmer = $user->farmer->load(['municipality', 'barangay', 'crops.category']);
+        // Load farmer with only active crops
+        $farmer = $user->farmer->load([
+            'municipality', 
+            'barangay', 
+            'crops' => function ($query) {
+                $query->wherePivot('status', 'active');
+            },
+            'crops.category'
+        ]);
         $allCrops = Crop::with('category')->get();
 
         return Inertia::render('Profile/FarmerProfile', [
@@ -34,14 +42,25 @@ class FarmerProfileController extends Controller
         $validated = $request->validate([
             'phone_number' => 'required|string|max:20',
             'crops' => 'required|array|min:1|max:3',
-            'crops.*' => 'exists:crops, id',
+            'crops.*' => 'exists:crops,id',
+            'crops_planted_at' => 'nullable|array',
+            'crops_planted_at.*' => 'nullable|date',
         ]);
 
         $farmer->update([
             'phone_number' => $validated['phone_number'],
         ]);
 
-        $farmer->crops()->sync($validated['crops']);
+        // Prepare sync data with planted_at timestamps
+        $syncData = [];
+        foreach ($validated['crops'] as $cropId) {
+            $syncData[$cropId] = [
+                'planted_at' => $validated['crops_planted_at'][$cropId] ?? now(),
+                'status' => 'active',
+            ];
+        }
+
+        $farmer->crops()->sync($syncData);
 
         return Redirect::route('farmer.profile.show')
             ->with('success', 'Profile updated successfully.');

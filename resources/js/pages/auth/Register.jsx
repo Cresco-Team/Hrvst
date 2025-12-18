@@ -214,45 +214,44 @@ export default function Register({ municipalities = [], crops = [] }) {
 
             <Head title="Register" />
             
-            <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+            <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-4 sm:p-6 md:p-10">
                 <div className='w-full max-w-sm md:max-w-4xl'>
-                    <div className={cn("flex flex-col gap-6")}>
+                    <div className={cn("flex flex-col gap-4 sm:gap-6")}>
                         <Card className="overflow-hidden p-0">
                             <CardContent className="grid p-0 md:grid-cols-2">
-                                
-                            </CardContent>
-                        </Card>
-                    </div>
-                
-                    <div className="hidden lg:flex lg:w-1/2 bg-black items-center justify-center p-12">
-                        <div className="max-w-md text-center">
-                            <div className="flex justify-center mb-8">
-                                <svg className="w-24 h-24 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-                                </svg>
-                            </div>
-                            <h1 className="text-5xl font-bold text-white mb-6">
-                                Create your free account
-                            </h1>
-                        </div>
-                    </div>
+                                {/* Left Side - Branding (Hidden on mobile) */}
+                                <div className="hidden md:flex bg-gradient-to-br from-green-600 to-green-800 items-center justify-center p-8 lg:p-12">
+                                    <div className="max-w-md text-center">
+                                        <div className="flex justify-center mb-6">
+                                            <svg className="w-16 h-16 lg:w-24 lg:h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+                                            </svg>
+                                        </div>
+                                        <h1 className="text-3xl lg:text-5xl font-bold text-white mb-4">
+                                            Create your free account
+                                        </h1>
+                                        <p className="text-green-100 text-sm lg:text-base">
+                                            Join our farming community today
+                                        </p>
+                                    </div>
+                                </div>
 
-                    {/* Right Side - Form */}
-                    <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-gray-50">
-                        <div className="w-full max-w-md">
-                            {/* Already have account link */}
-                            <div className="text-right mb-8">
-                                <span className="text-gray-600">Already have an account?</span>
-                                {' '}
-                                <Link
-                                    href={route('login')}
-                                    className="text-gray-900 font-medium hover:underline"
-                                >
-                                    Sign In →
-                                </Link>
-                            </div>
+                                {/* Right Side - Form */}
+                                <div className="w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-background">
+                                    <div className="w-full max-w-md">
+                                        {/* Already have account link */}
+                                        <div className="text-right mb-4 sm:mb-6">
+                                            <span className="text-gray-600 text-xs sm:text-sm">Already have an account?</span>
+                                            {' '}
+                                            <Link
+                                                href={route('login')}
+                                                className="text-gray-900 font-medium hover:underline text-xs sm:text-sm"
+                                            >
+                                                Sign In →
+                                            </Link>
+                                        </div>
 
-                            <form onSubmit={submit} className="space-y-6">
+                                        <form onSubmit={submit} className="space-y-4 sm:space-y-6">
                                 <PersonalInfoFields
                                     data={data}
                                     setData={setData}
@@ -286,15 +285,18 @@ export default function Register({ municipalities = [], crops = [] }) {
                                         type="file"
                                         accept="image/*"
                                         onChange={handleImageChange}
+                                        className="text-xs sm:text-sm"
                                     />
-                                    {errors.image_path && <p className="text-red-600 text-sm mt-1">{errors.image_path}</p>}
-                                    <div className="mt-3">
-                                        <img
-                                            src={imagePreview}
-                                            alt="Preview"
-                                            className="w-full h-48 object-cover rounded-md border border-gray-200"
-                                        />
-                                    </div>
+                                    {errors.image_path && <p className="text-red-600 text-xs sm:text-sm mt-1">{errors.image_path}</p>}
+                                    {imagePreview && (
+                                        <div className="mt-3">
+                                            <img
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                className="w-full h-32 sm:h-48 object-cover rounded-md border border-gray-200"
+                                            />
+                                        </div>
+                                    )}
                                 </div>
 
                                 {crops.length > 0 && (
@@ -313,14 +315,18 @@ export default function Register({ municipalities = [], crops = [] }) {
                                     size="lg" 
                                     fullWidth 
                                     disabled={processing}
+                                    className="h-10 sm:h-11 text-sm sm:text-base"
                                 >
                                     {processing ? 'Creating Account...' : 'Create Account'}
                                 </Button>
                             </form>
                         </div>
                     </div>
-                </div>
-            </div>
+                </CardContent>
+            </Card>
+        </div>
+    </div>
+</div>
 
             {/* Map Modal */}
             <MapModal

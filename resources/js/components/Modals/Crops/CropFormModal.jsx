@@ -9,7 +9,9 @@ export default function CropFormModal({ isOpen, onClose, crop }) {
 
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
-        price: '',
+        low_price: '',
+        high_price: '',
+        harvest_weeks: '',
         category_id: '',
         image_path: null,
     });
@@ -21,7 +23,9 @@ export default function CropFormModal({ isOpen, onClose, crop }) {
             // crop might be a real crop (edit) or a prefill object for create ({ category_id })
             setData({
                 name: crop.name || '',
-                price: crop.price || '',
+                low_price: crop.low_price || '',
+                high_price: crop.high_price || '',
+                harvest_weeks: crop.harvest_weeks || '',
                 category_id: crop.category_id || '',
                 image_path: null,
             });
@@ -103,21 +107,57 @@ export default function CropFormModal({ isOpen, onClose, crop }) {
                     readOnly
                 />
 
-                {/* PRICE */}
+                {/* LOW PRICE */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Price (₱)
+                        Low Price (₱)
                     </label>
                     <input
                         type="number"
                         step="0.01"
-                        value={data.price}
-                        onChange={(e) => setData('price', e.target.value)}
+                        value={data.low_price}
+                        onChange={(e) => setData('low_price', e.target.value)}
                         onWheel={(e) => e.target.blur()}
                         className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring-green-500"
                         placeholder="0.00"
                     />
-                    {errors.price && <p className="text-red-600 text-sm mt-1">{errors.price}</p>}
+                    {errors.low_price && <p className="text-red-600 text-sm mt-1">{errors.low_price}</p>}
+                </div>
+
+                {/* HIGH PRICE */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        High Price (₱)
+                    </label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        value={data.high_price}
+                        onChange={(e) => setData('high_price', e.target.value)}
+                        onWheel={(e) => e.target.blur()}
+                        className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring-green-500"
+                        placeholder="0.00"
+                    />
+                    {errors.high_price && <p className="text-red-600 text-sm mt-1">{errors.high_price}</p>}
+                </div>
+
+                {/* HARVEST WEEKS */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Harvest Weeks
+                    </label>
+                    <input
+                        type="number"
+                        min="1"
+                        max="52"
+                        value={data.harvest_weeks}
+                        onChange={(e) => setData('harvest_weeks', e.target.value)}
+                        onWheel={(e) => e.target.blur()}
+                        className="w-full border-gray-300 rounded-md shadow-sm focus:border-green-500 focus:ring-green-500"
+                        placeholder="e.g., 10"
+                    />
+                    {errors.harvest_weeks && <p className="text-red-600 text-sm mt-1">{errors.harvest_weeks}</p>}
+                    <p className="text-xs text-gray-500 mt-1">Average weeks until harvest</p>
                 </div>
 
                 {/* IMAGE */}
