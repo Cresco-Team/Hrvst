@@ -32,7 +32,7 @@ export default function Personal({ data, setData, errors }) {
                     required
                     autoFocus
                 />
-                <div className='h-[16px]'>
+                <div className='h-4'>
                     {errors.name && (
                         <InputError message={errors.name} className="mt-2 text-right text-xs"/>
                     )}
@@ -51,7 +51,7 @@ export default function Personal({ data, setData, errors }) {
                     className="h-10 sm:h-11 text-sm sm:text-base"
                     required
                 />
-                <div className='h-[16px]'>
+                <div className='h-4'>
                     <InputError message={errors.email} className="mt-2 text-right text-xs"/>
                 </div>
             </Field>
@@ -108,7 +108,7 @@ export default function Personal({ data, setData, errors }) {
                         
                     </Field>
                 </Field>
-                <div className='h-[16px]'>
+                <div className='h-4'>
                     <InputError message={errors.password} className="mt-2 text-right text-xs"/>
                     <InputError message={errors.password_confirmation} className="mt-2 text-right text-xs"/>
                 </div>
@@ -124,12 +124,8 @@ export default function Personal({ data, setData, errors }) {
                     type="tel"
                     value={data.phone_number}
                     onChange={(e) => setData('phone_number', e.target.value)}
-                    placeholder="09123456789"
-                    className="h-10 sm:h-11 text-sm sm:text-base"
-                    required
-                />
-                    onChange={(e) => setData('phone_number', e.target.value)}
                     placeholder="+63 912 345 6789"
+                    className="h-10 sm:h-11 text-sm sm:text-base"
                     required
                 />
                 <InputError message={errors.phone_number} className="mt-2 text-right text-xs"/>
