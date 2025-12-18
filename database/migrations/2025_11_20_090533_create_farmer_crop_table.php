@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id('plant_id');
             $table->foreignId('farmer_id')->constrained('farmers')->onDelete('cascade');
             $table->foreignId('crop_id')->constrained('crops')->onDelete('cascade');
-            $table->string('yield_kg')->nullable();         // Actual Kilograms produced
-            $table->date('planting_date')->nullable();      // Exact Date
-            $table->date('harvesting_date')->nullable();    // Expected Harvesting Date
+            $table->string('yield_kg')->nullable()      ->comment('The estimated kilograms that will be produced');
+            $table->date('date_planted')->nullable()    ->comment('Date when the farmer planted the crop');
+            $table->date('status', ['active', 'date_harvested', 'expired'])
+                  ->default('active')->nullable()       ->comment('Current status of the crop planting');
+                  // The fields are still nullable until we implement it in the frontend.
+                  // For now, let's just leave it empty/nullable.
             $table->timestamps();
         });
     }

@@ -26,7 +26,9 @@ class AdminCropController extends Controller
     {
         $validate = $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0|max:999999.99',
+            'low_price' => 'required|numeric|min:0|max:999999.99',
+            'high_price' => 'required|numeric|min:0|max:999999.99|gte:low_price',
+            'harvest_weeks' => 'required|integer|min:1|max:52',
             'category_id' => 'required|exists:categories,id',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -48,7 +50,9 @@ class AdminCropController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0|max:999999.99',
+            'low_price' => 'required|numeric|min:0|max:999999.99',
+            'high_price' => 'required|numeric|min:0|max:999999.99|gte:low_price',
+            'harvest_weeks' => 'required|integer|min:1|max:52',
             'category_id' => 'required|exists:categories,id',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -72,7 +76,9 @@ class AdminCropController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0|max:999999.99',
+            'low_price' => 'required|numeric|min:0|max:999999.99',
+            'high_price' => 'required|numeric|min:0|max:999999.99|gte:low_price',
+            'harvest_weeks' => 'required|integer|min:1|max:52',
             'category_id' => 'required|exists:categories,id',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);

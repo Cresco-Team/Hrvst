@@ -30,30 +30,30 @@ export default function Login({ status, canResetPassword, className, ...props })
         <>
             <Head title="Login" />
 
-            <div className="bg-background flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+            <div className="bg-background flex min-h-svh w-full items-center justify-center p-4 sm:p-6 md:p-10">
                 <div className="w-full max-w-sm">
-                    <div className={cn("flex flex-col gap-6", className)} {...props}>
+                    <div className={cn("flex flex-col gap-4 sm:gap-6", className)} {...props}>
                     <Card>
-                        <CardHeader>
-                            <CardTitle>Welcome back, farmer!</CardTitle>
+                        <CardHeader className="space-y-2 sm:space-y-3">
+                            <CardTitle className="text-xl sm:text-2xl">Welcome back, farmer!</CardTitle>
 
-                            <CardDescription>
+                            <CardDescription className="text-sm sm:text-base">
                                 Get the insights you need to make decisions this season
                             </CardDescription>
 
                             {/* Status Message */}
                             {status && (
-                                <div className="mb-4 text-sm font-medium text-green-600 text-center">
+                                <div className="mb-2 sm:mb-4 text-sm font-medium text-green-600 text-center">
                                     {status}
                                 </div>
                             )}
                         </CardHeader>
 
-                        <CardContent>
+                        <CardContent className="p-4 sm:p-6">
                         <form onSubmit={submit}>
                             <FieldGroup>
                                 <Field>
-                                    <FieldLabel htmlFor="email">Email</FieldLabel>
+                                    <FieldLabel htmlFor="email" className="text-sm sm:text-base">Email</FieldLabel>
 
                                     <Input
                                         id="email"
@@ -62,28 +62,26 @@ export default function Login({ status, canResetPassword, className, ...props })
                                         value={data.email}
                                         onChange={(e) => setData('email', e.target.value)}
                                         placeholder="name@gmail.com"
+                                        className="h-10 sm:h-11 text-sm sm:text-base"
                                         required
                                         autoFocus
                                     />
+                                    <InputError message={errors.email} className="mt-1 text-xs sm:text-sm" />
                                 </Field>
 
                                 <Field>
-                                    <div className="flex items-center">
-                                    <FieldLabel htmlFor="password">Password</FieldLabel>
+                                    <div className="flex items-center justify-between gap-2">
+                                        <FieldLabel htmlFor="password" className="text-sm sm:text-base">Password</FieldLabel>
 
-                                    {/* Forgot Password Link */}
-                                    {canResetPassword && (
-                                        <div className='inline-block ml-auto'>
+                                        {/* Forgot Password Link */}
+                                        {canResetPassword && (
                                             <Link
                                                 href={route('password.request')}
-                                                className="text-sm font-medium hover:underline"
+                                                className="text-xs sm:text-sm font-medium hover:underline whitespace-nowrap"
                                             >
                                                 Forgot password?
                                             </Link>
-                                        </div>
-                                    )}
-
-
+                                        )}
                                     </div>
 
                                     <div className='relative'>
@@ -93,33 +91,27 @@ export default function Login({ status, canResetPassword, className, ...props })
                                             type={showPassword ? "text" : "password"}
                                             value={data.password}
                                             onChange={(e) => setData('password', e.target.value)}
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all pr-10"
+                                            className="h-10 sm:h-11 text-sm sm:text-base pr-10"
                                             required
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-1 touch-manipulation"
+                                            aria-label={showPassword ? "Hide password" : "Show password"}
                                         >
-                                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                            {showPassword ? <EyeOff size={18} className="sm:w-5 sm:h-5" /> : <Eye size={18} className="sm:w-5 sm:h-5" />}
                                         </button>
-                                        <InputError message={errors.password} className="mt-2" />
                                     </div>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                                    >
-                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                                    </button>
+                                    <InputError message={errors.password} className="mt-1 text-xs sm:text-sm" />
                                 </Field>
+
                                 <Field>
-                                    <Button type="submit">
+                                    <Button type="submit" className="w-full h-10 sm:h-11 text-sm sm:text-base" disabled={processing}>
                                         {processing ? 'Logging in...' : 'Login'}
                                     </Button>
-                                    <FieldDescription className="text-center">
-                                    Not a member yet? {' '}
+                                    <FieldDescription className="text-center text-xs sm:text-sm mt-3">
+                                        Not a member yet?{' '}
                                         <Link
                                             href={route('register')}
                                             className="text-gray-900 font-semibold hover:underline"
@@ -128,11 +120,11 @@ export default function Login({ status, canResetPassword, className, ...props })
                                         </Link>
                                     </FieldDescription>
                                 </Field>
-                                </FieldGroup>
-                            </form>
+                            </FieldGroup>
+                        </form>
 
-                            </CardContent>
-                        </Card>
+                        </CardContent>
+                    </Card>
                     </div>
                 </div>
             </div>

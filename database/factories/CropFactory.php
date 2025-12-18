@@ -17,10 +17,15 @@ class CropFactory extends Factory
      */
     public function definition(): array
     {
+        $lowPrice = fake()->randomFloat(2, 10, 400);
+        $highPrice = $lowPrice + fake()->randomFloat(2, 10, 100);
+
         return [
             'category_id' => Category::inRandomOrder()->first()?->id ?? Category::factory(),
             'name'        => fake()->word(),
-            'price'       => fake()->randomFloat(2, 10, 500),
+            'low_price'   => $lowPrice,
+            'high_price'  => $highPrice,
+            'harvest_weeks' => fake()->numberBetween(4, 20),
             'image_path'  => fake()->imageUrl(200, 200, 'plants', true),
         ];
     }

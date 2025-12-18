@@ -12,7 +12,14 @@ class FarmerController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Farmer::with(['user', 'municipality', 'barangay', 'crops'])
+        $query = Farmer::with([
+            'user', 
+            'municipality', 
+            'barangay', 
+            'crops' => function ($query) {
+                $query->wherePivot('status', 'active');
+            }
+        ])
             ->whereHas('user', function($q) {
                 $q->where('isApproved', true);
             });
@@ -54,7 +61,16 @@ class FarmerController extends Controller
             abort(404);
         }
 
-        $farmer->load(['user', 'municipality', 'barangay', 'crops.category']);
+        // Load farmer with only active (non-expired) crops
+        $farmer->load([
+            'user', 
+            'municipality', 
+            'barangay', 
+            'crops' => function ($query) {
+                $query->wherePivot('status', 'active');
+            },
+            'crops.category'
+        ]);
 
         return response()->json($farmer);
     }
