@@ -1,21 +1,17 @@
 /* Hooks */
 import { Link, useForm } from "@inertiajs/react";
 import { useState } from "react";
-/* Layout */
 import Layout from "@/layouts/RegistrationLayout"
-/* Components */
 import Personal from "@/components/Registration/PersonalInfoFields";
 import Location from "@/components/Registration/LocationFields";
 import FarmImage from "@/components/Registration/FarmImageFields";
 import CropSelection from "@/components/Registration/CropSelectionFields";
-
-import { FieldGroup, Field } from "@/components/ui/field";
+import { FieldGroup, FieldSet } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { ArrowRight, ArrowLeft, House, CircleCheck } from "lucide-react";
 
 export default function Register({municipalities=[], categories=[], crops=[]}) {
-
     const {data, setData, post, processing, errors, reset} = useForm({
         name: '',
         email: '',
@@ -37,7 +33,7 @@ export default function Register({municipalities=[], categories=[], crops=[]}) {
     }
     const nextStep = () => {
         setStep(step + 1);
-    };
+    }
 
     const submit = (e) => {
         e.preventDefault();
@@ -59,19 +55,14 @@ export default function Register({municipalities=[], categories=[], crops=[]}) {
 
     return (
         <Layout>
-            <form onSubmit={submit} className=" p-3 md:p-8">
-                <FieldGroup className="flex min-h-full flex-col gap-4">
-                    {/* STEP 1 : Personal Information */}
+            <form onSubmit={submit} className="p-6 md:p-8">
+                <FieldSet>
                     {step === 1 && (
                         <Personal data={data} setData={setData} errors={errors}/>
                     )}
-
-                    {/* STEP 2 : Address & Location */}
                     {step === 2 && (
                         <Location data={data} setData={setData} errors={errors} municipalities={municipalities}/>
                     )}
-
-                    {/* STEP 3 : Crop Planted this Month */}
                     {step === 3 && (
                         <FarmImage data={data} setData={setData} errors={errors}/>
                     )}
@@ -80,19 +71,15 @@ export default function Register({municipalities=[], categories=[], crops=[]}) {
                     )}
 
                     {/* Buttons */}
-                    <Field className="flex-0 grid grid-cols-3 gap-4">
+                    <FieldGroup className="flex-0 grid grid-cols-3 gap-4">
                         {step < 2 ? (<>
                             <Link href='/'>
-                                <Button onClick={'/'} type="button" variant="outline" className="col-span-1 w-full"
-                                    disabled={processing}
-                                >
+                                <Button onClick={'/'} disabled={processing} type="button" variant="outline" className="col-span-1 w-full">
                                     <House/><span className="hidden md:inline">Home</span>
                                 </Button>
                             </Link>
                         </>) : (<>
-                            <Button onClick={prevStep} type="button" variant="outline" className="col-span-1 w-full"
-                                disabled={processing}
-                            >
+                            <Button onClick={prevStep} disabled={processing} type="button" variant="outline" className="col-span-1 w-full">
                                 <ArrowLeft/><span className="hidden md:inline">Back</span>
                             </Button>
                         </>)}
@@ -101,19 +88,15 @@ export default function Register({municipalities=[], categories=[], crops=[]}) {
                             <Button onClick={nextStep} type="button" className="col-span-3 col-start-2 w-full"
                                 disabled={processing || (step === 1 && !isStep1Valid) || (step === 2 && !isStep2Valid)}
                             >
-                                {processing
-                                ? <Spinner/>
-                                : (<>{'Next'}<ArrowRight/></>)}
+                                {processing ? <Spinner/> : (<>{'Next'}<ArrowRight/></>)}
                             </Button>
                         </>) : (<>
                             <Button type="submit" disabled={processing} className="col-span-3 col-start-2 w-full">
-                                {processing
-                                ? <Spinner/>
-                                : (<>{'Create'}<CircleCheck/></>)}
+                                {processing ? <Spinner/> : (<>{'Create'}<CircleCheck/></>)}
                             </Button>
                         </>)}
-                    </Field>
-                </FieldGroup>
+                    </FieldGroup>
+                </FieldSet>
             </form>
         </Layout>
     )
