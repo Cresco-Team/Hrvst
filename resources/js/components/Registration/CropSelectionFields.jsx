@@ -1,10 +1,11 @@
 import { useState, useMemo } from 'react';
-
-import ResponsiveOverlay from '../responsive/responsiveOverlay';
+import { useMedia } from 'react-use';
 
 import { Field, FieldLabel } from '@/components/ui/field';
 import { Item, ItemGroup, ItemActions, ItemContent, ItemTitle, ItemMedia, ItemDescription } from '@/components/ui/item';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter, DrawerClose } from '@/components/ui/drawer';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { ScrollArea } from '../ui/scroll-area';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -13,8 +14,8 @@ import { Button } from '@/components/ui/button';
 import { CirclePlus, Sprout, Trash } from 'lucide-react';
 
 export default function CropSelection({ data, setData, errors, categories, crops }) {
+    const isMobile = useMedia('(max-width: 767px)')
     const [selection, setSelection] = useState(data.crops || []);
-    const [open, setOpen] = useState(false)
 
     const selectedCrops = crops.filter(crop => data.crops.includes(crop.id));
 
@@ -48,6 +49,19 @@ export default function CropSelection({ data, setData, errors, categories, crops
         return map
     }, [crops])
 
+    if (isMobile) {
+        return (
+            <Dialog open={open} onOpenChange={onOpenChange}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Add Plants</DialogTitle>
+                    </DialogHeader>
+                    {children}
+                </DialogContent>
+            </Dialog>
+        )
+    }
+
     return (
         <>
             <div className="flex-none items-center gap-2 text-center">
@@ -56,7 +70,7 @@ export default function CropSelection({ data, setData, errors, categories, crops
 
             <Field className='flex-1 flex'>
                 <FieldLabel htmlFor='crops' className='flex-0 h-full'>
-                    Vegetables({selectedCrops.length}/3)
+                    Vegetables({data.selectedCrops?.length || 0}/3)
                 </FieldLabel>
 
                 <div className='flex-1'>
@@ -85,68 +99,81 @@ export default function CropSelection({ data, setData, errors, categories, crops
                     )}
                 </div>
                 
-                <Button onClick={() => setOpen(true)} variant='secondary'>
-                    <CirclePlus />Add Plant
-                </Button>
 
-                <ResponsiveOverlay
-                    open={open}
-                    onOpenChange={setOpen}
-                    title='Add Plants'
-                >
-                    <ScrollArea className='mx-auto w-full h-[55vh] px-1'>
-                        <div className='mx-auto w-full max-w-sm'>
-                            {categories?.map((category) => (
-                                <div key={category.id} value={String(category.id)} className='w-full p-3'>
-                                    <div className='flex items-center gap-4'>
-                                        <h3 className='shrink-0'>{category.name}</h3>
+                <Drawer className='flex-none'>
+                    <DrawerTrigger asChild>
+                        <Button variant='secondary'><CirclePlus/>Add Plant</Button>
+                    </DrawerTrigger>
+
+                    <DrawerContent>
+                        <div className=' mx-auto w-full max-w-md gap-7'>
+                            <DrawerHeader>
+                                <DrawerTitle>Add Plants</DrawerTitle>
+                            </DrawerHeader>
+                        
+                        <ScrollArea className='mx-auto w-full h-[55vh] px-1'>
+                            <div className='mx-auto w-full max-w-sm'>
+                                {categories?.map((category) => (
+                                    <div key={category.id} value={String(category.id)} className='w-full p-3'>
+                                        <div className='flex items-center gap-4'>
+                                            <h3 className='shrink-0'>{category.name}</h3>
+                                        </div>
+                                    
+                                        <Carousel
+                                            opts={{
+                                                align: "start",
+                                                slidesToScroll: 2,
+                                            }}
+                                            className='w-full max-w-sm'
+                                        >
+                                            <CarouselContent>
+                                                {cropsByCategory[category.id]?.map(crop => {
+                                                    const selected = selection.includes(crop.id)
+
+                                                    return (
+                                                        <CarouselItem key={crop.id} className={'basis-1/3 w-full mx-1'}>
+                                                            <div
+                                                                onClick={() => handleSelection(crop.id)}
+                                                                className={`bg-card border rounded-md cursor-pointer space-y-1 my-1 text-center transition
+                                                                    ${selected ? "ring-2 ring-primary bg-muted" : " "}
+                                                                `}
+                                                            >
+                                                                <AspectRatio ratio={16/9} className='overflow-hidden rounded-t-md'>
+                                                                    <img
+                                                                        src={`/storage/${crop.image_path}`}
+                                                                        alt={crop.name}
+                                                                        className='object-cover h-full w-full'
+                                                                    />
+                                                                </AspectRatio>
+
+                                                                <p className='text-xs font-medium truncate'>
+                                                                    {crop.name}
+                                                                </p>
+                                                            </div>
+                                                        </CarouselItem>
+                                                    )
+                                                })}
+                                            </CarouselContent>
+                                            {!isMobile && (
+                                                <>
+                                                    <CarouselPrevious/>
+                                                    <CarouselNext/>
+                                                </>
+                                            )}
+                                        </Carousel>
                                     </div>
-                                
-                                    <Carousel
-                                        opts={{
-                                            align: "start",
-                                            slidesToScroll: 2,
-                                        }}
-                                        className='w-full max-w-sm'
-                                    >
-                                        <CarouselContent>
-                                            {cropsByCategory[category.id]?.map(crop => {
-                                                const selected = selection.includes(crop.id)
+                                ))}
+                            </div>
+                        </ScrollArea>
 
-                                                return (
-                                                    <CarouselItem key={crop.id} className={'basis-1/3 w-full mx-1'}>
-                                                        <div
-                                                            onClick={() => handleSelection(crop.id)}
-                                                            className={`bg-card border rounded-md cursor-pointer space-y-1 my-1 text-center transition
-                                                                ${selected ? "ring-2 ring-primary bg-muted" : " "}
-                                                            `}
-                                                        >
-                                                            <AspectRatio ratio={16/9} className='overflow-hidden rounded-t-md'>
-                                                                <img
-                                                                    src={`/storage/${crop.image_path}`}
-                                                                    alt={crop.name}
-                                                                    className='object-cover h-full w-full'
-                                                                />
-                                                            </AspectRatio>
-
-                                                            <p className='text-xs font-medium truncate'>
-                                                                {crop.name}
-                                                            </p>
-                                                        </div>
-                                                    </CarouselItem>
-                                                )
-                                            })}
-                                        </CarouselContent>
-                                    </Carousel>
-                                </div>
-                            ))}
+                        <DrawerFooter>
+                            <DrawerClose asChild>
+                                <Button onClick={handleConfirm}><Sprout/>Add</Button>
+                            </DrawerClose>
+                        </DrawerFooter>
                         </div>
-                    </ScrollArea>
-                    <div className='flex w-full gap-4'>
-                        <Button onClick={() => setOpen(false)} variant='outline' className='flex-1'>Cancel</Button>
-                        <Button onClick={() => {saveData(); setOpen(false);}} className='flex-1'>Save</Button>
-                    </div>
-                </ResponsiveOverlay>
+                    </DrawerContent>
+                </Drawer>
             </Field>
         </>
     );
