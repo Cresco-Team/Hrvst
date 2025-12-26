@@ -8,25 +8,29 @@ class Crop extends Model
 {
     /* Mass Assignment Protection */
     protected $fillable = [
-        'category_id', 
+        'category_id',
         'name',
+        'image_path',
         'crop_weeks',
-        'price_min', 
-        'price_max', 
-        'recorded_at',
-        'image_path'
     ];
     /* Converts a database column value into a specific PHP data type */
     protected $casts = [
         'crop_weeks' => 'integer',
-        'price_min' => 'decimal:2',
-        'price_max' => 'decimal:2',
-        'recorded_at' => 'date',
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(CropPrice::class);
+    }
+
+    public function latestPrice()
+    {
+        return $this->hasOne(CropPrice::class)->latest('recorded_at');
     }
 
     public function farmers()
