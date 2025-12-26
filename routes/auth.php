@@ -74,10 +74,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
         return Inertia::render('admin/Index');
     })->name('admin');
 
-    Route::get('/crops', [AdminCropController::class, 'index'])->name('crops'); // Index
-    Route::post('/crops', [AdminCropController::class, 'store'])->name('crops.store'); // Store
+    Route::get('/crops', [AdminCropController::class, 'index'])->name('admin.crops.index');
+    Route::get('/crops/create', [AdminCropController::class, 'create'])->name('admin.crops.create');
+    Route::post('/crops', [AdminCropController::class, 'store'])->name('admin.crops.store');
+    Route::get('/crops/{crop}', [AdminCropController::class, 'show'])->name('admin.crops.show'); //Show a crop
+
+    Route::get('/crops/{crop}/edit', [AdminCropController::class, 'edit'])->name('admin.crops.edit'); //redirect to /edit
     Route::post('/crops/{crop}', [AdminCropController::class, 'update'])->name('crops.update'); // Update
     Route::delete('/crops/{crop}', [AdminCropController::class, 'destroy'])->name('crops.destroy'); // Delete
+
     // Pending Farmers actions
     Route::get('farmers', [AdminFarmerController::class, 'index'])->name('farmers');
     Route::get('/farmers/pending/{user}', [AdminFarmerController::class, 'show'])->name('admin.farmers.show');
