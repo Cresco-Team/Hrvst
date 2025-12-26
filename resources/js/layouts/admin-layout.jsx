@@ -50,8 +50,11 @@ export default function AdminLayout({
                         </Breadcrumb>
                     </div>
                 </header>
+                <Separator />
                 
-                {children}
+                <main className="flex-1 relative p-4">
+                    {children}
+                </main>
             </SidebarInset>
         </SidebarProvider>
     )
