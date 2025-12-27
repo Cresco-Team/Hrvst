@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminCropController;
 use App\Http\Controllers\Admin\AdminFarmerController;
+use App\Http\Controllers\AdminPriceController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -72,10 +73,14 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(function () {
 
     Route::get('/', function () {
-        return Inertia::render('admin/Index');
+        return Inertia::render('admin/index');
     })->name('');
 
     Route::resource('crops', AdminCropController::class);
+
+    Route::prefix('prices')->as('prices.')->group(function () {
+        Route::get('/', [AdminPriceController::class, 'index'])->name('index');
+    });
 
     // Pending Farmers actions
     Route::get('farmers', [AdminFarmerController::class, 'index'])->name('farmers');
