@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('crop_prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('crop_id')->constrained()->cascadeOnDelete();
+
+            $table->foreignId('crop_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->decimal('price_min', 5, 2);
             $table->decimal('price_max', 5, 2);
-            $table->date('recorded_at')->now()->toDateString();
+
+            $table->date('recorded_at');
             $table->timestamps();
 
-            $table->unique(['crop_id']);
+            $table->unique(['crop_id', 'recorded_at']);
         });
     }
 
