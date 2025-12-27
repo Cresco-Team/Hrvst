@@ -18,12 +18,19 @@ export const columns = [
         accessorKey: "image_path",
         header: "Image",
         enableSorting: false,
-        cell: ({ row }) => (
-            <img
-                src={row.getValue("image_path")}
-                className="h-6 w-10 rounded-md object-cover"
-             />
-        )
+        cell: ({ row }) => {
+            const raw = row.getValue("image_path");
+            const src = raw
+                ? (String(raw).startsWith('http') ? raw : `/storage/${raw}`)
+                : null;
+            return (
+                <img
+                    src={src || ''}
+                    alt=""
+                    className="h-6 w-10 rounded-md object-cover"
+                />
+            );
+        }
     }, {
         accessorKey: "name",
         header: ({ column }) => (
