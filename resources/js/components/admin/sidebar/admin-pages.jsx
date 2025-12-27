@@ -2,32 +2,43 @@
 import { Link } from "@inertiajs/react"
 
 import { Button } from "@/components/ui/button"
-import {
+import { 
+  Sidebar,
+  SidebarContent,
+  SidebarMenu,
+  SidebarMenuItem,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarMenu,
+  SidebarGroupContent,
   SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar'
+  SidebarFooter,
+  SidebarHeader 
+} from "@/components/ui/sidebar";
 
 export function AdminPages({
-    items,
+    groups,
 }) {
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Manager Panel</SidebarGroupLabel>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton asChild>
-              <Link href={item.url}>
-                <item.icon />
-                <Button variant="icon">{item.title}</Button>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-    </SidebarGroup>
+    <SidebarContent>
+      {groups?.map((group) => (
+        <SidebarGroup key={group.title}>
+          <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.pages.map((page) => (
+                  <SidebarMenuItem key={page.url}>
+                  <SidebarMenuButton asChild>
+                    <Link href={page.url}>
+                      <page.icon />
+                      <Button variant="icon">{page.title}</Button>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+        </SidebarGroup>
+      ))}
+    </SidebarContent>
   )
 }

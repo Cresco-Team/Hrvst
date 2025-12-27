@@ -1,19 +1,42 @@
 
 import NavHeader from "@/components/sidebar/nav-header";
 import NavUser from "@/components/sidebar/nav-user";
-import { PageProps } from "@/types";
 
 import { usePage } from "@inertiajs/react";
 import { AdminPages } from "@/components/admin/sidebar/admin-pages";
-import { Sprout } from "lucide-react";
+import { Sprout, PhilippinePeso } from "lucide-react";
 import { SquareUser } from "lucide-react";
 import { 
-    Sidebar, 
-    SidebarContent, 
+    Sidebar,
     SidebarFooter,
-    SidebarHeader 
+    SidebarHeader,
 } from "@/components/ui/sidebar";
 
+const groups = [
+    {
+        title: "Trade Data",
+        pages: [
+            {
+                title: 'Vegetables Dashboard',
+                url: '/admin/crops',
+                icon: Sprout,
+            }, {
+                title: "Prices Dashboard",
+                url: '/admin/prices',
+                icon: PhilippinePeso,
+            }
+        ]
+    }, {
+        title: "Farmers Info",
+        pages: [
+            {
+                title: 'Farmers Dashboard',
+                url: '/admin/farmers',
+                icon: SquareUser,
+            }
+        ]
+    }
+]
 const pages = [{
     title: "Crops Dashboard",
     url: "/admin/crops",
@@ -29,7 +52,7 @@ export default function AdminSidebar({
     user,
     ...props
  }) {
-    const { auth } = usePage<PageProps>().props
+    const { auth } = usePage().props
 
     return (
         <Sidebar collapsible="icon" {...props} variant="inset">
@@ -37,9 +60,7 @@ export default function AdminSidebar({
                 <NavHeader link={'admin'} />
             </SidebarHeader>
 
-            <SidebarContent>
-                <AdminPages items={pages} />
-            </SidebarContent>
+            <AdminPages groups={groups} />
 
             <SidebarFooter>
                 <NavUser user={auth?.user} />
