@@ -89,7 +89,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/crops/{crop}/edit', [AdminCropController::class, 'edit'])
         ->name('admin.crops.edit');
 
-    Route::post('/crops/{crop}', [AdminCropController::class, 'update'])
+    Route::put('/crops/{crop}', [AdminCropController::class, 'update'])
         ->name('crops.update');
 
     Route::delete('/crops/{crop}', [AdminCropController::class, 'destroy'])
