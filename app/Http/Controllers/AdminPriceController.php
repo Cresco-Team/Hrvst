@@ -14,8 +14,8 @@ class AdminPriceController extends Controller
             'category',
             'latestPrice:id,crop_id,price_min,price_max,recorded_at'
         ])->get();
-        
-        return Inertia::render('admin/prices/index', [
+
+        return Inertia::render('admin/crops/crop/index', [
             'crops' => $crops,
         ]);
     }
