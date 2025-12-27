@@ -70,7 +70,6 @@ class AdminCropController extends Controller
             dd($e->getMessage());
         }
         
-
         return redirect()->route('admin.crops.index')->with('success', 'Crop created successfully');
     }
 
@@ -99,24 +98,20 @@ class AdminCropController extends Controller
             'category_id' => 'required|exists:categories,id',
             'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'crop_weeks' => 'required|numeric|min:1|max:356',
-            /* Price Data */
-            'price_min' => 'required|numeric|min:0|max:999.99|lte:price_max',
-            'price_max' => 'required|numeric|min:0|max:999.99|gte:price_min',
-            
         ]);
 
-        if ($request->hasFile('image_path')) {
-            if ($crop->image_path) {
-                Storage::disk('public')->delete($crop->image_path);
-            }
-
-            $path = $request->file('image_path')->store('crops', 'public');
-            $validated['image_path'] = $path;
+        try {
+            $crop->update([
+                'name' => $validated['name'],
+                'category_id' => $validated['category_id'],
+                'image_path' => $validated['image_path']->store('crops', 'public'),
+                'crop_weeks' => $validated['crop_weeks']
+            ]);
+        } catch(\throwable $e) {
+            dd($e->getMessage());
         }
 
-        $crop->update($validated);
-
-        return redirect()->route('crops.index')
+        return redirect()->route('admin.crops.index')
             ->with('success', 'Crop updated successfully.');
     }
 
