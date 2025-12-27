@@ -63,7 +63,11 @@ export const columns = [
                 Week Span
                 <ArrowUpDown />
             </Button>
-        )
+        ),
+        cell: ({ row }) => {
+            const number = row.getValue("crop_weeks")
+            return <div>{number} weeks</div>
+        }
     }, {
         id: "price_range",
         header: "Price Range",
