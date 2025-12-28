@@ -28,7 +28,7 @@ export function AdminPages({
                 {group.pages.map((page) => (
                   <SidebarMenuItem key={page.url}>
                   <SidebarMenuButton asChild>
-                    <Link href={page.url}>
+                    <Link href={route(page.url)}>
                       <page.icon />
                       <Button variant="icon">{page.title}</Button>
                     </Link>
