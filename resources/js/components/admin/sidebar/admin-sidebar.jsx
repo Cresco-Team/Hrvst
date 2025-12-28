@@ -20,11 +20,7 @@ const groups = [
                 title: 'Vegetables Dashboard',
                 url: '/admin/crops',
                 icon: Sprout,
-            }, {
-                title: "Prices Dashboard",
-                url: '/admin/prices',
-                icon: PhilippinePeso,
-            }
+            },
         ]
     }, {
         title: "Farmers Info",
@@ -33,7 +29,7 @@ const groups = [
                 title: 'Farmers Dashboard',
                 url: '/admin/farmers',
                 icon: SquareUser,
-            }
+            },
         ]
     }
 ]
