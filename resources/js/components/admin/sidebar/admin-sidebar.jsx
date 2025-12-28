@@ -27,7 +27,7 @@ const groups = [
                 url: 'admin.crops.index',
                 icon: Sprout,
             }, {
-                title: 'Prices Comparison',
+                title: 'Prices Insights',
                 url: 'admin.prices.index',
                 icon: ChartCandlestick,
             },
@@ -41,11 +41,11 @@ const groups = [
                 icon: SquareUser,
             }, {
                 title: 'Geolocation',
-                url: 'admin.farmers.index',
+                url: 'admin.gis.index',
                 icon: MapPinned,
             }, {
-                title: 'Municipalities',
-                url: 'admin.farmers.index',
+                title: 'Demographics',
+                url: 'admin.demo.index',
                 icon: ChartBarBig,
             },
         ]

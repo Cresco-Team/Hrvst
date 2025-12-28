@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminCropController;
+use App\Http\Controllers\Admin\AdminDemoController;
 use App\Http\Controllers\Admin\AdminFarmerController;
+use App\Http\Controllers\Admin\AdminGisController;
 use App\Http\Controllers\Admin\AdminPriceController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -84,4 +86,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
     Route::get('/farmers/pending/{user}', [AdminFarmerController::class, 'show'])->name('admin.farmers.show');
     Route::post('/farmers/pending/{user}/approve', [AdminFarmerController::class, 'approve'])->name('farmers.approve'); // Approve Pending Farmers
     Route::delete('/farmers/pending/{user}/delete', [AdminFarmerController::class, 'delete'])->name('farmers.delete');    // Reject Pending Farmers
+
+    Route::get('geolocation', [AdminGisController::class, 'index'])->name('gis.index');
+    Route::get('demographics', [AdminDemoController::class, 'index'])->name('demo.index');
 });
