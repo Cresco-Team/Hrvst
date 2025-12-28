@@ -3,48 +3,27 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Barangay;
 use App\Models\Farmer;
-use App\Models\Municipality;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AdminFarmerController extends Controller
 {
-    public function index(Request $request) {
-        $farmers = Farmer::with([
+    public function index()
+    {
+        $relations = [
             'user',
             'municipality',
             'barangay',
-            'crops',
-        ]);
-        $query = Farmer::with(['user', 'municipality', 'barangay', 'crops']);
+            'crops'
+        ];
 
-        // Filter by Municipality
-        if ($request->filled('municipality_id')) {
-            $query->where('municipality_id', $request->municipality_id);
-        }
-        //Filter by Barangay
-        if ($request->filled('barangay_id')) {
-            $query->where('barangay_id', $request->barangay_id);
-        }
-
-        $approvedFarmers = (clone $query)->whereHas('user', function($q) {
-            $q->where('isApproved', true);
-        });
-
-        $pendingFarmers = (clone $query)->whereHas('user', function($q) {
-            $q->where('isApproved', false);
-        });
-
-        $municipalities = Municipality::all();
+        $approvedFarmers = Farmer::approved()->with($relations)->get();
+        $pendingFarmers = Farmer::pending()->with($relations)->get();
 
         return Inertia::render('admin/farmers/index', [
-            'approvedFarmers' => $approvedFarmers->get(),
-            'pendingFarmers' => $pendingFarmers->latest()->get(),
-            'municipalities' => $municipalities,
-            'filters' => $request->only(['municipality_id', 'barangay_id']),
+            'approvedFarmers' => $approvedFarmers,
+            'pendingFarmers' => $pendingFarmers,
         ]);
     }
 
