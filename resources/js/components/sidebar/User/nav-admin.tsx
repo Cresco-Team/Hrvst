@@ -71,10 +71,10 @@ import {
                         </div>
                     </div>
                     <DropdownMenuGroup>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem asChild>
                             <Link
-                                href={route('admin')}
-                                method="post"
+                                href={route('admin.index')}
+                                method="get"
                                 className="w-full"
                             >
                                 <LayoutDashboard/>

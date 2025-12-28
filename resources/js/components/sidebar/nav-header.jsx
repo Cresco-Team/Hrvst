@@ -11,7 +11,7 @@ export default function NavHeader({ link }) {
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
                 <Link
-                    href={route('admin.')}
+                    href={route('admin.index')}
                     className="flex data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
                     <img
