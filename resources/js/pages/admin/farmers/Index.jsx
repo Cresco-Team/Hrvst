@@ -1,5 +1,6 @@
 import DataTable from "@/components/admin/data-table";
-import { columns } from "@/components/admin/farmers/columns";
+import { columns as columnsApproved } from "@/components/admin/farmers/columns/columns-approved";
+import { columns as columnsPending } from "@/components/admin/farmers/columns/columns-pending";
 import AdminLayout from "@/layouts/admin-layout";
 import { useState } from "react";
 
@@ -13,7 +14,6 @@ export default function Farmers({
     approvedFarmers,
     pendingFarmers,
  }) {
-    console.log(approvedFarmers)
     const [globalFilter, setGlobalFilter] = useState('')
 
     return(
@@ -22,7 +22,7 @@ export default function Farmers({
         >
             <div className="container mx-auto p-0">
                 <DataTable
-                    columns={columns}
+                    columns={columnsApproved}
                     data={approvedFarmers}
                     globalFilter={globalFilter}
                     onGlobalFilterChange={setGlobalFilter}
@@ -45,7 +45,7 @@ export default function Farmers({
                 />
 
                 <DataTable
-                    columns={columns}
+                    columns={columnsPending}
                     data={pendingFarmers}
                     globalFilter={globalFilter}
                     onGlobalFilterChange={setGlobalFilter}

@@ -1,7 +1,7 @@
 
 import { Link } from "@inertiajs/react"
 import { MoreHorizontal, ArrowUpDown, ChartArea, SquarePen, Trash } from "lucide-react"
-import FarmerActions from "./farmer-actions"
+import FarmerActions from "../actions/actions-approved"
 
 import { Button } from "@/components/ui/button"
 import {
