@@ -34,7 +34,7 @@ class AdminPriceController extends Controller
         CropPrice::updateOrCreate(
             [
                 'crop_id' => $crop->id,
-                'recorded_at' => now()->toDateString(),
+                'recorded_at' => today(),
             ],
             [
                 'price_min' => $validated['price_min'],
