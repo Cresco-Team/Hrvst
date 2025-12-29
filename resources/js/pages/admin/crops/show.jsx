@@ -12,6 +12,8 @@ import {
     Colors,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { Button } from "@/components/ui/button";
+import { Link } from "@inertiajs/react";
 
 ChartJS.register(
 BarElement,
@@ -69,6 +71,13 @@ export default function Show({ crop, chart }) {
             title={crop.name}
         >
             <Bar data={data} options={options} />
+
+            <Link href={route('admin.crops.prices.create', crop.id)}>
+              <Button>
+                Add new Price
+              </Button>
+            </Link>
+            
         </AdminLayout>
     )
 }
