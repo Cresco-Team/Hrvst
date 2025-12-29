@@ -74,14 +74,18 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(function () {
 
+    /* Hero */
     Route::get('/', function () {
         return Inertia::render('admin/index');
     })->name('index');
 
+    /* Crops Dashboard */
     Route::resource('crops', AdminCropController::class);
-    Route::get('prices', [AdminPriceController::class, 'index'])->name('prices.index');
+    Route::resource('crops.prices', AdminPriceController::class)->only(['create', 'store']);
 
-    // Pending Farmers actions
+    Route::get('/prices', [AdminPriceController::class, 'index'])->name('prices.index');
+    
+    /* Farmers Dashboard */
     Route::get('farmers', [AdminFarmerController::class, 'index'])->name('farmers.index');
     Route::get('/farmers/pending/{user}', [AdminFarmerController::class, 'show'])->name('admin.farmers.show');
     Route::post('/farmers/pending/{user}/approve', [AdminFarmerController::class, 'approve'])->name('farmers.approve'); // Approve Pending Farmers
