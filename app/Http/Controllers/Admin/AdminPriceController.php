@@ -32,10 +32,15 @@ class AdminPriceController extends Controller
             'price_max' => 'required|numeric|min:0|max:999.99|gte:price_min',
         ]);
 
+        $saturday = Carbon::now()->next(Carbon::SATURDAY);
+        if (Carbon::now()->isSaturday()) {
+            $saturday = Carbon::today();
+        }
+
         CropPrice::updateOrCreate(
             [
                 'crop_id' => $crop->id,
-                'recorded_at' => today(),
+                'recorded_at' => $saturday(),
             ],
             [
                 'price_min' => $validated['price_min'],
@@ -58,10 +63,10 @@ class AdminPriceController extends Controller
     
         $categories = Category::all();
     
-        if (!$categoryId && $categories->isNotEmpty()) {
+        if (!$categoryId) {
             $categoryId = $categories->first()->id;
         }
-    
+
         $chartData = null;
     
         if ($categoryId) {
