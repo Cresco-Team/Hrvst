@@ -6,10 +6,11 @@ import { usePage } from "@inertiajs/react";
 import { AdminPages } from "@/components/admin/sidebar/admin-pages";
 import {
     Sprout,
-    PhilippinePeso,
+    LayoutDashboard,
     MapPinned,
     ChartBarBig,
-    ChartCandlestick
+    ChartCandlestick,
+    ChartNoAxesCombined,
 } from "lucide-react";
 import { SquareUser } from "lucide-react";
 import { 
@@ -23,14 +24,22 @@ const groups = [
         title: "Vegetables Dashboard",
         pages: [
             {
-                title: 'Spreadsheet',
+                title: 'Dashboard Overview',
+                url: 'admin.dashboard',
+                icon: LayoutDashboard,
+            }, {
+                title: 'Vegetable Spreadsheet',
                 url: 'admin.crops.index',
                 icon: Sprout,
             }, {
                 title: 'Prices Insights',
                 url: 'admin.prices.index',
                 icon: ChartCandlestick,
-            },
+            }, {
+                title: 'Price Trends',
+                url: 'admin.price-trends',
+                icon: ChartNoAxesCombined,
+            }, 
         ]
     }, {
         title: "Farmers Dashboard",

@@ -81,9 +81,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
         return Inertia::render('admin/index');
     })->name('index');
 
+    /* Dashboard Overview */
     Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
 
-    /* Crops Dashboard */
+    /* Vegetable Spreadsheet */
     Route::resource('crops', AdminCropController::class);
     Route::resource('crops.prices', AdminPriceController::class)->only(['create', 'store']);
 

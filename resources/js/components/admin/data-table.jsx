@@ -41,14 +41,14 @@ export default function DataTable({
     })
 
     return (
-        <div className="space-y-4">
-            <div className="flex items-center justify-between gap-2">
+        <div className="space-y-4 flex flex-col h-full">
+            <div className="flex items-center justify-between gap-2 shrink-0">
                 {toolbar}
             </div>
 
-            <div className="rounded-md border">
+            <div className="rounded-md border flex flex-col flex-1 overflow-auto">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="sticky top-0 z-10 bg-background shadow-md">
                         {table.getHeaderGroups().map(headerGroup => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map(header => (

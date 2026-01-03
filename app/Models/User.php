@@ -3,6 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -55,5 +58,17 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    /* Scope Methods */
+    public function scopeActiveUsers(Builder $query, Carbon $start, Carbon $end): void
+    {
+        $query->whereHas('farmer')
+            ->whereIn('id', function ($subQuery) use ($start, $end) {
+                $subQuery->select('user_id')
+                    ->from('sessions')
+                    ->whereBetween('last_activity', [$start->timestamp, $end->timestamp])
+                    ->whereNotNull('user_id');
+            });
     }
 }

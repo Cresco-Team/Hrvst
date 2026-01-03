@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Admin\AdminCropResource;
 use App\Models\Category;
 use App\Models\Crop;
 use App\Models\CropPrice;
@@ -21,7 +22,7 @@ class AdminCropController extends Controller
         ])->get();
 
         return Inertia::render('admin/crops/index', [
-            'crops' => $crops,
+            'crops' => AdminCropResource::collection($crops)->resolve(),
         ]);
     }
 

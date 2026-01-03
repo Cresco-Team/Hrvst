@@ -1,25 +1,16 @@
 
-import { Link } from "@inertiajs/react"
-import { MoreHorizontal, ArrowUpDown, ChartArea, SquarePen, Trash } from "lucide-react"
+import { ArrowUpDown } from "lucide-react"
 import CropActions from "./crop-actions"
 
 import { Button } from "@/components/ui/button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
 
 export const columns = [
     {
-        accessorKey: "image_path",
-        header: "Image",
+        accessorKey: "imagePath",
+        header: () => <div className="text-sm">Image</div>,
         enableSorting: false,
         cell: ({ row }) => {
-            const raw = row.getValue("image_path");
+            const raw = row.getValue("imagePath");
             const src = raw
                 ? (String(raw).startsWith('http') ? raw : `/storage/${raw}`)
                 : null;
@@ -36,6 +27,7 @@ export const columns = [
         header: ({ column }) => (
             <Button
                 variant="ghost"
+                size="sm"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             >
                 Name
@@ -43,7 +35,7 @@ export const columns = [
             </Button>
         )
     }, {
-        accessorKey: "category.name",
+        accessorKey: "categoryName",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -54,7 +46,7 @@ export const columns = [
             </Button>
         )
     }, {
-        accessorKey: "crop_weeks",
+        accessorKey: "cropWeeks",
         header: ({ column }) => (
             <Button
                 variant="ghost"
@@ -65,16 +57,16 @@ export const columns = [
             </Button>
         ),
         cell: ({ row }) => {
-            const number = row.getValue("crop_weeks")
+            const number = row.getValue("cropWeeks")
             return <div>{number} weeks</div>
         }
     }, {
-        id: "price_range",
+        id: "priceRange",
         header: "Price Range",
         enableSorting: false,
-        cell: ({ row }) => `₱${row.original.latest_price.price_min} - ₱${row.original.latest_price.price_max}`
+        cell: ({ row }) => `₱ ${row.original.latestPrice.priceMin} - ${row.original.latestPrice.priceMax}`
     }, {
-        accessorKey: "recorded_at",
+        accessorKey: "latestPrice.recordedAt",
         header: ({ column }) => (
             <Button
                 variant="ghost"
