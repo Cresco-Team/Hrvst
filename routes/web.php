@@ -15,7 +15,7 @@ use Inertia\Inertia;
 // Public API routes
 // --------------------------------------------------------
 Route::get('/', function () {
-    return Inertia::render('Index', [
+    return Inertia::render('index', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pending', function() {
         if (Auth::user()->isApproved) {
             return redirect()->route('farmers.index');
-        } return Inertia::render('Index');
+        } return Inertia::render('index');
     })->name('pending');
 });
 
