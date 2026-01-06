@@ -29,7 +29,7 @@ class RegisteredUserController extends Controller
         $categories = Category::with('crops')->get();
         $crops = Crop::with('category')->get();
 
-        return Inertia::render('auth/Register/Index', [
+        return Inertia::render('auth/register/index', [
             'municipalities' => $municipalities,
             'categories' => $categories,
             'crops' => $crops,
