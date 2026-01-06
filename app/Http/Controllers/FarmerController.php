@@ -37,7 +37,7 @@ class FarmerController extends Controller
         }
 
         // Data passed to Farmers Page as properties
-        return Inertia::render('Farmers/Index', [
+        return Inertia::render('farmers/index', [
             'farmers' => $query->get(),
             'municipalities' => $municipalities,
             'filters' => $request->only(['municipality_id', 'barangay_id']),
