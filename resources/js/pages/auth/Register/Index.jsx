@@ -92,7 +92,7 @@ export default function Register({municipalities=[], categories=[], crops=[]}) {
                             </Button>
                         </>)}
 
-                        {step < 4 ? (<>
+                        {step < 5 ? (<>
                             <Button onClick={nextStep} type="button" className="col-span-3 col-start-2 w-full"
                                 disabled={processing || (step === 1 && !isStep1Valid) || (step === 2 && !isStep2Valid)}
                             >
