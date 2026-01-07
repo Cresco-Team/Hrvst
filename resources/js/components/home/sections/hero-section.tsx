@@ -5,7 +5,7 @@ import { Carrot } from "lucide-react";
 
 const HeroSection = () => {
     return (
-        <section className="h-100 bg-hero-pattern bg-center overflow-hidden">
+        <section className="h-120 bg-hero-pattern bg-center overflow-hidden border-b">
             <div className='h-full bg-background/70 flex items-center justify-center'>
                 <div className="max-w-4xl mx-auto text-left">
                     <h1 className="text-4xl md:text-center md:text-6xl font-bold text-gray-900 mb-6">
