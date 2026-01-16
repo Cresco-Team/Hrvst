@@ -19,27 +19,23 @@ import {
 } from "@/components/ui/sidebar";
 const groups = [
     {
-        title: "Main Pages",
+        title: "Main",
         pages: [
             {
                 title: 'Dashboard Overview',
                 url: 'admin.dashboard',
                 icon: LayoutDashboard,
                 isActive: true,
-            }, {
+            }
+        ]
+    }, {
+        title: "Vegetables",
+        pages: [
+            {
                 title: 'Vegies Spreadsheet',
                 url: 'admin.crops.index',
                 icon: Sprout,
             }, {
-                title: 'Farmers Spreadsheet',
-                url: 'admin.farmers.index',
-                icon: SquareUser,
-            }, 
-        ]
-    }, {
-        title: "Charts",
-        pages: [
-            {
                 title: 'Prices Insights',
                 url: 'admin.prices.index',
                 icon: ChartCandlestick,
@@ -50,9 +46,13 @@ const groups = [
             }, 
         ]
     }, {
-        title: "Farmers Dashboard",
+        title: "Farmers",
         pages: [
             {
+                title: 'Farmers Spreadsheet',
+                url: 'admin.farmers.index',
+                icon: SquareUser,
+            }, {
                 title: 'Geolocation',
                 url: 'admin.gis.index',
                 icon: MapPinned,
