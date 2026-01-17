@@ -1,153 +1,124 @@
-import { Link, useForm } from "@inertiajs/react";
-import { useState } from "react";
-import Layout from "@/layouts/RegistrationLayout"
-import Personal from "@/components/Registration/PersonalInfoFields";
-import Location from "@/components/Registration/LocationFields";
-import FarmImage from "@/components/Registration/FarmImageFields";
-import CropSelection from "@/components/Registration/CropSelectionFields";
-import { FieldGroup, FieldSet } from "@/components/ui/field";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { ArrowRight, ArrowLeft, House, CircleCheck } from "lucide-react";
+import RegistrationLayout from "@/layouts/registration-layout"
+import { Link, useForm } from "@inertiajs/react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+    Field,
+  FieldGroup,
+  FieldSet,
+} from "@/components/ui/field"
+import {
+    Alert,
+    AlertDescription,
+    AlertTitle,
+  } from "@/components/ui/alert"
+import PersonalInfoGroup from "@/components/auth/register/personal-info-group"
+import AddressInfoGroup from "@/components/auth/register/address-info-group"
+import { Button } from "@/components/ui/button"
+import UserImageField from "@/components/auth/register/user-image-field"
 
-export default function Register({municipalities=[], categories=[], crops=[]}) {
-    const {data, setData, post, processing, errors, reset} = useForm({
+const Register = ({ municipalities, barangays }) => {
+    const {
+        data,
+        setData,
+        post,
+        processing,
+        errors,
+        reset,
+    } = useForm({
         name: '',
         email: '',
         password: '',
-        password_confirmation: '',
-        phone_number: '',
-        municipality_id: '',
-        barangay_id: '',
+        passwordConfirmation: '',
+        phoneNumber: '+63',
+        municipalityId: '',
+        barangayId: '',
         latitude: '',
         longitude: '',
-        image_path: '',
-        crops: [],
-    });
-
-    const [step, setStep] = useState(1);
-
-    const steps = [
-        { id: 1, label: "Personal" },
-        { id: 2, label: "Location" },
-        { id: 3, label: "Farm Image" },
-        { id: 4, label: "Crops" },
-    ];
-
-    const prevStep = () => {
-        setStep(step - 1);
-    }
-    const nextStep = () => {
-        setStep(step + 1);
-    }
+        imagePath: '',
+    })
 
     const submit = (e) => {
-        e.preventDefault();
-        post(route('register'));
+        e.preventDefault()
+        post(route('register'))
     }
-
-    const isStep1Valid =
-        data.name &&
-        data.email &&
-        data.password &&
-        data.password_confirmation &&
-        data.phone_number
-
-    const isStep2Valid =
-        data.municipality_id &&
-        data.barangay_id &&
-        data.latitude &&
-        data.longitude
 
     return (
-        <Layout>
-            <form onSubmit={submit} className="p-6 md:p-8">
-                <FieldSet>
-                    <StepsBar step={step} />
+        <RegistrationLayout>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Create your account</CardTitle>
+                    <CardDescription>
+                        Enter all the required fields to create your account
+                    </CardDescription>
+                </CardHeader>
 
-                    {step === 1 && (
-                        <Personal data={data} setData={setData} errors={errors}/>
-                    )}
-                    {step === 2 && (
-                        <Location data={data} setData={setData} errors={errors} municipalities={municipalities}/>
-                    )}
-                    {step === 3 && (
-                        <FarmImage data={data} setData={setData} errors={errors}/>
-                    )}
-                    {step === 4 && (
-                        <CropSelection data={data} setData={setData} errors={errors} categories={categories} crops={crops}/>
+                <CardContent>
+                {Object.keys(errors).length > 0 && (
+                        <Alert variant="destructive" className="mb-6">
+                            <AlertTitle>Unable to Register your account.</AlertTitle>
+                            <AlertDescription>
+                                <p>Please verify your information and try again.</p>
+                                <ul className="list-disc list-inside mt-2">
+                                    {Object.entries(errors).map(([key, message]) => (
+                                        <li key={key}>{message}</li>
+                                    ))}
+                                </ul>
+                            </AlertDescription>
+                        </Alert>
                     )}
 
-                    {/* Buttons */}
-                    <FieldGroup className="flex-0 grid grid-cols-3 gap-4">
-                        {step < 2 ? (<>
-                            <Link href='/'>
-                                <Button onClick={'/'} disabled={processing} type="button" variant="outline" className="col-span-1 w-full">
-                                    <House/><span className="hidden md:inline">Home</span>
-                                </Button>
-                            </Link>
-                        </>) : (<>
-                            <Button onClick={prevStep} disabled={processing} type="button" variant="outline" className="col-span-1 w-full">
-                                <ArrowLeft/><span className="hidden md:inline">Back</span>
-                            </Button>
-                        </>)}
+                    <form  onSubmit={submit}>
+                        <FieldSet>
+                            <PersonalInfoGroup
+                                data={data}
+                                setData={setData}
+                            />
+                            
+                            <AddressInfoGroup
+                                data={data}
+                                setData={setData}
+                                municipalities={municipalities}
+                                barangays={barangays}
+                            />
 
-                        {step < 5 ? (<>
-                            <Button onClick={nextStep} type="button" className="col-span-3 col-start-2 w-full"
-                                disabled={processing || (step === 1 && !isStep1Valid) || (step === 2 && !isStep2Valid)}
-                            >
-                                {processing ? <Spinner/> : (<>{'Next'}<ArrowRight/></>)}
-                            </Button>
-                        </>) : (<>
-                            <Button type="submit" disabled={processing} className="col-span-3 col-start-2 w-full">
-                                {processing ? <Spinner/> : (<>{'Create'}<CircleCheck/></>)}
-                            </Button>
-                        </>)}
-                    </FieldGroup>
-                </FieldSet>
-            </form>
-        </Layout>
-    )
+                            <FieldGroup>
+                                <UserImageField
+                                    data={data}
+                                    setData={setData}
+                                />
+                            </FieldGroup>
 
-    function StepsBar({ step }) {
-        return (
-            <div>
-                <ol className="flex items-center justify-between">
-                    {steps.map((s, index) => {
-                        const isCompleted = step > s.id;
-                        const isCurrent = step === s.id;
-    
-                        return (
-                            <li key={s.id} className="flex-1 flex items-center">
-                                <div className="flex flex-col items-center w-full">
-                                    <div
-                                        className={`
-                                            flex items-center justify-center w-9 h-9 rounded-full border text-sm font-semibold
-                                            ${isCompleted && "bg-primary text-white border-primary"}
-                                            ${isCurrent && "border-primary text-primary"}
-                                            ${!isCompleted && !isCurrent && "border-muted text-muted-foreground"}
-                                        `}
+                            <Field className="grid grid-cols-3">
+                                <Button
+                                    asChild
+                                    type="button"
+                                    variant="secondary"
+                                    className="col-span-1"
+                                >
+                                    <Link
+                                        href={route('home')}
                                     >
-                                        {isCompleted ? <CircleCheck className="w-5 h-5" /> : s.id}
-                                    </div>
-                                    <span className="mt-2 text-xs font-medium text-center">
-                                        {s.label}
-                                    </span>
-                                </div>
-    
-                                {index !== steps.length - 1 && (
-                                    <div
-                                        className={`
-                                            flex-1 h-[2px] mx-2
-                                            ${step > s.id ? "bg-primary" : "bg-muted"}
-                                        `}
-                                    />
-                                )}
-                            </li>
-                        );
-                    })}
-                </ol>
-            </div>
-        );
-    }
+                                        Cancel
+                                    </Link>
+                                </Button>
+                                <Button
+                                    disabled={processing}
+                                    className="col-span-2 cursor-pointer"
+                                >
+                                    Register
+                                </Button>
+                            </Field>
+                        </FieldSet>
+                    </form>
+                </CardContent>
+            </Card>
+        </RegistrationLayout>
+    )
 }
+export default Register

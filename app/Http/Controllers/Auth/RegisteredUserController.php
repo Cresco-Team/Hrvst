@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Crop;
-use App\Models\Farmer;
+use App\Models\Barangay;
 use App\Models\Municipality;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -20,45 +19,35 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        $municipalities = Municipality::all();
-        $categories = Category::with('crops')->get();
-        $crops = Crop::with('category')->get();
+        $municipalities = Municipality::select('id', 'name', 'latitude', 'longitude')->get();
+        $barangays = $request->municipalityId
+            ? Barangay::where('municipality_id', $request->municipalityId)
+            ->select('id', 'name')
+            ->get()
+            : [];
 
         return Inertia::render('auth/register/index', [
             'municipalities' => $municipalities,
-            'categories' => $categories,
-            'crops' => $crops,
+            'barangays' => $barangays,
         ]);
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
+        dd($request);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone_number' => 'required|string|max:20',
-            'municipality_id' => 'required|exists:municipalities,id',
-            'barangay_id' => 'required|exists:barangays,id',
+            'phoneNumber' => 'required|string|max:20',
+            'municipalityId' => 'required|exists:municipalities,id',
+            'barangayId' => 'required|exists:barangays,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'crops' => 'nullable|array|min:1|max:3',
-            'crops.*' => 'exists:crops,id',
+            'imagePath' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        $latitude = $request->latitude;
-        $longitude = $request->longitude;
 
         DB::beginTransaction();
 
@@ -67,21 +56,17 @@ class RegisteredUserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'phone_number' => $request->phone_number,
-                'isAdmin' => false,
-                'isApproved' => false,
+                'phone_number' => $request->phoneNumber,
+                'municipality_id' => $request->municipalityId,
+                'barangay_id' => $request->barangayId,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'image_path' => $request->imagePath,
             ]);
 
-            $farmer = Farmer::create([
-                'user_id' => $user->id,
-                'municipality_id' => $request->municipality_id,
-                'barangay_id' => $request->barangay_id,
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'image_path' => $request->file('image_path') ? $request->file('image_path')->store('farmer_images', 'public') : null,
-            ]);
+            $userRole = Role::where('name', 'user')->first();
 
-            $farmer->crops()->attach($request->crops);
+            $user->roles()->attach($userRole);
 
             DB::commit();
 

@@ -26,14 +26,13 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
-        'isApproved',
+        'municipality_id',
+        'barangay_id',
+        'latitude',
+        'longitude',
+        'image_path'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'two_factor_secret',
@@ -41,16 +40,21 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function farmer()
     {
         return $this->hasOne(Farmer::class);
     }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
+
     protected function casts(): array
     {
         return [

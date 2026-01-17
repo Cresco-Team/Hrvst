@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            RoleSeeder::class,
             MunicipalitySeeder::class,
             BarangaySeeder::class,
             CategorySeeder::class,  
@@ -40,7 +41,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'password' => Hash::make('password'),
             'isAdmin' => false,
-            'isApproved' => false,
             'phone_number' => '0909090909'
         ]);
     }

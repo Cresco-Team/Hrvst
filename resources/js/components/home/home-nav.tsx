@@ -28,6 +28,7 @@ const HomeNav = ({ auth }) => {
                 <nav>
                     <Link
                         href={route('logout')}
+                        method="post"
                     >
                         <Button size='lg' className='cursor-pointer'>
                             Logout

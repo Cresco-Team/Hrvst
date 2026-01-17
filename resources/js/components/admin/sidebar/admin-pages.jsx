@@ -16,9 +16,9 @@ export function AdminPages({
     groups,
 }) {
   return (
-    <SidebarContent>
+    <SidebarContent className="gap-0">
       {groups?.map((group) => (
-        <SidebarGroup key={group.title}>
+        <SidebarGroup key={group.title} className="py-1">
           <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>

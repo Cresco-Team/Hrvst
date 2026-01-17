@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Farmer extends Model
 {
@@ -12,11 +13,8 @@ class Farmer extends Model
 
     protected $fillable = [
         'user_id',
-        'municipality_id',
-        'barangay_id',
-        'longitude',
-        'latitude',
-        'image_path',
+        'name',
+        'farm_image_path'
     ];
 
     public function user()
@@ -24,12 +22,12 @@ class Farmer extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function municipality()
+    public function municipality(): BelongsTo
     {
         return $this->belongsTo(Municipality::class);
     }
 
-    public function barangay()
+    public function barangay(): BelongsTo
     {
         return $this->belongsTo(Barangay::class);
     }
