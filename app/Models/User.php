@@ -50,16 +50,6 @@ class User extends Authenticatable
         return $this->hasOne(Farmer::class);
     }
 
-    public function municipality()
-    {
-        return $this->belongsTo(Municipality::class);
-    }
-
-    public function barangay()
-    {
-        return $this->belongsTo(Barangay::class);
-    }
-
     public function hasRole(string $role): bool
     {
         return $this->roles()->where('name', $role)->exists();
@@ -72,5 +62,17 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    /* Scope Methods */
+    public function scopeActiveUsers(Builder $query, Carbon $start, Carbon $end): void
+    {
+        $query->whereHas('farmer')
+            ->whereIn('id', function ($subQuery) use ($start, $end) {
+                $subQuery->select('user_id')
+                    ->from('sessions')
+                    ->whereBetween('last_activity', [$start->timestamp, $end->timestamp])
+                    ->whereNotNull('user_id');
+            });
     }
 }
