@@ -15,6 +15,23 @@ import {
 
 export const columns = [
     {
+        accessorKey: "farm_image_path",
+        header: "Image",
+        enableSorting: false,
+        cell: ({ row }) => {
+            const raw = row.getValue("farm_image_path");
+            const src = raw
+                ? (String(raw).startsWith('http') ? raw : `/storage/${raw}`)
+                : null;
+            return (
+                <img
+                    src={src || ''}
+                    alt="Farm"
+                    className="h-6 w-10 rounded-md object-cover"
+                />
+            );
+        }
+    }, {
         accessorKey: "user.name",
         header: ({ column }) => (
             <Button
@@ -63,29 +80,12 @@ export const columns = [
         header: ({ column }) => (
             <Button
                 variant="ghost"
-                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                onClick={() => column.toggleSorting(column.getIsSorted() === "desc")}
             >
                 Barangay
                 <ArrowUpDown />
             </Button>
         )
-    }, {
-        accessorKey: "image_path",
-        header: "Image",
-        enableSorting: false,
-        cell: ({ row }) => {
-            const raw = row.getValue("image_path");
-            const src = raw
-                ? (String(raw).startsWith('http') ? raw : `/storage/${raw}`)
-                : null;
-            return (
-                <img
-                    src={src || ''}
-                    alt=""
-                    className="h-6 w-10 rounded-md object-cover"
-                />
-            );
-        }
     }, {
         id: "actions",
         cell: ({ row }) => (
