@@ -19,6 +19,7 @@ class FarmerFactory extends Factory
      */
     public function definition(): array
     {
+        $id = fake()->numberBetween(51, 100);
         $municipality = Municipality::inRandomOrder()->first();
         $barangay = Barangay::where('municipality_id', $municipality->id)
                             ->inRandomOrder()
@@ -31,7 +32,7 @@ class FarmerFactory extends Factory
             'barangay_id'     => $barangay->id,
             'latitude'  => $this->faker->randomFloat(6, 16.18, 16.72),
             'longitude' => $this->faker->randomFloat(6, 120.41, 120.93),
-            'farm_image_path' => fake()->imageUrl(200, 200, 'farm', true),
+            'farm_image_path' => "https://picsum.photos/id/{$id}/640/480?grayscale",
         ];
     }
 }
