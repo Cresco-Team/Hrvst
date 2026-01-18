@@ -16,7 +16,6 @@ export default function CategoryFilter({
     categories,
     filters,
 }) {
-    const categoryId = filters?.category_id ?? null
     const search = filters?.search ?? ""
 
     const applyFilters = (newFilters) => {
