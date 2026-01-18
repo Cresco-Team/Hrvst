@@ -21,6 +21,7 @@ export default function DataTable({
     columns,
     data,
     toolbar,
+    className,
     globalFilter,
     onGlobalFilterChange,
 }) {
@@ -46,8 +47,8 @@ export default function DataTable({
                 {toolbar}
             </div>
 
-            <div className="rounded-md border flex flex-col flex-1 overflow-auto">
-                <Table>
+            <div className="rounded-md border flex flex-col flex-1">
+                <Table className={className}>
                     <TableHeader className="sticky top-0 z-10 bg-background shadow-md">
                         {table.getHeaderGroups().map(headerGroup => (
                             <TableRow key={headerGroup.id}>
