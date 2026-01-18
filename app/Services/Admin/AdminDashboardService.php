@@ -59,10 +59,10 @@ class AdminDashboardService
             'prevAvgPrice' => round($previousAvg, 2),
             'newAvgPrice' => round($latestAvg, 2),
             'percentChange' => round($percentChange, 2),
-        ];
-    })
-    ->filter()
-    ->values();
+            ];
+        })
+        ->filter()
+        ->values();
 
     return [
         'topGainers' => $priceChanges
@@ -74,8 +74,8 @@ class AdminDashboardService
             ->sortBy('percentChange')
             ->take(3)
             ->values(),
-    ];
-}
+        ];
+    }
 
     public function getCropUpdateFrequency()
     {
@@ -88,7 +88,7 @@ class AdminDashboardService
                 return [
                     'name' => $crop->name,
                     'pricesCount' => $crop->prices_count,
-                    'lastRecorded' => $crop->latestPrice?->recorded_at?->format('Y-m-d'),
+                    'lastRecorded' => $crop->latestPrice?->recorded_at?->diffForHumans(),
                 ];
             })
             ->filter();
@@ -110,7 +110,7 @@ class AdminDashboardService
 
         $volatilities = [];
 
-        foreach ($recentPrices as $cropId => $prices) {
+        foreach ($recentPrices as $prices) {
             if ($prices->count() < 2) continue;
 
             $averages = $prices->map(function ($price) {
@@ -148,7 +148,7 @@ class AdminDashboardService
     public function getTopMunicipality()
     {
         $municipality = Municipality::withCount('farmers')
-            ->orderBy('farmersCount', 'desc')
+            ->orderBy('farmers_count', 'desc')
             ->first();
 
         return $municipality ? [

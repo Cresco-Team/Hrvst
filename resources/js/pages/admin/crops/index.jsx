@@ -17,7 +17,7 @@ export default function Crops({ crops }) {
         <AdminLayout
             title="Crops Dashboard"
         >
-            <div className="h-95 overflow-hidden">
+            <div className="h-95 overflow-y-auto">
                 <DataTable
                     columns={columns}
                     data={crops}

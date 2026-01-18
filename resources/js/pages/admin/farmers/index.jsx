@@ -5,9 +5,9 @@ import AdminLayout from "@/layouts/admin-layout";
 import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 import { Search } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 
 export default function Farmers({ 
@@ -20,52 +20,57 @@ export default function Farmers({
         <AdminLayout
             title='Farmers Spreadsheet'
         >
-            <div className="container mx-auto p-0">
-                <DataTable
-                    columns={columnsApproved}
-                    data={approvedFarmers}
-                    globalFilter={globalFilter}
-                    onGlobalFilterChange={setGlobalFilter}
-                    toolbar={
-                        <>
-                            <div className="container">
-                                <Label htmlFor="search" className="text-xs">
-                                    Global Search <Search size={15} />
-                                </Label>
-                                <Input
-                                    placeholder="Search for farmers..."
-                                    value={globalFilter}
-                                    id="search"
-                                    onChange={(e) => setGlobalFilter(e.target.value)}
-                                    className="max-w-sm"
-                                />
-                            </div>
-                        </>
-                    }
-                />
+            <div className="h-95 p-0 space-y-5 overflow-y-auto">
+                <Card>
+                    <CardContent>
+                        <DataTable
+                        columns={columnsApproved}
+                        data={approvedFarmers}
+                        globalFilter={globalFilter}
+                        onGlobalFilterChange={setGlobalFilter}
+                        className={'text-xs min-h-50'}
+                        toolbar={
+                            <div className="w-full flex justify-between items-center">
+                                <h3>Approved Farmers</h3>
 
-                <DataTable
-                    columns={columnsPending}
-                    data={pendingFarmers}
-                    globalFilter={globalFilter}
-                    onGlobalFilterChange={setGlobalFilter}
-                    toolbar={
-                        <>
-                            <div>
-                                <Label htmlFor="search" className="text-xs">
-                                    Global Search <Search size={15} />
-                                </Label>
                                 <Input
-                                    placeholder="Search for farmers..."
+                                    placeholder="Search approved farmers..."
                                     value={globalFilter}
                                     id="search"
                                     onChange={(e) => setGlobalFilter(e.target.value)}
-                                    className="max-w-sm"
+                                    className="max-w-3xs"
                                 />
                             </div>
-                        </>
-                    }
-                />
+                        }
+                    />
+                    </CardContent>
+                </Card>
+                
+                <Card>
+                    <CardContent>
+                        <DataTable
+                            columns={columnsPending}
+                            data={pendingFarmers}
+                            globalFilter={globalFilter}
+                            onGlobalFilterChange={setGlobalFilter}
+                            className={'text-xs'}
+                            toolbar={
+                                <div className="w-full flex justify-between items-center">
+                                    <h3>Pending Farmers</h3>
+
+                                    <Input
+                                        placeholder="Search pending farmers..."
+                                        value={globalFilter}
+                                        id="search"
+                                        onChange={(e) => setGlobalFilter(e.target.value)}
+                                        className="max-w-3xs"
+                                    />
+                                </div>
+                            }
+                        />
+                    </CardContent>
+                    
+                </Card>
             </div>
         </AdminLayout>
     )

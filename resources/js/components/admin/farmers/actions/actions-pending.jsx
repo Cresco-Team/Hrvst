@@ -44,7 +44,8 @@ export default function FarmerActions({ farmer }) {
 
                 <DropdownMenuItem asChild>
                     <Link
-                        /* href={route('admin.farmers.show', farmer.user)} */
+                        href={route('admin.farmers.approve', farmer.user)}
+                        method="post"
                     >
                         <ChartArea />
                         Approve Account

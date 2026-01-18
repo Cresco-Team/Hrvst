@@ -13,7 +13,7 @@ export default function Dashboard({
 }) {
 
     return (
-        <AdminLayout>
+        <AdminLayout title={"Dashboard"}>
             <div className="h-95 overflow-y-auto">
                 <div className="grid grid-cols-8 grid-rows-6 gap-2">
                     <Stats stats={stats} />
