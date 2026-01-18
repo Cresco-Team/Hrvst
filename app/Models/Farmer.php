@@ -13,7 +13,10 @@ class Farmer extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
+        'municipality_id',
+        'barangay_id',
+        'latitude',
+        'longitude',
         'farm_image_path'
     ];
 
