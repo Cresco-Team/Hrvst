@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barangay;
+use App\Models\Farmer;
 use App\Models\Municipality;
 use App\Models\Role;
 use App\Models\User;
@@ -22,8 +23,8 @@ class RegisteredUserController extends Controller
     public function create(Request $request): Response
     {
         $municipalities = Municipality::select('id', 'name', 'latitude', 'longitude')->get();
-        $barangays = $request->municipalityId
-            ? Barangay::where('municipality_id', $request->municipalityId)
+        $barangays = $request->municipality_id
+            ? Barangay::where('municipality_id', $request->municipality_id)
             ->select('id', 'name')
             ->get()
             : [];
@@ -36,17 +37,16 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        dd($request);
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phoneNumber' => 'required|string|max:20',
-            'municipalityId' => 'required|exists:municipalities,id',
-            'barangayId' => 'required|exists:barangays,id',
+            'phone_number' => 'required|string|max:20',
+            'municipality_id' => 'required|exists:municipalities,id',
+            'barangay_id' => 'required|exists:barangays,id',
             'latitude' => 'required|numeric|between:-90,90',
             'longitude' => 'required|numeric|between:-180,180',
-            'imagePath' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'farm_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         DB::beginTransaction();
@@ -56,15 +56,19 @@ class RegisteredUserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'phone_number' => $request->phoneNumber,
-                'municipality_id' => $request->municipalityId,
-                'barangay_id' => $request->barangayId,
+                'phone_number' => $request->phone_number,
+            ]);
+            
+            Farmer::create([
+                'user_id' => $user->id,
+                'municipality_id' => $request->municipality_id,
+                'barangay_id' => $request->barangay_id,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
-                'image_path' => $request->imagePath,
+                'farm_image_path' => $request->image_path,
             ]);
 
-            $userRole = Role::where('name', 'user')->first();
+            $userRole = Role::where('name', 'farmer')->first();
 
             $user->roles()->attach($userRole);
 

@@ -12,7 +12,7 @@ const UserImageField = ({ data, setData }) => {
         const file = e.target.files?.[0]
         if (!file) return
 
-        setData('imagePath', file)
+        setData('farm_image_path', file)
 
         const reader = new FileReader()
         reader.onloadend = () => setImagePreview(reader.result)
