@@ -22,26 +22,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,  
             CropSeeder::class,
             CropPricesSeeder::class,
-        ]);
-
-        Farmer::factory(20)->create(); 
-
-        User::FirstOrCreate([
-            'email' => 'admin@email.com'
-        ], [
-            'name' => 'Admin User',
-            'password' => Hash::make('password'),
-            'isAdmin' => true,
-            'isApproved' => true,
-            'phone_number' => '091234567'
-        ]);
-        User::FirstOrCreate([
-            'email' => 'test@email.com'
-        ], [
-            'name' => 'Test User',
-            'password' => Hash::make('password'),
-            'isAdmin' => false,
-            'phone_number' => '0909090909'
+            AdminSeeder::class,
+            FarmerSeeder::class,
         ]);
     }
 }
