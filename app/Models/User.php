@@ -26,11 +26,8 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
-        'municipality_id',
-        'barangay_id',
-        'latitude',
-        'longitude',
-        'image_path'
+        'isAdmin',
+        'isApproved',
     ];
 
     protected $hidden = [
