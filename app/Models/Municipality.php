@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Municipality extends Model
 {
+    public $timestamps = false;
+
     public $fillable = [
         'name',
         'latitude',

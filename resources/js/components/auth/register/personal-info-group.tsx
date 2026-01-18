@@ -68,9 +68,9 @@ const PersonalInfoGroup = ({data, setData}) => {
                             <Input 
                                 id="confirm-password" 
                                 type={showConfirmPassword ? "text" : "password"} 
-                                value={data.passwordConfirmation}
+                                value={data.password_confirmation}
                                 onChange={(e) =>
-                                    setData('passwordConfirmation', e.target.value)
+                                    setData('password_confirmation', e.target.value)
                                 }
                             />
                             <Button
@@ -97,7 +97,7 @@ const PersonalInfoGroup = ({data, setData}) => {
                 type="text" 
                 value={data.phoneNumber}
                     onChange={(e) =>
-                        setData('phoneNumber', e.target.value)
+                        setData('phone_number', e.target.value)
                     }
             />
             </Field>

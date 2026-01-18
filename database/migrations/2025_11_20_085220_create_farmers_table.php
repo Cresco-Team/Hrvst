@@ -11,7 +11,11 @@ return new class extends Migration
         Schema::create('farmers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
-            $table->string('name');
+            $table->foreignId('municipality_id')->constrained();
+            $table->foreignId('barangay_id')->constrained();
+
+            $table->double('latitude');
+            $table->double('longitude');
             $table->string('farm_image_path')->nullable();
             $table->timestamps();
         });

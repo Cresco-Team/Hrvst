@@ -34,13 +34,13 @@ const Register = ({ municipalities, barangays }) => {
         name: '',
         email: '',
         password: '',
-        passwordConfirmation: '',
-        phoneNumber: '+63',
-        municipalityId: '',
-        barangayId: '',
+        password_confirmation: '',
+        phone_number: '+63',
+        municipality_id: '',
+        barangay_id: '',
         latitude: '',
         longitude: '',
-        imagePath: '',
+        farm_image_path: '',
     })
 
     const submit = (e) => {

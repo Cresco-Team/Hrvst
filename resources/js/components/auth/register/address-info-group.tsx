@@ -10,13 +10,13 @@ const AddressInfoGroup = ({data, setData, municipalities, barangays}) => {
     const [mapOpen, setMapOpen] = useState(false)
     const [markerPosition, setMarkerPosition] = useState(null)
     
-    const selectedMunicipality = municipalities.find(m => String(m.id) === String(data.municipalityId))
+    const selectedMunicipality = municipalities.find(m => String(m.id) === String(data.municipality_id))
     const mapCenter = selectedMunicipality 
         ? [parseFloat(selectedMunicipality.latitude), parseFloat(selectedMunicipality.longitude)]
         : [16.4586, 120.5812]
     const mapZoom = 13
 
-    const handleMapClick = (lat, lng) => {
+    const handleMapClick = (lat: number, lng: number) => {
         setMarkerPosition([lat, lng])
     }
 
@@ -33,13 +33,13 @@ const AddressInfoGroup = ({data, setData, municipalities, barangays}) => {
                 <FieldLabel htmlFor="municipality">Municipality</FieldLabel>
                 <Select
                     name="municipality"
-                    value={data.municipalityId}
+                    value={data.municipality_id}
                     onValueChange={value => {
-                        setData('municipalityId', value)
-                        setData('barangayId', '')
+                        setData('municipality_id', value)
+                        setData('barangay_id', '')
                         router.get(
                             route('register'),
-                            { municipalityId: value },
+                            { municipality_id: value },
                             {
                                 preserveState: true,
                                 preserveScroll: true,
@@ -71,10 +71,10 @@ const AddressInfoGroup = ({data, setData, municipalities, barangays}) => {
                 <FieldLabel htmlFor="barangay">Barangay</FieldLabel>
                 <Select
                     name="barangay"
-                    disabled={!data.municipalityId}
-                    value={data.barangayId}
+                    disabled={!data.municipality_id}
+                    value={data.barangay_id}
                     onValueChange={(value) =>
-                        setData('barangayId', value)
+                        setData('barangay_id', value)
                     }
                 >
                     <SelectTrigger>
@@ -99,7 +99,7 @@ const AddressInfoGroup = ({data, setData, municipalities, barangays}) => {
                 <FieldLabel htmlFor="button">Geolocation</FieldLabel>
                 <Button
                     type="button"
-                    disabled={!data.barangayId}
+                    disabled={!data.barangay_id}
                     onClick={() => {
                         setMapOpen(true)
                         if (data.latitude && data.longitude) {

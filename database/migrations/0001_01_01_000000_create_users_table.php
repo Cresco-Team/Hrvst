@@ -15,11 +15,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone_number')->unique();
-            $table->foreignId('municipality_id')->constrained('municipalities');
-            $table->foreignId('barangay_id')->constrained('barangays');
-            $table->decimal('latitude', 16, 17);
-            $table->decimal('longitude', 120, 15);
-            $table->string('image_path')->nullable();
+            $table->boolean('isAdmin')->default(false);
+            $table->boolean('isApproved')->default(false);
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
