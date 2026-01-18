@@ -38,11 +38,11 @@ export default function Crops({ crops }) {
                                 />
                             </div>
                             
-                            <Link href={route('admin.crops.create')}>
-                                <Button>
-                                    <Plus />Add Crop
-                                </Button>
-                            </Link>
+                            <Button asChild>
+                                <Link href={route('admin.crops.create')} method="get">
+                                    <Plus /> Add Vegetable
+                                </Link>
+                            </Button>
                         </>
                     }
                 />

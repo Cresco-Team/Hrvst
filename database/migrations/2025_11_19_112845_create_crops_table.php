@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained();
             $table->string('name');
-            $table->string('image_path')->nullable();
+            $table->string('image_path');
             $table->integer('crop_weeks');
+            
             $table->timestamps();
             $table->unique(['category_id', 'name']);
         });

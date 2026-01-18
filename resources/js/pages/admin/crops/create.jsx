@@ -38,15 +38,17 @@ export default function Create({ categories }) {
         price_max: '',
     })
 
+    const submit = (e) => {
+        e.preventDefault()
+        post(route('admin.crops.store'))
+    }
+
     return (
         <AdminLayout
             title="Add Vegetable"
         >
             <form
-                onSubmit={(e) => {
-                    e.preventDefault()
-                    post(route('admin.crops.store'), { forceFormData: true })
-                }}
+                onSubmit={submit}
             >
                 <FieldSet>
                     <FieldLegend>Add Vegetable</FieldLegend>
@@ -131,13 +133,17 @@ export default function Create({ categories }) {
                         </Card>
                     </div>
                     <div className="flex justify-end gap-5">
-                        <Link
-                            href={route('admin.crops.index')}
-                        >
-                            <Button type="button" variant="destructive">Cancel</Button>
-                        </Link>
+                        <Button asChild variant="destructive">
+                            <Link
+                                href={route('admin.crops.store')}
+                            >
+                                Cancel
+                            </Link>
+                        </Button>
                         
-                        <Button type="submit"><Plus />Save Crop</Button>
+                        <Button className="cursor-pointer">
+                                <Plus />Save Crop
+                        </Button>
                     </div>
                 </FieldSet>
             </form>

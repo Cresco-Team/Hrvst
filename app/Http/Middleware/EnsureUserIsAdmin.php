@@ -10,22 +10,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureUserIsAdmin
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         Log::info('Admin middleware check', [
             'has_user' => $request->user() !== null,
             'session_id' => session()->getId(),
-            'auth_check' => Auth::check()
+            'auth_check' => Auth::check(),
         ]);
 
         $user = $request->user();
 
-        if (!$user || !$user->isAdmin) {
+        if (!$user || !$user->hasRole('admin') ) {
             abort(403, 'Access denied. Admins only area.');
         }
 
