@@ -1,6 +1,6 @@
 
 import { Head } from "@inertiajs/react";
-import NavBar from "@/components/Navigation/nav-bar";
+import NavBar from "@/components/navigation/nav-bar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
