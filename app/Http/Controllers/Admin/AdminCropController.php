@@ -43,12 +43,11 @@ class AdminCropController extends Controller
             /* Crop Data */
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'crop_weeks' => 'required|numeric|min:1|max:356',
             /* Price Data */
             'price_min' => 'required|numeric|min:0|max:999.99|lte:price_max',
             'price_max' => 'required|numeric|min:0|max:999.99|gte:price_min',
-            
         ]);
 
         try {
