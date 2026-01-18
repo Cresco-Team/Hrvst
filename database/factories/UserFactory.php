@@ -28,7 +28,6 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password'     => bcrypt('password'),
             'phone_number' => $this->faker->phoneNumber(),
-            'isApproved'   => false,
             'remember_token' => Str::random(10),
             'two_factor_secret' => Str::random(10),
             'two_factor_recovery_codes' => Str::random(10),
