@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dealer extends Model
 {
-    /** @use HasFactory<\Database\Factories\DealerFactory> */
     use HasFactory;
 }
