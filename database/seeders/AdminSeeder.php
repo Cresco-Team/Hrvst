@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $adminRole = Role::firstOrCreate([
@@ -20,12 +17,12 @@ class AdminSeeder extends Seeder
         ]);
 
         $user = User::FirstOrCreate([
-            'email' => 'admin@email.com'
+            'email' => 'admin@hrvst.com',
+            'phone_number' => '09303997215'
         ], [
             'name' => 'Admin User',
             'password' => Hash::make('password'),
             'isApproved' => true,
-            'phone_number' => '09303997215'
         ]);
 
         $user->roles()->syncWithoutDetaching([$adminRole->id]);

@@ -92,7 +92,8 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
 
-            return redirect('/')->with('success', 'User created successfully.');
+            return redirect(route('home'))
+                ->with('success', 'Registered! Please wait for approval.');
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

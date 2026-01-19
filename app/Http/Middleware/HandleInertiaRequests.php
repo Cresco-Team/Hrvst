@@ -24,16 +24,10 @@ class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
-    /**
-     * Define the props that are shared by default.
-     *
-     * @return array<string, mixed>
-     */
     public function share(Request $request): array
     {
         $user = $request->user();
     
-    // Shader Data through all 
     $sharedData = [
         ...parent::share($request),
         'auth' => [
@@ -41,9 +35,8 @@ class HandleInertiaRequests extends Middleware
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
-                'isAdmin' => $user->isAdmin,
                 'isApproved' => $user->isApproved,
-                'farmer' => $user->farmer ? $user->farmer->load(['municipality', 'barangay', 'crops']) : null,
+                'roles' => $user->roles->pluck('name'),
             ] : null,
         ],
     ];

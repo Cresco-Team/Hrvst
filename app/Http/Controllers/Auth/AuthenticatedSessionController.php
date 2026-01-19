@@ -14,9 +14,6 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function create(): Response
     {
         return Inertia::render('auth/Login', [
@@ -25,12 +22,9 @@ class AuthenticatedSessionController extends Controller
         ]);
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store(LoginRequest $request): RedirectResponse
     {
-        Log::info('Login attempt starter');
+        Log::info('Login attempt started');
 
         $request->authenticate();
         Log::info('Authentication passed');
@@ -41,26 +35,24 @@ class AuthenticatedSessionController extends Controller
         Log::info('Session data', ['data' => session()->all()]);
 
         $user = Auth::user();
-        Log::info('User retrieved', ['id' => $user->id, 'isAdmin' => $user->isAdmin]);
+        Log::info('User retrieved', ['id' => $user->id]);
 
-        if (!$user->isAdmin && !$user->isApproved) {
-            
-            return redirect()->route('login');
+        if (!$user->isApproved) {
+            return redirect()->intended(route('home'))
+                ->with('status', 'pending account');
         }
 
         if ($user->hasRole('admin')) {
             Log::info('Redirecting to Admin Dashboard');
-            return redirect()->route('admin.dashboard');
-        };
-        if (!$user->isApproved) {
-            return redirect()->route('pending');
-        };
-        return redirect()->intended(route('crops.index'));
+            return redirect()->intended(route('admin.dashboard'))
+                ->with('status', 'Welcome, admin');
+        }
+
+        Log::info('Redirecting to Home Page');
+        return redirect()->intended(route('home'))
+            ->with('status', 'Logged in');
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
@@ -68,7 +60,9 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+        Log::info('Session destroyed');
 
-        return redirect('/');
+        return redirect()->intended(route('home'))
+            ->with('status', 'Logged out');
     }
 }

@@ -1,7 +1,6 @@
 
 import { Link, usePage } from "@inertiajs/react";
-import { NavAdmin } from "@/components/sidebar/User/nav-admin";
-import { NavUser } from "@/components/sidebar/User/nav-user";
+import NavUser from "@/components/sidebar/nav-user";
 import { Button } from "@/components/ui/button";
 import { 
     Sidebar, 
@@ -32,24 +31,18 @@ export function AppSidebar({ header, content, ...props }) {
             <SidebarFooter>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        {auth.user?.isAdmin ? (
-                            <NavAdmin user={auth.user} />
-                        ) : (
-                            auth.user && (
-                                <NavUser user={auth.user}/>
-                            )
-                        )}
-                        {!auth.user && (
-                            <div className="flex space-x-3  ">
-                            <Link href={route('login')}>
-                                <Button variant="outline">Log in</Button>
-                            </Link>
-                            
-                            <Link href={route('register')}>
-                                <Button>Sign up</Button>
-                            </Link>
-                        </div>
-                        )}
+                        {auth.user
+                            ? <NavUser user={auth.user} />
+                            : <div className="flex space-x-3  ">
+                                <Link href={route('login')}>
+                                    <Button variant="outline">Log in</Button>
+                                </Link>
+                                
+                                <Link href={route('register')}>
+                                    <Button>Sign up</Button>
+                                </Link>
+                            </div>
+                        }
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>

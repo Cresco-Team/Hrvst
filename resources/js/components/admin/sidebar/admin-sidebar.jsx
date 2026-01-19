@@ -80,7 +80,7 @@ export default function AdminSidebar({
             <AdminPages groups={groups} />
 
             <SidebarFooter>
-                <NavUser user={auth?.user} />
+                <NavUser user={auth.user} />
             </SidebarFooter>
         </Sidebar>
     )
