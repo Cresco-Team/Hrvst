@@ -37,17 +37,24 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone_number' => 'required|string|max:20',
-            'municipality_id' => 'required|exists:municipalities,id',
-            'barangay_id' => 'required|exists:barangays,id',
-            'latitude' => 'required|numeric|between:-90,90',
-            'longitude' => 'required|numeric|between:-180,180',
-            'farm_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+            'role' => 'required|in:farmer,dealer',
+        ];
+
+        if ($request->role === 'farmer') {
+            $rules = array_merge($rules, [
+                'municipality_id' => 'required|exists:municipalities,id',
+                'barangay_id' => 'required|exists:barangays,id',
+                'latitude' => 'required|numeric|between:-90,90',
+                'longitude' => 'required|numeric|between:-180,180',
+                'farm_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+        }
+
+        $request->validate($rules);
 
         DB::beginTransaction();
 
@@ -58,19 +65,26 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'phone_number' => $request->phone_number,
             ]);
-            
-            Farmer::create([
-                'user_id' => $user->id,
-                'municipality_id' => $request->municipality_id,
-                'barangay_id' => $request->barangay_id,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'farm_image_path' => $request->image_path,
-            ]);
 
-            $userRole = Role::where('name', 'farmer')->first();
+            if ($request->role === 'farmer') {
+                Farmer::create([
+                    'user_id' => $user->id,
+                    'municipality_id' => $request->municipality_id,
+                    'barangay_id' => $request->barangay_id,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'farm_image_path' => $request->hasFile('farm_image_path') 
+                        ? $request->file('farm_image_path')->store('farmers', 'public')
+                        : null,
+                ]);
+            }
 
-            $user->roles()->attach($userRole);
+            $roleName = $request->role;
+            $role = Role::where('name', $roleName)->first();
+
+            if ($role) {
+                $user->roles()->attach($role);
+            }
 
             DB::commit();
 
