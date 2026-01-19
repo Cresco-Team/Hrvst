@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsAdmin;
-use App\Http\Middleware\EnsureUserIsApprovedFarmer;
+use App\Http\Middleware\EnsureUserIsApproved;
+use App\Http\Middleware\EnsureUserIsDealer;
+use App\Http\Middleware\EnsureUserIsFarmer;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -18,7 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'approved.farmer' => EnsureUserIsApprovedFarmer::class,
+            'approved' => EnsureUserIsApproved::class,
+
+            'dealer' => EnsureUserIsDealer::class,
+            'farmer' => EnsureUserIsFarmer::class,
             'admin' => EnsureUserIsAdmin::class,
         ]);
 
