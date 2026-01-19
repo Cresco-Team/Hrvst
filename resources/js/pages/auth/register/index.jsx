@@ -21,6 +21,9 @@ import PersonalInfoGroup from "@/components/auth/register/personal-info-group"
 import AddressInfoGroup from "@/components/auth/register/address-info-group"
 import { Button } from "@/components/ui/button"
 import UserImageField from "@/components/auth/register/user-image-field"
+import { Label } from "@/components/ui/label"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { CircleSmallIcon } from "lucide-react"
 
 const Register = ({ municipalities, barangays }) => {
     const {
@@ -36,12 +39,15 @@ const Register = ({ municipalities, barangays }) => {
         password: '',
         password_confirmation: '',
         phone_number: '+63',
+        role: '',
         municipality_id: '',
         barangay_id: '',
         latitude: '',
         longitude: '',
         farm_image_path: '',
     })
+
+    const isFarmer = data.role === 'farmer'
 
     const submit = (e) => {
         e.preventDefault()
@@ -79,20 +85,60 @@ const Register = ({ municipalities, barangays }) => {
                                 data={data}
                                 setData={setData}
                             />
-                            
-                            <AddressInfoGroup
-                                data={data}
-                                setData={setData}
-                                municipalities={municipalities}
-                                barangays={barangays}
-                            />
 
                             <FieldGroup>
-                                <UserImageField
-                                    data={data}
-                                    setData={setData}
-                                />
+                                <Field>
+                                    <Label htmlFor="role">I am registering as a:</Label>
+                                    <ToggleGroup
+                                        type="single"
+                                        variant="secondary"
+                                        value={data.role}
+                                            onValueChange={(value) => {
+                                                if (value) setData('role', value)
+                                            }
+                                        }
+                                    >
+                                        <ToggleGroupItem
+                                            value="farmer"
+                                            spacing={2}
+                                            aria-label="Toggle farmer"
+                                            onClick={() => setData('role', 'farmer')}
+                                            variant="outline"
+                                            className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-green-500 data-[state=on]:*:[svg]:stroke-green-500"
+                                        >
+                                            <CircleSmallIcon />
+                                            Farmer
+                                        </ToggleGroupItem>
+                                        <ToggleGroupItem
+                                            value="dealer"
+                                            aria-label="Toggle dealer"
+                                            onClick={() => setData('role', 'dealer')}
+                                            className="data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-green-500 data-[state=on]:*:[svg]:stroke-green-500"
+                                        >
+                                            <CircleSmallIcon />
+                                            Dealer
+                                        </ToggleGroupItem>
+                                    </ToggleGroup>
+                                </Field>
                             </FieldGroup>
+
+                            {isFarmer && (
+                                <>
+                                    <AddressInfoGroup
+                                        data={data}
+                                        setData={setData}
+                                        municipalities={municipalities}
+                                        barangays={barangays}
+                                    />
+
+                                    <FieldGroup>
+                                        <UserImageField
+                                            data={data}
+                                            setData={setData}
+                                        />
+                                    </FieldGroup>
+                                </>
+                            )}
 
                             <Field className="grid grid-cols-3">
                                 <Button
