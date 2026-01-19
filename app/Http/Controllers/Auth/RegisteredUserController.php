@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
                 'barangay_id' => 'required|exists:barangays,id',
                 'latitude' => 'required|numeric|between:-90,90',
                 'longitude' => 'required|numeric|between:-180,180',
-                'farm_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'farm_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
         }
 
@@ -83,7 +83,7 @@ class RegisteredUserController extends Controller
             $role = Role::where('name', $roleName)->first();
 
             if ($role) {
-                $user->roles()->attach($role);
+                $user->roles()->syncWithoutDetaching([$role->id]);
             }
 
             DB::commit();
