@@ -12,7 +12,7 @@ class RoleSeeder extends Seeder
     {
         Role::insert([
             ['name' => 'admin'],
-            ['name' => 'user'],
+            ['name' => 'dealer'],
             ['name' => 'farmer'],
         ]);
     }
