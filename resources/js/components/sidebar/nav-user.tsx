@@ -1,13 +1,12 @@
 
-import { Link } from "@inertiajs/react"
-import { Button } from "@/components/ui/button"
+import { router } from "@inertiajs/react"
 import {
-    BadgeCheck,
-    Bell,
     ChevronsUpDown,
-    CreditCard,
+    CircleUserRoundIcon,
+    LayoutDashboardIcon,
+    LayoutGridIcon,
     LogOut,
-    Sparkles,
+    StoreIcon,
   } from "lucide-react"
 
   import {
@@ -25,14 +24,29 @@ import {
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu'
   import {
-    SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem,
     useSidebar,
   } from '@/components/ui/sidebar'
 
-  export function NavUser({ user }) {
+  const NavUser = ({ user }) => {
     const { isMobile } = useSidebar()
+
+    const roles = [
+        {
+            name: 'admin',
+            label: 'Admin Dashboard',
+            icon: LayoutDashboardIcon,
+            route: route('admin.dashboard'),
+        }, {
+            name: 'dealer',
+            label: 'Dealer Dashboard',
+            icon: LayoutGridIcon,
+        }, {
+            name: 'farmer',
+            label: 'Farmer Profile',
+            icon: CircleUserRoundIcon,
+        }
+    ]
 
     return (
         <DropdownMenu>
@@ -70,25 +84,41 @@ import {
                         </div>
                     </div>
                 </DropdownMenuLabel>
+
                 <DropdownMenuSeparator />
+
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <Sparkles />
-                        View Crops
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                    <Link 
-                        href={route('logout')} 
-                        method="post" 
-                        className="flex items-center"
+                    <DropdownMenuItem
+                        onSelect={() => router.get(route('home'))}
                     >
-                        <LogOut />
-                        Sign Out
-                    </Link>
+                        <StoreIcon />
+                        Home
+                    </DropdownMenuItem>
+
+                    {roles.map((role) => (
+                        user.roles?.includes(role.name) ? (
+                            <DropdownMenuItem
+                                key={role.name}
+                                onSelect={() => router.get(role.route)}
+                            >
+                                <role.icon />
+                                <span>{role.label}</span>
+                            </DropdownMenuItem>
+                        ) : null
+                    ))}
+                </DropdownMenuGroup>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+                    className="cursor-pointer"
+                    onSelect={() => router.post(route('logout'))}
+                >
+                    <LogOut />
+                    Sign Out
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )
   }
+  export default NavUser
