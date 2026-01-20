@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AdminPriceController;
 use App\Http\Controllers\CropController;
 use App\Http\Controllers\DealerProfileController;
 use App\Http\Controllers\FarmerController;
+use App\Http\Controllers\FarmerPlantingController;
 use App\Http\Controllers\FarmerProfileController;
 use App\Http\Controllers\PriceTrends;
 use Illuminate\Foundation\Application;
@@ -60,8 +61,31 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
 // --------------------------------------------------------
 // Dealer Only Page
 // --------------------------------------------------------
-Route::middleware('dealer')->prefix('dealer')->as('dealer.')->group(function () {
+Route::middleware(['auth', 'dealer'])->prefix('dealer')->as('dealer.')->group(function () {
     Route::get('/profile', [DealerProfileController::class, 'show'])->name('show');
+});
+
+// --------------------------------------------------------
+// Farmer Only Page
+// --------------------------------------------------------
+Route::middleware(['auth', 'farmer'])->prefix('farmer')->as('farmer.')->group(function () {
+
+    Route::get('/profile', [FarmerProfileController::class, 'show'])->name('show');
+    
+    Route::get('/plantings', [FarmerPlantingController::class, 'index'])
+        ->name('plantings.index');
+    
+    Route::post('/plantings', [FarmerPlantingController::class, 'store'])
+        ->name('plantings.store');
+    
+    Route::patch('/plantings/{planting}', [FarmerPlantingController::class, 'update'])
+        ->name('plantings.update');
+    
+    Route::post('/plantings/{planting}/harvest', [FarmerPlantingController::class, 'harvest'])
+        ->name('plantings.harvest');
+    
+    Route::delete('/plantings/{planting}', [FarmerPlantingController::class, 'destroy'])
+        ->name('plantings.destroy');
 });
 
 require __DIR__.'/auth.php';
