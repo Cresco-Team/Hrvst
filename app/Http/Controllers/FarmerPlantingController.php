@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePlantingRequest;
 use App\Http\Requests\UpdatePlantingRequest;
+use App\Http\Resources\CropResource;
+use App\Http\Resources\PlantingResource;
 use App\Models\Crop;
 use App\Models\FarmerCrop;
+use App\Services\PlantingService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,59 +21,19 @@ class FarmerPlantingController extends Controller
     /**
      * Display farmer's planting dashboard
      */
-    public function index(): Response
+    public function index(PlantingService $service): Response
     {
         $farmer = Auth::user()->farmer;
 
-        $plantings = FarmerCrop::where('farmer_id', $farmer->id)
-            ->with('crop.category')
-            ->orderByRaw("
-                CASE status
-                    WHEN 'active' THEN 1
-                    WHEN 'harvested' THEN 2
-                    WHEN 'expired' THEN 3
-                END
-            ")
-            ->orderBy('date_planted', 'desc')
-            ->get()
-            ->map(function ($planting) {
-                return [
-                    'id' => $planting->plant_id,
-                    'crop_name' => $planting->crop->name,
-                    'crop_image' => $planting->crop->image_path,
-                    'category' => $planting->crop->category->name,
-                    'date_planted' => $planting->date_planted->format('M d, Y'),
-                    'expected_harvest_date' => $planting->expected_harvest_date?->format('M d, Y'),
-                    'date_harvested' => $planting->date_harvested?->format('M d, Y'),
-                    'yield_kg' => $planting->yield_kg,
-                    'status' => $planting->status,
-                    'status_badge' => $planting->status_badge,
-                    'days_until_harvest' => $planting->days_until_harvest,
-                    'is_editable' => $planting->status === 'active',
-                ];
-            });
+    $plantings = $service->getForFarmer($farmer->id);
 
-            $availableCrops = Crop::with('category')
-            ->orderBy('name')
-            ->get()
-            ->map(fn($crop) => [
-                'id' => $crop->id,
-                'name' => $crop->name,
-                'category' => $crop->category->name,
-                'crop_weeks' => $crop->crop_weeks,
-                'image_path' => $crop->image_path,
-            ]);
-
-            return Inertia::render('profiles/farmer/plantings/index', [
-                'plantings' => $plantings,
-                'availableCrops' => $availableCrops,
-                'stats' => [
-                    'active' => $plantings->where('status', 'active')->count(),
-                    'harvested_this_month' => $plantings->where('status', 'harvested')
-                        ->filter(fn($p) => Carbon::parse($p['date_harvested'])->isCurrentMonth())
-                        ->count(),
-                ],
-            ]);    
+    return Inertia::render('profiles/farmer/plantings/index', [
+        'plantings' => PlantingResource::collection($plantings),
+        'availableCrops' => CropResource::collection(
+            Crop::with('category')->orderBy('name')->get()
+        ),
+        'stats' => $service->stats($plantings),
+    ]);
     }
 
     /**
