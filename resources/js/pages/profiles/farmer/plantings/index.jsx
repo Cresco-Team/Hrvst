@@ -1,5 +1,6 @@
 import PlantingCard from "@/components/profiles/farmer/cards/planting-card"
 import AddPlantingDialog from "@/components/profiles/farmer/dialogs/add-planting-dialog"
+import PlantingsTable from "@/components/profiles/farmer/tables/plantings-table"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
