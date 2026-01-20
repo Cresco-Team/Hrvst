@@ -28,7 +28,7 @@ class FarmerProfileController extends Controller
         ]);
         $allCrops = Crop::with('category')->get();
 
-        return Inertia::render('Profile/FarmerProfile', [
+        return Inertia::render('profiles/farmer/index', [
             'farmer' => $farmer,
             'allCrops' => $allCrops,
         ]);
