@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -26,7 +27,7 @@ class UserFactory extends Factory
             'name'         => $this->faker->name(),
             'email'        => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password'     => bcrypt('password'),
+            'password'     => Hash::make('password'),
             'phone_number' => $this->faker->phoneNumber(),
             'remember_token' => Str::random(10),
             'two_factor_secret' => Str::random(10),
