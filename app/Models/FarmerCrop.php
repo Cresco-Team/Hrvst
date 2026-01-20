@@ -57,6 +57,16 @@ class FarmerCrop extends Pivot
     }
 
     /* Mark as harvested with actual harvest date */
+    public function markAsHarvested(?float $actualYield = null): void
+    {
+        $this->update([
+            'status' => 'harvested',
+            'date_harvested' => Carbon::now(),
+            'yield_kg' => $actualYield ?? $this->yield_kg,
+        ]);
+    }
+
+    /* Mark as expired (called by scheduled command) */
     public function markAsExpired(): void
     {
         if ($this->status === 'active' && $this->isExpired()) {
