@@ -61,7 +61,7 @@ export interface User {
   name: string;
   email: string;
   phone_number?: string;
-  isAdmin: boolean;
+  roles: string[]
   isApproved: boolean;
   created_at?: string;
   updated_at?: string;

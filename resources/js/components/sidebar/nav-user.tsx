@@ -41,6 +41,7 @@ import {
             name: 'dealer',
             label: 'Dealer Dashboard',
             icon: LayoutGridIcon,
+            route: route('dealer.show'),
         }, {
             name: 'farmer',
             label: 'Farmer Profile',
