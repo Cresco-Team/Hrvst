@@ -46,6 +46,8 @@ import {
             name: 'farmer',
             label: 'Farmer Profile',
             icon: CircleUserRoundIcon,
+            route: route('farmer.show'),
+
         }
     ]
 
