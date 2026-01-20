@@ -21,11 +21,14 @@ class FarmerCrop extends Pivot
         'crop_id',
         'yield_kg',
         'date_planted',
+        'expected_harvest_date',
         'date_harvested',
+        'status'
     ];
     /* Converts a database column value into a specific PHP data type */
     protected $casts = [
         'date_planted' => 'date',
+        'expected_harvest_date' => 'date',
         'date_harvested' => 'date',
     ];
     
@@ -40,69 +43,69 @@ class FarmerCrop extends Pivot
     }
 
     /**
-     * Check if this crop planting has expired based on planted_at + harvest_weeks
+     * Business Logic
      */
+
+    /* Check if crop has passed expected harvest date without being harvested */
     public function isExpired(): bool
     {
-        if (!$this->date_planted || !$this->crop) {
+        if ($this->status !== 'active' || !$this->expected_harvest_date) {
             return false;
         }
 
-        $harvestDate = Carbon::parse($this->date_planted)->addWeeks($this->crop->crop_weeks);
-        return Carbon::now()->isAfter($harvestDate); // return boolean
+        return Carbon::now()->isAfter($this->expected_harvest_date); // return boolean
     }
 
-    /**
-     * Get the expected harvest date
-     */
-    public function getExpectedHarvestDateAttribute(): ?Carbon
-    {
-        if (!$this->date_planted || !$this->crop) {
-            return null;
-        }
-
-        return Carbon::parse($this->date_planted)->addWeeks($this->crop->crop_weeks);
-    }
-
-    /**
-     * Scope to get only active crops (not expired or harvested)
-     */
-    /* public function scopeActive($query)
-    {
-        return $query->where('status', 'active');
-    } */
-
-    /**
-     * Scope to get only non-expired crops
-     */
-    /* public function scopeNotExpired($query)
-    {
-        return $query->where(function ($q) {
-            $q->where('status', '!=', 'expired')
-              ->where('status', '!=', 'harvested');
-        });
-    } */
-
-    /**
-     * Update status based on expiration
-     */
-    /* public function updateStatusIfExpired(): bool
+    /* Mark as harvested with actual harvest date */
+    public function markAsExpired(): void
     {
         if ($this->status === 'active' && $this->isExpired()) {
-            $this->status = 'expired';
-            $this->save();
-            return true;
+            $this->update(['status' => 'expired']);
         }
-        return false;
-    } */
+    }
 
     /**
-     * Boot method to automatically check expiration
+     * Query Scopes
      */
-    /* protected static function booted()
+
+     public function scopeActive($query)
     {
-        static::retrieved(function ($farmerCrop) {
-            $farmerCrop->updateStatusIfExpired();
-        });
-    } */
+        return $query->where('status', 'active');
+    }
+
+    public function scopeHarvested($query)
+    {
+        return $query->where('status', 'harvested');
+    }
+
+    public function scopeExpired($query)
+    {
+        return $query->where('status', 'expired');
+    }
+
+    /**
+     * Accessors
+     */
+
+     /* Get days remaining until expected harvest */
+     public function getDaysUntilHarvestAttribute(): ?int
+     {
+         if (!$this->expected_harvest_date || $this->status !== 'active') {
+             return null;
+         }
+ 
+         return Carbon::now()->diffInDays($this->expected_harvest_date, false);
+     }
+
+     /* Get human-readable status bafge */
+     public function getStatusBadgeAttribute(): string
+    {
+        return match($this->status) {
+            'active' => $this->isExpired() ? 'Overdue' : 'Growing',
+            'harvested' => 'Harvested',
+            'expired' => 'Expired',
+            default => 'Unknown',
+        };
+    }
+
 }
