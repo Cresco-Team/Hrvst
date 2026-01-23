@@ -7,6 +7,7 @@ import PlantingCard from '@/components/profiles/farmer/cards/planting-card';
 import PlantingsTable from '@/components/profiles/farmer/tables/plantings-table';
 import AddPlantingDialog from '@/components/profiles/farmer/dialogs/add-planting-dialog';
 import AuthLayout from '@/layouts/auth-layout';
+import { Link } from '@inertiajs/react';
 
 const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -23,9 +24,11 @@ const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
                         <h1 className="text-3xl font-bold tracking-tight">My Plantings</h1>
                         <p className="text-muted-foreground">Track your crops from planting to harvest</p>
                     </div>
-                    <Button onClick={() => setIsAddDialogOpen(true)} size="lg">
-                        <Plus className="mr-2 h-4 w-4" />
-                        Add Planting
+                    <Button size="lg" asChild>
+                        <Link href={route('farmer.plantings.create')}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add Planting
+                        </Link>
                     </Button>
                 </div>
 

@@ -67,13 +67,31 @@ class FarmerPlantingController extends Controller
         return Inertia::render('farmer-profile/plantings/index', [
             'plantings' => $plantings,
             'availableCrops' => $availableCrops,
-            'today' => Carbon::now()->format('Y-m-d'), // For frontend date inputs
             'stats' => [
                 'active' => $plantings->where('status', 'active')->count(),
                 'harvested_this_month' => $plantings->where('status', 'harvested')
                     ->filter(fn($p) => Carbon::parse($p['date_harvested'])->isCurrentMonth())
                     ->count(),
             ],
+        ]);
+    }
+
+    public function create()
+    {
+        $availableCrops = Crop::with('category')
+            ->orderBy('name')
+            ->get()
+            ->map(fn($crop) => [
+                'id' => $crop->id,
+                'name' => $crop->name,
+                'category' => $crop->category->name,
+                'crop_weeks' => $crop->crop_weeks,
+                'image_path' => $crop->image_path,
+            ]);
+
+        return Inertia::render('farmer-profile/plantings/create', [
+            'availableCrops' => $availableCrops,
+            'today' => Carbon::now()->format('Y-m-d'),
         ]);
     }
 
