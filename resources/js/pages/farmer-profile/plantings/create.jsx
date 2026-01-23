@@ -10,7 +10,7 @@ import { useEffect } from "react"
 
 
 const CreatePlantings = ({ availableCrops, today }) => {
-    const { data, setData, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         crop_id: '',
         date_planted: today,
         expected_harvest_date: '',
@@ -35,8 +35,8 @@ const CreatePlantings = ({ availableCrops, today }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        
-        router.post(route('farmer.plantings.store'), {
+
+        post(route('farmer.plantings.store'), {
             preserveScroll: true,
             onSuccess: () => {
                 reset()
@@ -77,6 +77,9 @@ const CreatePlantings = ({ availableCrops, today }) => {
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                    {errors.crop_id && (
+                                        <p className="text-sm text-destructive">{errors.crop_id}</p>
+                                    )}
                                 </Field>
 
                                 <Field>
@@ -90,6 +93,9 @@ const CreatePlantings = ({ availableCrops, today }) => {
                                                 onChange={(e) => setData('date_planted', e.target.value)}
                                                 max={today}
                                             />
+                                            {errors.date_planted && (
+                                                <p className="text-sm text-destructive">{errors.date_planted}</p>
+                                            )}
                                         </Field>
 
                                         <Field>
@@ -101,6 +107,9 @@ const CreatePlantings = ({ availableCrops, today }) => {
                                                 onChange={(e) => setData('expected_harvest_date')}
                                                 min={data.date_planted}
                                             />
+                                            {errors.expected_harvest_date && (
+                                                <p className="text-sm text-destructive">{errors.expected_harvest_date}</p>
+                                            )}
                                         </Field>
                                     </Field>
                                     {selectedCrop && (
@@ -120,6 +129,9 @@ const CreatePlantings = ({ availableCrops, today }) => {
                                         value={data.yield_kg}
                                         onChange={(e) => setData('yield_kg', e.target.value)}
                                     />
+                                    {errors.yield_kg && (
+                                        <p className="text-sm text-destructive">{errors.yield_kg}</p>
+                                    )}
                                 </Field>
 
                                 <Field>
