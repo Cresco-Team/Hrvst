@@ -4,11 +4,13 @@ import NavBar from "@/components/navigation/nav-bar";
 
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import PublicSidebar from "@/components/sidebars/public-sidebar";
+import FlashToaster from "@/components/flash-toaster";
 
 const PublicLayout = ({ children, title, sidebarHeader, sidebarContent }) => {
     return (
         <div className="min-h-screen flex flex-col [--header-height:calc(--spacing(14))]">
             <Head title={title} />
+            <FlashToaster />
 
             <SidebarProvider className="flex flex-col">
                 <NavBar />

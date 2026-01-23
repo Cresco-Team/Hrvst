@@ -1,3 +1,4 @@
+import FlashToaster from '@/components/flash-toaster'
 import DynamicBreadcrumbs from '@/components/navigation/dynamic-breadcrumb'
 import AuthSidebar from '@/components/sidebars/auth-sidebar'
 import { Separator } from '@/components/ui/separator'
@@ -25,6 +26,7 @@ const AuthLayout = ({
     return (
         <SidebarProvider className="h-full overflow-hidden flex">
             <Head title={title} />
+            <FlashToaster />
 
             <AuthSidebar />
 
