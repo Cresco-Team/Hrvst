@@ -1,46 +1,47 @@
+import { ChartBarBigIcon, ChartCandlestickIcon, ChartNoAxesCombinedIcon, LayoutDashboardIcon, MapPinnedIcon, SproutIcon, SquareUserIcon } from 'lucide-react'
+
 const adminPages = [
     {
-        title: "Main",
+        title: 'Main',
         pages: [
             {
                 title: 'Dashboard Overview',
                 url: 'admin.dashboard',
-                icon: 'LayoutDashboard',
-                isActive: true,
+                icon: LayoutDashboardIcon,
             }
         ]
     }, {
-        title: "Vegetables",
+        title: 'Vegetables',
         pages: [
             {
                 title: 'Vegies Spreadsheet',
                 url: 'admin.crops.index',
-                icon: 'Sprout',
+                icon: SproutIcon,
             }, {
                 title: 'Prices Insights',
                 url: 'admin.prices.index',
-                icon: 'ChartCandlestick',
+                icon: ChartCandlestickIcon,
             }, {
                 title: 'Price Trends',
                 url: 'admin.price-trends',
-                icon: 'ChartNoAxesCombined',
+                icon: ChartNoAxesCombinedIcon,
             }, 
         ]
     }, {
-        title: "Farmers",
+        title: 'Farmers',
         pages: [
             {
                 title: 'Farmers Spreadsheet',
                 url: 'admin.farmers.index',
-                icon: 'SquareUser',
+                icon: SquareUserIcon,
             }, {
                 title: 'Geolocation',
                 url: 'admin.gis.index',
-                icon: 'MapPinned',
+                icon: MapPinnedIcon,
             }, {
                 title: 'Demographics',
                 url: 'admin.demo.index',
-                icon: 'ChartBarBig',
+                icon: ChartBarBigIcon,
             },
         ]
     }
