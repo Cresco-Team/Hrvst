@@ -12,7 +12,8 @@ class EnsureUserIsApproved
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::user()->isApproved) {
-            return redirect()->route('pending');
+            return back()
+                ->with('error', 'Your account is not approved by the admins yet.');
         }
 
         return $next($request);
