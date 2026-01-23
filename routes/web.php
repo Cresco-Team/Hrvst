@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\AdminFarmerController;
 use App\Http\Controllers\Admin\AdminGisController;
 use App\Http\Controllers\Admin\AdminPriceController;
 use App\Http\Controllers\CropController;
+use App\Http\Controllers\Dealer\DealerMarketplaceController;
 use App\Http\Controllers\DealerProfileController;
+use App\Http\Controllers\DealerSearchController;
 use App\Http\Controllers\FarmerController;
-use App\Http\Controllers\FarmerPlantingController;
+use App\Http\Controllers\Farmer\FarmerPlantingController;
 use App\Http\Controllers\FarmerProfileController;
 use App\Http\Controllers\PriceTrends;
 use Illuminate\Foundation\Application;
@@ -62,7 +64,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->as('admin.')->group(funct
 // Dealer Only Page
 // --------------------------------------------------------
 Route::middleware(['auth', 'dealer'])->prefix('dealer')->as('dealer.')->group(function () {
-    Route::get('/profile', [DealerProfileController::class, 'show'])->name('show');
+    Route::get('/profile', [DealerProfileController::class, 'show'])->name('profile.show');
+
+    Route::middleware(['approved'])->group(function () {
+        Route::get('/marketplace', [DealerMarketplaceController::class, 'index'])
+            ->name('marketplace.index');
+    
+        Route::get('/farmers/{farmer}', [DealerMarketplaceController::class, 'showFarmer'])
+            ->name('farmers.show');
+    });
 });
 
 // --------------------------------------------------------

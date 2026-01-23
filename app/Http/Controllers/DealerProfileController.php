@@ -26,7 +26,7 @@ class DealerProfileController extends Controller
         $user = Auth::user();
         $this->authorize('view', $user);
 
-        return Inertia::render('dealer/show', [
+        return Inertia::render('dealer-profile/index', [
             'dealer' => $user
         ]);
     }
