@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Queries\FarmerPlantingQuery;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class PlantingService
@@ -19,10 +20,12 @@ class PlantingService
     public function stats(Collection $plantings): array
     {
         return [
-            'active' => $plantings->where('status', 'active')->count(),
+            'active' => $plantings->
+                where('status', 'active')
+                ->count(),
             'harvested_this_month' => $plantings
                 ->where('status', 'harvested')
-                ->filter(fn ($p) => $p->date_harvested?->isCurrentMonth())
+                ->filter(fn ($p) => Carbon::parse($p->date_harvested)->isCurrentMonth())
                 ->count(),
         ];
     }
