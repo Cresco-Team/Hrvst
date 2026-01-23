@@ -22,7 +22,8 @@ createInertiaApp({
             <>
                 <App {...props} />
                 <Toaster 
-                    richColors 
+                    theme='light'
+                    richColors
                     position='top-right'
                     expand
                 />
