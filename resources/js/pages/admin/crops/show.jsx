@@ -1,7 +1,4 @@
 
-import { useRef } from "react";
-import AdminLayout from "@/layouts/admin-layout"
-
 import {
     Chart as ChartJS,
     BarElement,
@@ -10,10 +7,11 @@ import {
     Tooltip,
     Legend,
     Colors,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import { Button } from "@/components/ui/button";
-import { Link } from "@inertiajs/react";
+} from 'chart.js'
+import { Bar } from 'react-chartjs-2'
+import { Button } from "@/components/ui/button"
+import { Link } from "@inertiajs/react"
+import AuthLayout from '@/layouts/auth-layout'
 
 ChartJS.register(
 BarElement,
@@ -22,9 +20,9 @@ LinearScale,
 Tooltip,
 Legend,
 Colors,
-); 
+) 
 
-export default function Show({ crop, chart }) {
+const ShowCrop = ({ crop, chart }) => {
     const data = {
         labels: chart.labels,
         datasets: [
@@ -34,7 +32,7 @@ export default function Show({ crop, chart }) {
             borderRadius: 6,
           },
         ],
-      };
+      }
     
       const options = {
         responsive: true,
@@ -42,8 +40,8 @@ export default function Show({ crop, chart }) {
           tooltip: {
             callbacks: {
               label: (ctx) => {
-                const [min, max] = ctx.raw;
-                return `Min: ₱${min} — Max: ₱${max}`;
+                const [min, max] = ctx.raw
+                return `Min: ₱${min} — Max: ₱${max}`
               },
             },
           },
@@ -63,13 +61,11 @@ export default function Show({ crop, chart }) {
             },
           },
         },
-      };
+      }
     
 
     return (
-        <AdminLayout
-            title={crop.name}
-        >
+        <AuthLayout title={crop.name}>
             <Bar data={data} options={options} />
 
             <Link href={route('admin.crops.prices.create', crop.id)}>
@@ -78,6 +74,7 @@ export default function Show({ crop, chart }) {
               </Button>
             </Link>
             
-        </AdminLayout>
+        </AuthLayout>
     )
 }
+export default ShowCrop

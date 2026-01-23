@@ -1,28 +1,13 @@
-import { Link, useForm } from "@inertiajs/react";
-
-import AdminLayout from "@/layouts/admin-layout";
+import { Link, useForm } from "@inertiajs/react"
 import { Button } from "@/components/ui/button"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from "@/components/ui/field"
+import { Field, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Card } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Card } from "@/components/ui/card"
+import { PlusIcon } from "lucide-react"
+import AuthLayout from "@/layouts/auth-layout"
 
-export default function Create({ categories }) {
+const CreateCrop = ({ categories }) => {
     const {
         data,
         setData,
@@ -44,12 +29,8 @@ export default function Create({ categories }) {
     }
 
     return (
-        <AdminLayout
-            title="Add Vegetable"
-        >
-            <form
-                onSubmit={submit}
-            >
+        <AuthLayout title={"New Vegetable"}>
+            <form onSubmit={submit}>
                 <FieldSet>
                     <FieldLegend>Add Vegetable</FieldLegend>
 
@@ -142,11 +123,12 @@ export default function Create({ categories }) {
                         </Button>
                         
                         <Button className="cursor-pointer">
-                                <Plus />Save Crop
+                                <PlusIcon />Save Crop
                         </Button>
                     </div>
                 </FieldSet>
             </form>
-        </AdminLayout>
+        </AuthLayout>
     )
 }
+export default CreateCrop

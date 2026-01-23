@@ -1,26 +1,26 @@
-import AppLayout from '@/layouts/app-layout';
-import { useState } from 'react';
-import CategoryFilter from '@/components/sidebar/crops/category-filter';
+import AppLayout from '@/layouts/public-layout'
+import { useState } from 'react'
+import CropsPageFilter from '@/components/sidebars/sidebar-content/crops-page-filter'
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
+import { Separator } from '@/components/ui/separator'
 
-import { ImageOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ImageOff } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 const Crops = ({ crops, categories, filters }) => {
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null)
     const filteredCrops = selectedCategory
         ? crops.filter(crop => crop.category_id === selectedCategory)
-        : crops;
+        : crops
         
     return (
         <AppLayout 
             title='Crops'
             sidebarHeader='Vegetable Filters'
             sidebarContent={
-                <CategoryFilter 
+                <CropsPageFilter 
                     categories={categories} 
                     filters={filters}
                     selectedCategory={selectedCategory}
@@ -75,4 +75,4 @@ const Crops = ({ crops, categories, filters }) => {
     )
 }
 
-export default Crops;
+export default Crops

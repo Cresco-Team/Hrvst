@@ -1,25 +1,17 @@
-import DataTable from "@/components/admin/data-table";
-import { columns as columnsApproved } from "@/components/admin/farmers/columns/columns-approved";
-import { columns as columnsPending } from "@/components/admin/farmers/columns/columns-pending";
-import AdminLayout from "@/layouts/admin-layout";
-import { useState } from "react";
-
-import { Input } from "@/components/ui/input";
-
-import { Search } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import DataTable from "@/components/admin/data-table"
+import { columns as columnsApproved } from "@/components/admin/farmers/columns/columns-approved"
+import { columns as columnsPending } from "@/components/admin/farmers/columns/columns-pending"
+import { useState } from "react"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent } from "@/components/ui/card"
+import AuthLayout from "@/layouts/auth-layout"
 
 
-export default function Farmers({ 
-    approvedFarmers,
-    pendingFarmers,
- }) {
+const Farmers = ({ approvedFarmers, pendingFarmers }) => {
     const [globalFilter, setGlobalFilter] = useState('')
 
     return(
-        <AdminLayout
-            title='Farmers Spreadsheet'
-        >
+        <AuthLayout title={'Farmers Spreadsheet'}>
             <div className="h-95 p-0 space-y-5 overflow-y-auto">
                 <Card>
                     <CardContent>
@@ -69,9 +61,9 @@ export default function Farmers({
                             }
                         />
                     </CardContent>
-                    
                 </Card>
             </div>
-        </AdminLayout>
+        </AuthLayout>
     )
 }
+export default Farmers

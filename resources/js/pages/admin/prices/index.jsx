@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { router } from "@inertiajs/react";
-import AdminLayout from "@/layouts/admin-layout";
+import { useState } from "react"
+import { router } from "@inertiajs/react"
 import {
     Chart as ChartJS,
     LineElement,
@@ -9,8 +8,9 @@ import {
     LinearScale,
     Tooltip,
     Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
+import AuthLayout from "@/layouts/auth-layout"
 
 ChartJS.register(
     LineElement,
@@ -19,34 +19,34 @@ ChartJS.register(
     LinearScale,
     Tooltip,
     Legend
-);
+)
 
-export default function Prices({ categories, selectedCategoryId, chartData, currentPeriod }) {
-    const [period, setPeriod] = useState(currentPeriod);
-    const [categoryId, setCategoryId] = useState(selectedCategoryId);
+const Prices = ({ categories, selectedCategoryId, chartData, currentPeriod }) => {
+    const [period, setPeriod] = useState(currentPeriod)
+    const [categoryId, setCategoryId] = useState(selectedCategoryId)
 
     const handlePeriodChange = (newPeriod) => {
-        setPeriod(newPeriod);
+        setPeriod(newPeriod)
         router.get(route('admin.prices.index'), { 
             period: newPeriod,
             category_id: categoryId 
         }, {
             preserveState: true,
             preserveScroll: true,
-        });
-    };
+        })
+    }
 
     const handleCategoryChange = (e) => {
-        const newCategoryId = e.target.value;
-        setCategoryId(newCategoryId);
+        const newCategoryId = e.target.value
+        setCategoryId(newCategoryId)
         router.get(route('admin.prices.index'), { 
             period: period,
             category_id: newCategoryId 
         }, {
             preserveState: true,
             preserveScroll: true,
-        });
-    };
+        })
+    }
 
     const colors = [
         'rgb(239, 68, 68)',     // red
@@ -59,7 +59,7 @@ export default function Prices({ categories, selectedCategoryId, chartData, curr
         'rgb(249, 115, 22)',    // orange
         'rgb(20, 184, 166)',    // teal
         'rgb(244, 63, 94)',     // rose
-    ];
+    ]
 
     const data = chartData ? {
         labels: chartData.labels,
@@ -77,7 +77,7 @@ export default function Prices({ categories, selectedCategoryId, chartData, curr
             pointBorderWidth: 2,
             spanGaps: true,
         })),
-    } : null;
+    } : null
 
     const options = {
         responsive: true,
@@ -102,7 +102,7 @@ export default function Prices({ categories, selectedCategoryId, chartData, curr
             tooltip: {
                 callbacks: {
                     label: (ctx) => {
-                        return `${ctx.dataset.label}: ₱${ctx.parsed.y?.toFixed(2) || 'N/A'}`;
+                        return `${ctx.dataset.label}: ₱${ctx.parsed.y?.toFixed(2) || 'N/A'}`
                     },
                 },
                 backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -152,10 +152,10 @@ export default function Prices({ categories, selectedCategoryId, chartData, curr
                 },
             },
         },
-    };
+    }
 
     return (
-        <AdminLayout title="Crop Price Trends by Category">
+        <AuthLayout title={"Vegetable Price"}>
             <div className="space-y-6">
                 {/* Controls */}
                 <div className="bg-white p-4 rounded-lg shadow space-y-4">
@@ -202,7 +202,7 @@ export default function Prices({ categories, selectedCategoryId, chartData, curr
 
                 {/* Chart Container */}
                 <div className="bg-white p-6 rounded-lg shadow">
-                    <div className="h-[600px]">
+                    <div className="h-150">
                         {data && data.datasets.length > 0 ? (
                             <Line data={data} options={options} />
                         ) : (
@@ -217,12 +217,12 @@ export default function Prices({ categories, selectedCategoryId, chartData, curr
                 {data && data.datasets.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                         {data.datasets.map((dataset, index) => {
-                            const validPrices = dataset.data.filter(p => p !== null);
+                            const validPrices = dataset.data.filter(p => p !== null)
                             const avgPrice = validPrices.length > 0 
                                 ? validPrices.reduce((a, b) => a + b, 0) / validPrices.length 
-                                : 0;
-                            const minPrice = validPrices.length > 0 ? Math.min(...validPrices) : 0;
-                            const maxPrice = validPrices.length > 0 ? Math.max(...validPrices) : 0;
+                                : 0
+                            const minPrice = validPrices.length > 0 ? Math.min(...validPrices) : 0
+                            const maxPrice = validPrices.length > 0 ? Math.max(...validPrices) : 0
 
                             return (
                                 <div key={index} className="bg-white p-4 rounded-lg shadow border-l-4" style={{ borderColor: colors[index % colors.length] }}>
@@ -248,11 +248,12 @@ export default function Prices({ categories, selectedCategoryId, chartData, curr
                                         </div>
                                     </div>
                                 </div>
-                            );
+                            )
                         })}
                     </div>
                 )}
             </div>
-        </AdminLayout>
-    );
+        </AuthLayout>
+    )
 }
+export default Prices

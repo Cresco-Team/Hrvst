@@ -1,5 +1,4 @@
 import { Link, useForm } from "@inertiajs/react";
-import AdminLayout from "@/layouts/admin-layout";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -10,8 +9,9 @@ import {
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import AuthLayout from "@/layouts/auth-layout";
 
-export default function Create({ crop }) {
+const CreatePrice = ({ crop }) => {
   const { data, setData, post, processing, errors } = useForm({
     price_min: "",
     price_max: "",
@@ -25,7 +25,7 @@ export default function Create({ crop }) {
   };
 
   return (
-    <AdminLayout title={`Update Price — ${crop.name}`}>
+    <AuthLayout title={`Update Price — ${crop.name}`}>
       <form onSubmit={handleSubmit} className="container mx-auto p-6">
         <FieldSet>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -79,6 +79,7 @@ export default function Create({ crop }) {
           </div>
         </FieldSet>
       </form>
-    </AdminLayout>
+    </AuthLayout>
   );
 }
+export default CreatePrice

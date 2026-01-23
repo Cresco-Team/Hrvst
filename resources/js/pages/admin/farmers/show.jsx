@@ -1,10 +1,11 @@
-import AdminLayout from "@/layouts/admin-layout";
+import AuthLayout from "@/layouts/auth-layout";
+
 
 export default function Show({ farmer }) {
 
     return (
-        <AdminLayout>
+        <AuthLayout title={farmer.name}>
             Show user
-        </AdminLayout>
+        </AuthLayout>
     )
 }

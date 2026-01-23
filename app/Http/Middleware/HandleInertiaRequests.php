@@ -37,22 +37,18 @@ class HandleInertiaRequests extends Middleware
                 'email' => $user->email,
                 'isApproved' => $user->isApproved,
                 'roles' => $user->roles->pluck('name'),
+                'image_path' => $user->image_path,
             ] : null,
         ],
     ];
 
     // If user is admin, add pending farmers
-    if ($user && $user->isAdmin) {
+    if ($user && $user->hasRole('admin')) {
         $sharedData['pendingFarmers'] = Farmer::with(['user', 'municipality', 'barangay', 'crops'])
             ->whereHas('user', function($q) {
                 $q->where('isApproved', false);
             })
             ->get();
-    }
-
-    // If user is an approved farmer, add all crops for selection
-    if ($user && !$user->isAdmin && $user->farmer) {
-        $sharedData['allCrops'] = Crop::with('category')->get();
     }
 
     return $sharedData;

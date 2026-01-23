@@ -1,5 +1,5 @@
-import AdminLayout from "@/layouts/admin-layout";
-import { useState } from "react";
+
+import { useState } from "react"
 import {
     Chart as ChartJS,
     BarElement,
@@ -8,25 +8,26 @@ import {
     Tooltip,
     Legend,
     Colors,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+} from "chart.js"
+import { Bar } from "react-chartjs-2"
+import AuthLayout from "@/layouts/auth-layout"
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Colors);
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Colors)
 
-export default function Demographics({ municipalities, barangays: barangaysByMunicipality }) {
-    const [currentView, setCurrentView] = useState("municipalities");
-    const [selectedMunicipality, setSelectedMunicipality] = useState(null);
+const Demographics = ({ municipalities, barangays: barangaysByMunicipality }) => {
+    const [currentView, setCurrentView] = useState("municipalities")
+    const [selectedMunicipality, setSelectedMunicipality] = useState(null)
 
-    const isMunicipalities = currentView === "municipalities";
+    const isMunicipalities = currentView === "municipalities"
     const labels = isMunicipalities
         ? municipalities.map((m) => m.name)
-        : (barangaysByMunicipality?.[selectedMunicipality?.id] || []).map((b) => b.name);
+        : (barangaysByMunicipality?.[selectedMunicipality?.id] || []).map((b) => b.name)
     const values = isMunicipalities
         ? municipalities.map((m) => m.farmer_count)
-        : (barangaysByMunicipality?.[selectedMunicipality?.id] || []).map((b) => b.farmer_count);
+        : (barangaysByMunicipality?.[selectedMunicipality?.id] || []).map((b) => b.farmer_count)
     const datasetLabel = isMunicipalities
         ? "Farmers per Municipality"
-        : `Farmers in ${selectedMunicipality?.name}`;
+        : `Farmers in ${selectedMunicipality?.name}`
 
     const data = {
         labels,
@@ -37,17 +38,17 @@ export default function Demographics({ municipalities, barangays: barangaysByMun
                 borderRadius: 6,
             },
         ],
-    };
+    }
 
     const options = {
         responsive: true,
         onClick: (event, elements) => {
-            if (!elements?.length) return;
+            if (!elements?.length) return
             if (isMunicipalities) {
-                const index = elements[0].index;
-                const municipality = municipalities[index];
-                setSelectedMunicipality(municipality);
-                setCurrentView("barangays");
+                const index = elements[0].index
+                const municipality = municipalities[index]
+                setSelectedMunicipality(municipality)
+                setCurrentView("barangays")
             }
         },
         plugins: {
@@ -76,16 +77,16 @@ export default function Demographics({ municipalities, barangays: barangaysByMun
                 },
             },
         },
-    };
+    }
 
     return (
-        <AdminLayout title="Farmers Demographics">
+        <AuthLayout title={"Farmers Demographics"}>
             {currentView === "barangays" && (
                 <div className="mb-4">
                     <button
                         onClick={() => {
-                            setCurrentView("municipalities");
-                            setSelectedMunicipality(null);
+                            setCurrentView("municipalities")
+                            setSelectedMunicipality(null)
                         }}
                         className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
                     >
@@ -94,6 +95,7 @@ export default function Demographics({ municipalities, barangays: barangaysByMun
                 </div>
             )}
             <Bar data={data} options={options} />
-        </AdminLayout>
-    );
+        </AuthLayout>
+    )
 }
+export default Demographics

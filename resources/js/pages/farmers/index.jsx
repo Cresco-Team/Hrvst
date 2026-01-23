@@ -3,8 +3,8 @@ import {
     useEffect,
     useRef,
  } from 'react';
-import AppLayout from '@/layouts/app-layout';
-import AddressFilter from '@/components/sidebar/Farmers/address-filter';
+import PublicLayout from '@/layouts/public-layout';
+import FarmersPageFilter from '@/components/sidebars/sidebar-content/farmers-page-filter';
 import BaseMap from '@/components/Map/BaseMap';
 import MapResizer from '@/components/Map/map-resizer'
 import MapUpdater from '@/components/Map/MapUpdater';
@@ -57,11 +57,11 @@ const Index = ({ farmers, municipalities, filters }) => {
     const { center, zoom } = getMapCenterAndZoom()
 
     return (
-        <AppLayout
+        <PublicLayout
             title='Farmers'
             sidebarHeader='Farmer Filters'
             sidebarContent={
-                <AddressFilter
+                <FarmersPageFilter
                     municipalities={municipalities}
                     filters={filters}
                 />
@@ -87,7 +87,7 @@ const Index = ({ farmers, municipalities, filters }) => {
                     ))}
                 </BaseMap>
             </div>
-        </AppLayout>
+        </PublicLayout>
     )
 }
 
@@ -167,7 +167,7 @@ export default Index;
 
     // Render components
     const leftSidebar = (
-        <AddressFilter
+        <FarmersPageFilter
             municipalities={municipalities}
             barangays={barangays}
             selectedMunicipality={selectedMunicipality}
@@ -198,7 +198,7 @@ export default Index;
     );
 
     return (
-        <AppLayout
+        <PublicLayout
             title="Farmers"
             leftSidebar={leftSidebar}
             leftSidebarTitle="Address"
@@ -215,6 +215,6 @@ export default Index;
                 }}
                 farmer={selectedFarmer}
             />
-        </AppLayout>
+        </PublicLayout>
     );
 } */

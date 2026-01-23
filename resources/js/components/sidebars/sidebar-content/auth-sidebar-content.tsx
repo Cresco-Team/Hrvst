@@ -11,7 +11,7 @@ const AuthSidebarContent = ({ sidebarContents }) => {
                   <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
                     <SidebarGroupContent>
                       <SidebarMenu>
-                        {group.pages.map((page) => (
+                        {group.pages.map((page: any) => (
                           <SidebarMenuItem key={page.url}>
                           <SidebarMenuButton
                             asChild
