@@ -40,6 +40,11 @@ class HandleInertiaRequests extends Middleware
                 'image_path' => $user->image_path,
             ] : null,
         ],
+        'flash' => [
+            'info' => $request->session()->get('info'),
+            'success' => $request->session()->get('success'),
+            'error' => $request->session()->get('error'),
+        ]
     ];
 
     // If user is admin, add pending farmers
