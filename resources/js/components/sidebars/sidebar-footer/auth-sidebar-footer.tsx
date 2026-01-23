@@ -28,7 +28,7 @@ import {
     useSidebar,
   } from '@/components/ui/sidebar'
 
-  const NavUser = ({ user }) => {
+  const AuthSidebarFooter = ({ user }) => {
     const { isMobile } = useSidebar()
 
     const roles = [
@@ -124,4 +124,4 @@ import {
         </DropdownMenu>
     )
   }
-  export default NavUser
+  export default AuthSidebarFooter

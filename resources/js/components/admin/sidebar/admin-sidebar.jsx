@@ -1,6 +1,6 @@
 
 import NavHeader from "@/components/sidebars/sidebar-header/sidebar-header";
-import NavUser from "@/components/sidebar/nav-user";
+import AuthSidebarFooter from "@/components/sidebars/sidebar-footer/auth-sidebar-footer";
 import { usePage } from "@inertiajs/react";
 import { AdminPages } from "@/components/admin/sidebar/admin-pages";
 import {
@@ -80,7 +80,7 @@ export default function AdminSidebar({
             <AdminPages groups={groups} />
 
             <SidebarFooter>
-                <NavUser user={auth.user} />
+                <AuthSidebarFooter user={auth.user} />
             </SidebarFooter>
         </Sidebar>
     )

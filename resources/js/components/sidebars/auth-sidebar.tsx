@@ -1,7 +1,7 @@
 import { router, usePage } from "@inertiajs/react"
 import AuthSidebarContent from "./sidebar-content/auth-sidebar-content"
 import NavHeader from "./sidebar-header/sidebar-header"
-import NavUser from "../sidebar/nav-user"
+import AuthSidebarFooter from "./sidebar-footer/auth-sidebar-footer"
 import { Sidebar, SidebarFooter, SidebarHeader } from "../ui/sidebar"
 import { PageProps } from "@/types"
 import adminPages from "@/services/AuthPages/admin-pages"
@@ -28,7 +28,7 @@ const AuthSidebar = ({...props}) => {
             />
 
             <SidebarFooter>
-                <NavUser user={auth.user} />
+                <AuthSidebarFooter user={auth.user} />
             </SidebarFooter>
         </Sidebar>
     )
