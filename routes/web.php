@@ -82,20 +82,25 @@ Route::middleware(['auth', 'farmer'])->prefix('farmer')->as('farmer.')->group(fu
 
     Route::get('/profile', [FarmerProfileController::class, 'show'])->name('show');
     
-    Route::get('/plantings', [FarmerPlantingController::class, 'index'])
-        ->name('plantings.index');
-    
-    Route::post('/plantings', [FarmerPlantingController::class, 'store'])
-        ->name('plantings.store');
-    
-    Route::patch('/plantings/{planting}', [FarmerPlantingController::class, 'update'])
-        ->name('plantings.update');
-    
-    Route::post('/plantings/{planting}/harvest', [FarmerPlantingController::class, 'harvest'])
-        ->name('plantings.harvest');
-    
-    Route::delete('/plantings/{planting}', [FarmerPlantingController::class, 'destroy'])
-        ->name('plantings.destroy');
+    Route::middleware(['approved'])->group(function () {
+        Route::get('/plantings', [FarmerPlantingController::class, 'index'])
+            ->name('plantings.index');
+
+        Route::get('/plantings/create', [FarmerPlantingController::class, 'create'])
+            ->name('plantings.create');
+        
+        Route::post('/plantings', [FarmerPlantingController::class, 'store'])
+            ->name('plantings.store');
+        
+        Route::patch('/plantings/{planting}', [FarmerPlantingController::class, 'update'])
+            ->name('plantings.update');
+        
+        Route::post('/plantings/{planting}/harvest', [FarmerPlantingController::class, 'harvest'])
+            ->name('plantings.harvest');
+        
+        Route::delete('/plantings/{planting}', [FarmerPlantingController::class, 'destroy'])
+            ->name('plantings.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';
