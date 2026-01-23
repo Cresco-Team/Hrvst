@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Farmer extends Model
 {
@@ -34,6 +35,11 @@ class Farmer extends Model
     {
         return $this->belongsTo(Barangay::class);
     }
+
+    public function plantings(): HasMany
+        {
+            return $this->hasMany(FarmerCrop::class, 'farmer_id');
+        }
 
     /* 
         Use scope method to only include approved farmers
