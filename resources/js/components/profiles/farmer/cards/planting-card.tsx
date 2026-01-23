@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import EditPlantingDialog from '../dialogs/edit-planting-dialog';
 
-export default function PlantingCard({ planting, availableCrops, today }) {
+export default function PlantingCard({ planting, today }) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     
     const handleHarvest = () => {
