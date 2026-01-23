@@ -1,6 +1,6 @@
 
 import { Link, usePage } from "@inertiajs/react";
-import AuthSidebarFooter from "@/components/sidebars/sidebar-footer/auth-sidebar-footer";
+import AppSidebarFooter from "@/components/sidebars/sidebar-footer/app-sidebar-footer";
 import { Button } from "@/components/ui/button";
 import { 
     Sidebar, 
@@ -29,7 +29,7 @@ const PublicSidebar = ({ header, content, ...props }) => {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         {auth.user
-                            ? <AuthSidebarFooter user={auth.user} />
+                            ? <AppSidebarFooter />
                             : <div className="flex space-x-3  ">
                                 <Link href={route('login')}>
                                     <Button variant="outline">Log in</Button>

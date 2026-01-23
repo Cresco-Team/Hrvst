@@ -1,13 +1,12 @@
-import { router, usePage } from "@inertiajs/react"
+import { usePage } from "@inertiajs/react"
 import AuthSidebarContent from "./sidebar-content/auth-sidebar-content"
-import NavHeader from "./sidebar-header/app-sidebar-header"
-import AuthSidebarFooter from "./sidebar-footer/auth-sidebar-footer"
-import { Sidebar, SidebarFooter, SidebarHeader } from "../ui/sidebar"
+import { Sidebar } from "../ui/sidebar"
 import { PageProps } from "@/types"
 import adminPages from "@/services/AuthPages/admin-pages"
 import dealerPages from "@/services/AuthPages/dealer-pages"
 import farmerPages from "@/services/AuthPages/farmer-pages"
 import AppSidebarHeader from "./sidebar-header/app-sidebar-header"
+import AppSidebarFooter from "./sidebar-footer/app-sidebar-footer"
 
 const AuthSidebar = ({...props}) => {
     const { auth } = usePage<PageProps>().props
@@ -26,9 +25,7 @@ const AuthSidebar = ({...props}) => {
                 }
             />
 
-            <SidebarFooter>
-                <AuthSidebarFooter user={auth.user} />
-            </SidebarFooter>
+            <AppSidebarFooter />
         </Sidebar>
     )
 }
