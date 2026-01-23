@@ -1,36 +1,25 @@
+import { Label } from '@/components/ui/label'
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarInput, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import { router } from '@inertiajs/react'
+import { SearchIcon } from 'lucide-react'
 
-import { router } from "@inertiajs/react";
-import { Label } from "@/components/ui/label";
-import { Search } from "lucide-react";
-import { 
-    SidebarGroup,
-    SidebarGroupLabel,
-    SidebarGroupContent,
-    SidebarMenu,
-    SidebarMenuItem,
-    SidebarMenuButton,
-    SidebarInput,
- } from "@/components/ui/sidebar";
-
-export default function CategoryFilter({
-    categories,
-    filters,
-}) {
-    const search = filters?.search ?? ""
+const CropPageFilter = ({ categories, filters }) => {
+    const search = filters?.search ?? '';
 
     const applyFilters = (newFilters) => {
         router.get(
-            route("crops.index"),
+            route('crops.index'),
             {
                 ...filters,
                 ...newFilters,
-            }, {
+            },
+            {
                 preserveScroll: true,
                 preserveState: true,
                 replace: true,
-            }
-        )
-    }
+            },
+        );
+    };
 
     return (
         <>
@@ -49,7 +38,7 @@ export default function CategoryFilter({
                         }
                         className="pl-8"
                     />
-                    <Search className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
+                    <SearchIcon className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
                 </SidebarGroupContent>
             </SidebarGroup>
 
@@ -59,7 +48,9 @@ export default function CategoryFilter({
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton
-                                onClick={() => applyFilters({ category_id: null })}
+                                onClick={() =>
+                                    applyFilters({ category_id: null })
+                                }
                                 isActive={!filters.category_id}
                                 className="cursor-pointer"
                             >
@@ -69,9 +60,15 @@ export default function CategoryFilter({
 
                         {categories.map((category) => (
                             <SidebarMenuItem key={category.id}>
-                                <SidebarMenuButton 
-                                    onClick={() => applyFilters({ category_id: category.id })}
-                                    isActive={filters.category_id == category.id}
+                                <SidebarMenuButton
+                                    onClick={() =>
+                                        applyFilters({
+                                            category_id: category.id,
+                                        })
+                                    }
+                                    isActive={
+                                        filters.category_id == category.id
+                                    }
                                     className="cursor-pointer"
                                 >
                                     <span>{category.name}</span>
@@ -84,3 +81,4 @@ export default function CategoryFilter({
         </>
     );
 }
+export default CropPageFilter

@@ -4,7 +4,7 @@ import {
     useRef,
  } from 'react';
 import PublicLayout from '@/layouts/public-layout';
-import AddressFilter from '@/components/sidebar/Farmers/address-filter';
+import FarmersPageFilter from '@/components/sidebars/sidebar-content/farmers-page-filter';
 import BaseMap from '@/components/Map/BaseMap';
 import MapResizer from '@/components/Map/map-resizer'
 import MapUpdater from '@/components/Map/MapUpdater';
@@ -61,7 +61,7 @@ const Index = ({ farmers, municipalities, filters }) => {
             title='Farmers'
             sidebarHeader='Farmer Filters'
             sidebarContent={
-                <AddressFilter
+                <FarmersPageFilter
                     municipalities={municipalities}
                     filters={filters}
                 />
@@ -167,7 +167,7 @@ export default Index;
 
     // Render components
     const leftSidebar = (
-        <AddressFilter
+        <FarmersPageFilter
             municipalities={municipalities}
             barangays={barangays}
             selectedMunicipality={selectedMunicipality}
