@@ -34,7 +34,7 @@ class FarmerCrop extends Pivot
     
     public function farmer(): BelongsTo
     {
-        return $this->belongsTo(Farmer::class, 'farmer_id', 'farmer_id');
+        return $this->belongsTo(Farmer::class, 'farmer_id');
     }
 
     public function crop(): BelongsTo
