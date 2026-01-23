@@ -1,28 +1,46 @@
-import { useForm } from '@inertiajs/react'
-import { useEffect } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useForm } from '@inertiajs/react';
+import { useEffect } from 'react';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { format } from 'date-fns';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
-const AddPlantingDialog = ({ open, onOpenChange, availableCrops }) => {
+const AddPlantingDialog = ({ open, onOpenChange, availableCrops, today }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         crop_id: '',
-        date_planted: format(new Date(), 'yyyy-MM-dd'),
+        date_planted: today,
         expected_harvest_date: '',
         yield_kg: '',
     });
 
     const selectedCrop = availableCrops.find(c => c.id === parseInt(data.crop_id));
 
+    // Auto-calculate expected harvest date when crop/date changes
     useEffect(() => {
         if (selectedCrop && data.date_planted) {
             const plantDate = new Date(data.date_planted);
             const harvestDate = new Date(plantDate);
             harvestDate.setDate(harvestDate.getDate() + (selectedCrop.crop_weeks * 7));
-            setData('expected_harvest_date', format(harvestDate, 'yyyy-MM-dd'));
+            
+            const year = harvestDate.getFullYear();
+            const month = String(harvestDate.getMonth() + 1).padStart(2, '0');
+            const day = String(harvestDate.getDate()).padStart(2, '0');
+            
+            setData('expected_harvest_date', `${year}-${month}-${day}`);
         }
     }, [data.crop_id, data.date_planted]);
 
@@ -38,7 +56,6 @@ const AddPlantingDialog = ({ open, onOpenChange, availableCrops }) => {
         });
     };
 
-    
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-125">
@@ -83,7 +100,7 @@ const AddPlantingDialog = ({ open, onOpenChange, availableCrops }) => {
                             type="date"
                             value={data.date_planted}
                             onChange={(e) => setData('date_planted', e.target.value)}
-                            max={format(new Date(), 'yyyy-MM-dd')}
+                            max={today}
                         />
                         {errors.date_planted && (
                             <p className="text-sm text-destructive">{errors.date_planted}</p>
@@ -142,6 +159,6 @@ const AddPlantingDialog = ({ open, onOpenChange, availableCrops }) => {
                 </div>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
 export default AddPlantingDialog
