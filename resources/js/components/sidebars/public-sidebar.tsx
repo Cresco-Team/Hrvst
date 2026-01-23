@@ -12,12 +12,11 @@ import {
 } from "@/components/ui/sidebar";
 import { PageProps } from "@/types";
 
-export function AppSidebar({ header, content, ...props }) {
+const PublicSidebar = ({ header, content, ...props }) => {
     const { auth } = usePage<PageProps>().props
 
     return (
         <Sidebar
-            className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
             {...props}
         >
             <SidebarHeader>
@@ -49,3 +48,4 @@ export function AppSidebar({ header, content, ...props }) {
         </Sidebar>
     )
 }
+export default PublicSidebar
