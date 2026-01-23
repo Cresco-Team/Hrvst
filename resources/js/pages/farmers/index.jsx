@@ -67,7 +67,7 @@ const Index = ({ farmers, municipalities, filters }) => {
                 />
             }
         >
-            <div className='absolute inset-0 z-0 rounded-xl overflow-hidden'>
+            <div className='absolute inset-0 z-0'>
                 <BaseMap
                     center={center}
                     zoom={zoom}

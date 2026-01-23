@@ -7,7 +7,7 @@ import PublicSidebar from "@/components/sidebars/public-sidebar";
 
 const PublicLayout = ({ children, title, sidebarHeader, sidebarContent }) => {
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col [--header-height:calc(--spacing(14))]">
             <Head title={title} />
 
             <SidebarProvider className="flex flex-col">
@@ -18,7 +18,7 @@ const PublicLayout = ({ children, title, sidebarHeader, sidebarContent }) => {
                     <PublicSidebar 
                         header={sidebarHeader}
                         content={sidebarContent}
-                        variant="inset"
+                        className={'top-(--header-height) h-[calc(100svh-var(--header-height))]!'}
                     />
 
                     <SidebarInset className="flex-1">
