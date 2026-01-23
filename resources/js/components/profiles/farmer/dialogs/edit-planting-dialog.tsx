@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-const EditPlantingDialog = ({ open, onOpenChange, planting }) => {
+export default function EditPlantingDialog({ open, onOpenChange, planting, today }) {
     const { data, setData, patch, processing, errors, reset } = useForm({
         date_planted: '',
         expected_harvest_date: '',
@@ -21,15 +21,9 @@ const EditPlantingDialog = ({ open, onOpenChange, planting }) => {
 
     useEffect(() => {
         if (planting && open) {
-            const formatDate = (dateStr) => {
-                if (!dateStr) return '';
-                const d = new Date(dateStr);
-                return d.toISOString().split('T')[0];
-            };
-
             setData({
-                date_planted: formatDate(planting.date_planted),
-                expected_harvest_date: formatDate(planting.expected_harvest_date),
+                date_planted: planting.date_planted || '',
+                expected_harvest_date: planting.expected_harvest_date || '',
                 yield_kg: planting.yield_kg || '',
             });
         }
@@ -45,8 +39,6 @@ const EditPlantingDialog = ({ open, onOpenChange, planting }) => {
     };
 
     if (!planting) return null;
-
-    const today = new Date().toISOString().split('T')[0];
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -118,6 +110,5 @@ const EditPlantingDialog = ({ open, onOpenChange, planting }) => {
                 </div>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
-export default EditPlantingDialog

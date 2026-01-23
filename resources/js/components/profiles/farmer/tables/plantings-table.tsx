@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge'
-import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 
-const PlantingsTable = ({ plantings }) => {
+export default function PlantingsTable({ plantings }) {
     const getStatusVariant = (status) => {
         switch (status) {
             case 'harvested':
@@ -52,9 +52,9 @@ const PlantingsTable = ({ plantings }) => {
                                 <span className="font-medium">{planting.crop_name}</span>
                             </div>
                             <div>{planting.category}</div>
-                            <div>{planting.date_planted}</div>
-                            <div>{planting.expected_harvest_date || '—'}</div>
-                            <div>{planting.date_harvested || '—'}</div>
+                            <div>{planting.date_planted_display}</div>
+                            <div>{planting.expected_harvest_date_display || '—'}</div>
+                            <div>{planting.date_harvested_display || '—'}</div>
                             <div>{planting.yield_kg || '—'}</div>
                             <div>
                                 <Badge variant={getStatusVariant(planting.status)}>
@@ -93,15 +93,15 @@ const PlantingsTable = ({ plantings }) => {
                         <div className="grid grid-cols-2 gap-2 text-sm">
                             <div>
                                 <p className="text-muted-foreground">Planted</p>
-                                <p>{planting.date_planted}</p>
+                                <p>{planting.date_planted_display}</p>
                             </div>
                             <div>
                                 <p className="text-muted-foreground">Harvested</p>
-                                <p>{planting.date_harvested || '—'}</p>
+                                <p>{planting.date_harvested_display || '—'}</p>
                             </div>
                             <div>
                                 <p className="text-muted-foreground">Expected</p>
-                                <p>{planting.expected_harvest_date || '—'}</p>
+                                <p>{planting.expected_harvest_date_display || '—'}</p>
                             </div>
                             <div>
                                 <p className="text-muted-foreground">Yield</p>
@@ -112,6 +112,5 @@ const PlantingsTable = ({ plantings }) => {
                 ))}
             </div>
         </div>
-    )
+    );
 }
-export default PlantingsTable

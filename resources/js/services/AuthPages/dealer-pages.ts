@@ -1,13 +1,21 @@
-import { CircleUserRoundIcon } from "lucide-react"
+import { CircleUserRoundIcon, StoreIcon } from "lucide-react"
 
 const dealerPages = [
     {
+        title: 'Your Domain',
+        pages: [
+            {
+                title: 'Marketplace',
+                url : 'dealer.marketplace.index',
+                icon: StoreIcon
+            }
+        ]
+    }, {
         title: 'Your Profile',
         pages: [
             {
-                name : 'Dealer Profile',
                 title: 'Profile',
-                url : 'dealer.show',
+                url : 'dealer.profile.show',
                 icon: CircleUserRoundIcon
             }
         ]
