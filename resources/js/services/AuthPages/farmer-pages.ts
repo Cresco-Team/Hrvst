@@ -2,14 +2,14 @@ import { CircleUserRoundIcon, SproutIcon } from "lucide-react"
 
 const farmerPages = [
     {
-        title: 'Pages',
+        title: 'Main',
         pages: [
             {
-                title: 'Your Profile',
+                title: 'My Profile',
                 url : 'farmer.show',
                 icon: CircleUserRoundIcon
             }, {
-                title: 'Plants Index',
+                title: 'Garden',
                 url : 'farmer.plantings.index',
                 icon: SproutIcon
             }
