@@ -3,7 +3,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuAction, Sideba
 import { router } from '@inertiajs/react'
 import { ChevronRightIcon } from 'lucide-react'
 
-const CropPageFilter = ({ municipalities, filters }) => {
+const FarmersPageFilter = ({ municipalities, filters }) => {
     const municipality_id = filters?.municipality_id ?? null
 
     return (
@@ -98,4 +98,4 @@ const CropPageFilter = ({ municipalities, filters }) => {
         </SidebarGroup>
     )
 }
-export default CropPageFilter
+export default FarmersPageFilter
