@@ -1,6 +1,6 @@
 import { router, usePage } from "@inertiajs/react"
 import AuthSidebarContent from "./sidebar-content/auth-sidebar-content"
-import NavHeader from "../sidebar/nav-header"
+import NavHeader from "./sidebar-header/sidebar-header"
 import NavUser from "../sidebar/nav-user"
 import { Sidebar, SidebarFooter, SidebarHeader } from "../ui/sidebar"
 import { PageProps } from "@/types"

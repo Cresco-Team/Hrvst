@@ -1,5 +1,5 @@
 
-import NavHeader from "@/components/sidebar/nav-header";
+import NavHeader from "@/components/sidebars/sidebar-header/sidebar-header";
 import NavUser from "@/components/sidebar/nav-user";
 import { usePage } from "@inertiajs/react";
 import { AdminPages } from "@/components/admin/sidebar/admin-pages";
