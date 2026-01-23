@@ -1,7 +1,7 @@
 import {
     SidebarMenu,
     SidebarMenuItem
-} from "../ui/sidebar"
+} from "../../ui/sidebar"
 import { Link } from "@inertiajs/react"
 
 export default function NavHeader({ link }) {
