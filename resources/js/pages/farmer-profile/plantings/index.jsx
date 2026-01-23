@@ -1,25 +1,22 @@
-import PlantingCard from "@/components/profiles/farmer/cards/planting-card"
-import AddPlantingDialog from "@/components/profiles/farmer/dialogs/add-planting-dialog"
-import PlantingsTable from "@/components/profiles/farmer/tables/plantings-table"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import AuthLayout from "@/layouts/auth-layout"
-import { ArchiveIcon, CalendarIcon, PlusIcon, TrendingUpIcon } from "lucide-react"
-import { useState } from "react"
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Plus, Calendar, TrendingUp, Archive } from 'lucide-react';
+import PlantingCard from '@/components/profiles/farmer/cards/planting-card';
+import PlantingsTable from '@/components/profiles/farmer/tables/plantings-table';
+import AddPlantingDialog from '@/components/profiles/farmer/dialogs/add-planting-dialog';
+import AuthLayout from '@/layouts/auth-layout';
 
-
-const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
+const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [viewMode, setViewMode] = useState('cards');
 
     const activePlantings = plantings.filter(p => p.status === 'active');
     const archivedPlantings = plantings.filter(p => ['harvested', 'expired'].includes(p.status));
 
-
     return (
-        <AuthLayout title='My Plantings'>
-            <div>
+        <AuthLayout title="My Plantings">
+            <div className="container mx-auto p-6 space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
@@ -27,7 +24,7 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                         <p className="text-muted-foreground">Track your crops from planting to harvest</p>
                     </div>
                     <Button onClick={() => setIsAddDialogOpen(true)} size="lg">
-                        <PlusIcon className="mr-2 h-4 w-4" />
+                        <Plus className="mr-2 h-4 w-4" />
                         Add Planting
                     </Button>
                 </div>
@@ -37,7 +34,7 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">Active Plantings</CardTitle>
-                            <TrendingUpIcon className="h-4 w-4 text-muted-foreground" />
+                            <TrendingUp className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{stats.active}</div>
@@ -48,7 +45,7 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">Harvested This Month</CardTitle>
-                            <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                            <Calendar className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{stats.harvested_this_month}</div>
@@ -59,7 +56,7 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">Archived Records</CardTitle>
-                            <ArchiveIcon className="h-4 w-4 text-muted-foreground" />
+                            <Archive className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{archivedPlantings.length}</div>
@@ -83,11 +80,11 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                         {activePlantings.length === 0 ? (
                             <Card>
                                 <CardContent className="flex flex-col items-center justify-center py-12">
-                                    <TrendingUpIcon className="h-12 w-12 text-muted-foreground mb-4" />
+                                    <TrendingUp className="h-12 w-12 text-muted-foreground mb-4" />
                                     <h3 className="text-lg font-semibold mb-2">No Active Plantings</h3>
                                     <p className="text-muted-foreground mb-4">Start tracking your crops today</p>
                                     <Button onClick={() => setIsAddDialogOpen(true)}>
-                                        <PlusIcon className="mr-2 h-4 w-4" />
+                                        <Plus className="mr-2 h-4 w-4" />
                                         Add Your First Planting
                                     </Button>
                                 </CardContent>
@@ -99,6 +96,7 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                                         key={planting.id} 
                                         planting={planting}
                                         availableCrops={availableCrops}
+                                        today={today}
                                     />
                                 ))}
                             </div>
@@ -109,7 +107,7 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                         {archivedPlantings.length === 0 ? (
                             <Card>
                                 <CardContent className="flex flex-col items-center justify-center py-12">
-                                    <ArchiveIcon className="h-12 w-12 text-muted-foreground mb-4" />
+                                    <Archive className="h-12 w-12 text-muted-foreground mb-4" />
                                     <p className="text-muted-foreground">No archived plantings yet</p>
                                 </CardContent>
                             </Card>
@@ -124,9 +122,10 @@ const FarmerPlantings = ({ plantings, availableCrops, stats }) => {
                     open={isAddDialogOpen}
                     onOpenChange={setIsAddDialogOpen}
                     availableCrops={availableCrops}
+                    today={today}
                 />
             </div>
         </AuthLayout>
-    )
+    );
 }
 export default FarmerPlantings

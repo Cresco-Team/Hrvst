@@ -3,8 +3,8 @@ import { router } from "@inertiajs/react"
 import {
     ChevronsUpDown,
     CircleUserRoundIcon,
+    ExternalLink,
     LayoutDashboardIcon,
-    LayoutGridIcon,
     LogOut,
     StoreIcon,
   } from "lucide-react"
@@ -39,9 +39,9 @@ import {
             route: route('admin.dashboard'),
         }, {
             name: 'dealer',
-            label: 'Dealer Dashboard',
-            icon: LayoutGridIcon,
-            route: route('dealer.show'),
+            label: 'Marketplace',
+            icon: StoreIcon,
+            route: route('dealer.marketplace.index'),
         }, {
             name: 'farmer',
             label: 'Farmer Profile',
@@ -94,7 +94,7 @@ import {
                     <DropdownMenuItem
                         onSelect={() => router.get(route('home'))}
                     >
-                        <StoreIcon />
+                        <ExternalLink />
                         Home
                     </DropdownMenuItem>
 

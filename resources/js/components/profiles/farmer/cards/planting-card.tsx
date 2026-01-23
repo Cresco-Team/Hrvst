@@ -1,22 +1,26 @@
-import { useState } from 'react'
-import { router } from '@inertiajs/react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useState } from 'react';
+import { router } from '@inertiajs/react';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { 
-    MoreVerticalIcon, 
-    EditIcon, 
-    CheckCircleIcon, 
-    Trash2Icon, 
-    CalendarIcon,
-    ClockIcon
-} from 'lucide-react'
-import EditPlantingDialog from '../dialogs/edit-planting-dialog'
+    DropdownMenu, 
+    DropdownMenuContent, 
+    DropdownMenuItem, 
+    DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
+import { 
+    MoreVertical, 
+    Edit, 
+    CheckCircle, 
+    Trash2, 
+    Calendar,
+    Clock
+} from 'lucide-react';
+import EditPlantingDialog from '../dialogs/edit-planting-dialog';
 
-
-const PlantingCard = ({ planting, availableCrops }) => {
+export default function PlantingCard({ planting, availableCrops, today }) {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     
     const handleHarvest = () => {
@@ -25,12 +29,7 @@ const PlantingCard = ({ planting, availableCrops }) => {
         router.post(
             route('farmer.plantings.harvest', planting.id),
             {},
-            {
-                preserveScroll: true,
-                onSuccess: () => {
-                    // Success message handled by backend flash
-                },
-            }
+            { preserveScroll: true }
         );
     };
 
@@ -42,10 +41,9 @@ const PlantingCard = ({ planting, availableCrops }) => {
         });
     };
 
-    // Calculate progress percentage
     const getProgressPercentage = () => {
         if (planting.days_until_harvest === null) return 0;
-        if (planting.days_until_harvest < 0) return 100; // Overdue
+        if (planting.days_until_harvest < 0) return 100;
         
         const totalDays = Math.abs(planting.days_until_harvest);
         return Math.min(100, Math.max(0, 100 - (planting.days_until_harvest / totalDays) * 100));
@@ -82,23 +80,23 @@ const PlantingCard = ({ planting, availableCrops }) => {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="icon">
-                                    <MoreVerticalIcon className="h-4 w-4" />
+                                    <MoreVertical className="h-4 w-4" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
-                                    <EditIcon className="mr-2 h-4 w-4" />
+                                    <Edit className="mr-2 h-4 w-4" />
                                     Edit
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={handleHarvest}>
-                                    <CheckCircleIcon className="mr-2 h-4 w-4" />
+                                    <CheckCircle className="mr-2 h-4 w-4" />
                                     Mark as Harvested
                                 </DropdownMenuItem>
                                 <DropdownMenuItem 
                                     onClick={handleDelete}
                                     className="text-destructive focus:text-destructive"
                                 >
-                                    <Trash2Icon className="mr-2 h-4 w-4" />
+                                    <Trash2 className="mr-2 h-4 w-4" />
                                     Delete
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -111,7 +109,7 @@ const PlantingCard = ({ planting, availableCrops }) => {
                         <Badge variant={getStatusColor()}>{planting.status_badge}</Badge>
                         {planting.days_until_harvest !== null && (
                             <div className="flex items-center text-sm text-muted-foreground">
-                                <ClockIcon className="mr-1 h-4 w-4" />
+                                <Clock className="mr-1 h-4 w-4" />
                                 {planting.days_until_harvest >= 0 
                                     ? `${planting.days_until_harvest} days left`
                                     : `${Math.abs(planting.days_until_harvest)} days overdue`}
@@ -129,15 +127,15 @@ const PlantingCard = ({ planting, availableCrops }) => {
                         <div>
                             <p className="text-muted-foreground">Planted</p>
                             <p className="font-medium flex items-center">
-                                <CalendarIcon className="mr-1 h-4 w-4" />
-                                {planting.date_planted}
+                                <Calendar className="mr-1 h-4 w-4" />
+                                {planting.date_planted_display}
                             </p>
                         </div>
                         <div>
                             <p className="text-muted-foreground">Expected Harvest</p>
                             <p className="font-medium flex items-center">
-                                <CalendarIcon className="mr-1 h-4 w-4" />
-                                {planting.expected_harvest_date || 'Not set'}
+                                <Calendar className="mr-1 h-4 w-4" />
+                                {planting.expected_harvest_date_display || 'Not set'}
                             </p>
                         </div>
                     </div>
@@ -155,8 +153,8 @@ const PlantingCard = ({ planting, availableCrops }) => {
                 open={isEditDialogOpen}
                 onOpenChange={setIsEditDialogOpen}
                 planting={planting}
+                today={today}
             />
         </>
-    )
+    );
 }
-export default PlantingCard

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Crop;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -15,7 +16,7 @@ class Category extends Model
 
     protected $fillable = ['name'];
 
-    public function crops()
+    public function crops(): HasMany
     {
         return $this->hasMany(Crop::class);
     }
