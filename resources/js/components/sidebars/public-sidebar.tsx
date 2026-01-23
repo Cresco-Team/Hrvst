@@ -8,9 +8,9 @@ import {
     SidebarFooter,
     SidebarMenu,
     SidebarMenuItem,
-    SidebarHeader 
 } from "@/components/ui/sidebar";
 import { PageProps } from "@/types";
+import AppSidebarHeader from "./sidebar-header/app-sidebar-header";
 
 const PublicSidebar = ({ header, content, ...props }) => {
     const { auth } = usePage<PageProps>().props
@@ -19,9 +19,7 @@ const PublicSidebar = ({ header, content, ...props }) => {
         <Sidebar
             {...props}
         >
-            <SidebarHeader>
-                {header}
-            </SidebarHeader>
+            <AppSidebarHeader />
 
             <SidebarContent className="gap-0">
                 {content}
