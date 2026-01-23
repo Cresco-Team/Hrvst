@@ -1,34 +1,28 @@
 
 import { Head } from "@inertiajs/react";
 import NavBar from "@/components/navigation/nav-bar";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
 
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import PublicSidebar from "@/components/sidebars/public-sidebar";
 
-export default function AppLayout (
-    { 
-        children,
-        title,
-        sidebarHeader,
-        sidebarContent,
-    }
-) {
+const PublicLayout = ({ children, title, sidebarHeader, sidebarContent }) => {
     return (
-        <div className="[--header-height:calc(--spacing(14))]">
+        <div className="min-h-screen flex flex-col">
             <Head title={title} />
 
-            <SidebarProvider defaultOpen={false} className="flex flex-col">
+            <SidebarProvider className="flex flex-col">
                 <NavBar />
+
                 <div className="flex flex-1">
 
-                    <AppSidebar 
+                    <PublicSidebar 
                         header={sidebarHeader}
                         content={sidebarContent}
                         variant="inset"
                     />
 
-                    <SidebarInset className="flex">
-                        <main className="flex-1 relative">
+                    <SidebarInset className="flex-1">
+                        <main className="relative h-full">
                             {children}
                         </main>
                     </SidebarInset>
@@ -38,3 +32,4 @@ export default function AppLayout (
         </div>
     )
 }
+export default PublicLayout
