@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Crop extends Model
 {
@@ -21,22 +25,22 @@ class Crop extends Model
         'crop_weeks' => 'integer',
     ];
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function prices()
+    public function prices(): HasMany
     {
         return $this->hasMany(CropPrice::class);
     }
 
-    public function latestPrice()
+    public function latestPrice(): HasOne
     {
         return $this->hasOne(CropPrice::class)->latest('recorded_at');
     }
 
-    public function farmers()
+    public function farmers(): BelongsToMany
     {
         return $this->belongsToMany(Farmer::class, 'farmer_crop')
             ->using(FarmerCrop::class)
