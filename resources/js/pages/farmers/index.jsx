@@ -3,7 +3,7 @@ import {
     useEffect,
     useRef,
  } from 'react';
-import AppLayout from '@/layouts/app-layout';
+import PublicLayout from '@/layouts/public-layout';
 import AddressFilter from '@/components/sidebar/Farmers/address-filter';
 import BaseMap from '@/components/Map/BaseMap';
 import MapResizer from '@/components/Map/map-resizer'
@@ -57,7 +57,7 @@ const Index = ({ farmers, municipalities, filters }) => {
     const { center, zoom } = getMapCenterAndZoom()
 
     return (
-        <AppLayout
+        <PublicLayout
             title='Farmers'
             sidebarHeader='Farmer Filters'
             sidebarContent={
@@ -87,7 +87,7 @@ const Index = ({ farmers, municipalities, filters }) => {
                     ))}
                 </BaseMap>
             </div>
-        </AppLayout>
+        </PublicLayout>
     )
 }
 
@@ -198,7 +198,7 @@ export default Index;
     );
 
     return (
-        <AppLayout
+        <PublicLayout
             title="Farmers"
             leftSidebar={leftSidebar}
             leftSidebarTitle="Address"
@@ -215,6 +215,6 @@ export default Index;
                 }}
                 farmer={selectedFarmer}
             />
-        </AppLayout>
+        </PublicLayout>
     );
 } */

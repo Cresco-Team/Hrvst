@@ -1,4 +1,4 @@
-import AppLayout from '@/layouts/app-layout';
+import AppLayout from '@/layouts/public-layout';
 import { useState } from 'react';
 import CategoryFilter from '@/components/sidebar/crops/category-filter';
 

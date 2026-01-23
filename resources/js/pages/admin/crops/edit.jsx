@@ -1,7 +1,7 @@
 import { Link, useForm } from "@inertiajs/react";
 import { useState } from "react";
 
-import AppLayout from "@/layouts/app-layout";
+import AppLayout from "@/layouts/public-layout";
 import { Button } from "@/components/ui/button"
 import {
   Field,
