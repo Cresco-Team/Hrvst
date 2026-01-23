@@ -1,5 +1,4 @@
-const { default: AuthLayout } = require("@/layouts/auth-layout")
-
+import AuthLayout from "@/layouts/auth-layout"
 
 const DealerProfile = () => {
     return (

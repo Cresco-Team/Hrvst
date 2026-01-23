@@ -8,15 +8,15 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { CalendarIcon, FilterIcon, PackageIcon, SearchIcon, TrendingUpIcon, UsersIcon } from "lucide-react"
 import FarmerPlantingCard from "@/components/profiles/dealer/cards/farmer-planting-card"
-import FarmerDetailModal from "@/components/Modals/Farmers/FarmerDetailModal"
+import FarmerDetailDialog from "@/components/profiles/dealer/dialogs/farmer-detail-dialog"
 
 const Marketplace = ({ crops, municipalities, plantings, filters, stats }) => {
     const [localFilters, setLocalFilters] = useState({
-        crop_id: filters.crop_id || 'all',
-        municipality_id: filters.municipality_id || 'all',
+        crop_id: filters.crop_id?.toString() || '',
+        municipality_id: filters.municipality_id?.toString() || '',
         harvest_from: filters.harvest_from || '',
         harvest_to: filters.harvest_to || '',
-    });
+    })    
 
     const [selectedFarmerId, setSelectedFarmerId] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -30,21 +30,26 @@ const Marketplace = ({ crops, municipalities, plantings, filters, stats }) => {
             Object.entries(localFilters).filter(([_, v]) => v !== '')
         );
         
-        router.get(route('dealer.search.index'), params, {
+        router.get(route('dealer.marketplace.index'), params, {
             preserveState: true,
             preserveScroll: true,
         });
     };
 
     const clearFilters = () => {
-        setLocalFilters({
+        const resetFilters = {
             crop_id: '',
             municipality_id: '',
             harvest_from: '',
             harvest_to: '',
-        });
-        router.get(route('dealer.search.index'))
-    };
+        };
+        
+        setLocalFilters(resetFilters);
+        
+        router.get(route('dealer.marketplace.index'), {}, {
+            preserveState: false, // Force full page reload to clear inputs
+        })
+    }
 
     const viewFarmerDetails = (farmerId) => {
         setSelectedFarmerId(farmerId)
@@ -225,7 +230,7 @@ const Marketplace = ({ crops, municipalities, plantings, filters, stats }) => {
                 </div>
 
                 {/* Farmer Detail Modal */}
-                <FarmerDetailModal
+                <FarmerDetailDialog
                     open={isModalOpen}
                     onOpenChange={setIsModalOpen}
                     farmerId={selectedFarmerId}
