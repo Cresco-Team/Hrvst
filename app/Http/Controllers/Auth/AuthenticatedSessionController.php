@@ -34,23 +34,24 @@ class AuthenticatedSessionController extends Controller
         Log::info('Session ID after regenerate', ['session_id' => session()->getId()]);
         Log::info('Session data', ['data' => session()->all()]);
 
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         Log::info('User retrieved', ['id' => $user->id]);
 
         if (!$user->isApproved) {
             return redirect()->intended(route('home'))
-                ->with('status', 'pending account');
+                ->with('info', 'pending account');
         }
 
         if ($user->hasRole('admin')) {
             Log::info('Redirecting to Admin Dashboard');
             return redirect()->intended(route('admin.dashboard'))
-                ->with('status', 'Welcome, admin');
+                ->with('info', 'Welcome, admin');
         }
 
         Log::info('Redirecting to Home Page');
-        return redirect()->intended(route('home'))
-            ->with('status', 'Logged in');
+        return redirect()->intended(route('farmers.index'))
+            ->with('success', "Welcome {$user->name}");
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -63,6 +64,6 @@ class AuthenticatedSessionController extends Controller
         Log::info('Session destroyed');
 
         return redirect()->intended(route('home'))
-            ->with('status', 'Logged out');
+            ->with('success', 'Logged out');
     }
 }
