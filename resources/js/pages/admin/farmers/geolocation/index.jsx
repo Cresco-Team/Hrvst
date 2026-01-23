@@ -1,8 +1,9 @@
-import BaseMap from "@/components/Map/BaseMap";
-import FarmerMarker from "@/components/Map/FarmerMarker";
-import MapResizer from "@/components/Map/map-resizer";
-import MapUpdater from "@/components/Map/MapUpdater";
-import AdminLayout from "@/layouts/admin-layout";
+
+import BaseMap from "@/components/Map/BaseMap"
+import FarmerMarker from "@/components/Map/FarmerMarker"
+import MapResizer from "@/components/Map/map-resizer"
+import MapUpdater from "@/components/Map/MapUpdater"
+import AuthLayout from "@/layouts/auth-layout"
 
 export default function Geolocation({ farmers }) {
 
@@ -26,12 +27,10 @@ export default function Geolocation({ farmers }) {
     const {
         center,
         zoom,
-    } = getMapCenter();
+    } = getMapCenter()
 
     return (
-        <AdminLayout
-            title='Farmers Geolocation'
-        >
+        <AuthLayout title={'Farmers Geolocation'}>
             <div className="container h-full rounded-2xl overflow-hidden">
                 <BaseMap
                     center={center}
@@ -51,6 +50,6 @@ export default function Geolocation({ farmers }) {
                 </BaseMap>
             </div>
             
-        </AdminLayout>
+        </AuthLayout>
     )
 }

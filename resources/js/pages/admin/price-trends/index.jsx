@@ -1,9 +1,7 @@
-import AdminLayout from "@/layouts/admin-layout";
-import { CropTrends } from "@/components/admin/price-trends/crop-trends";
-import { Movers } from "@/components/admin/price-trends/cards/movers";
-import { VolatilityAlert } from "@/components/admin/price-trends/cards/volatility-alert";
-import { MarketPulse } from "@/components/admin/price-trends/cards/market-pulse";
 
+import { CropTrends } from "@/components/admin/price-trends/crop-trends"
+import { VolatilityAlert } from "@/components/admin/price-trends/cards/volatility-alert"
+import { MarketPulse } from "@/components/admin/price-trends/cards/market-pulse"
 import {
     Chart as ChartJS,
     LineElement,
@@ -16,31 +14,10 @@ import {
     Colors,
 } from "chart.js"
 import "chartjs-adapter-date-fns"
-import { Line, Doughnut } from "react-chartjs-2"
-
-import { 
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-  } from "@/components/ui/avatar"
-  import { Button } from "@/components/ui/button"
-  import {
-    Item,
-    ItemActions,
-    ItemContent,
-    ItemDescription,
-    ItemMedia,
-    ItemTitle,
-    ItemGroup,
-  } from "@/components/ui/item"
-import { Separator } from "@/components/ui/separator";
+import {  Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import AuthLayout from "@/layouts/auth-layout"
 
 ChartJS.register(
     LineElement,
@@ -54,14 +31,9 @@ ChartJS.register(
   )
   
 
-function PriceTrends ({
-    trends,
-    marketMovers,
-    volatilityAlert,
-    marketPulse,
-}) {
+const PriceTrends = ({ trends, marketMovers, volatilityAlert, marketPulse }) => {
     return(
-        <AdminLayout>
+        <AuthLayout title={'Price Trends'}>
             <div className="grid grid-cols-10 row-cols-3 gap-4 h-full">
 
                 {/* Market Movers */}
@@ -119,8 +91,7 @@ function PriceTrends ({
                 </Card>
                 
             </div>
-        </AdminLayout>
+        </AuthLayout>
     )
 }
-
 export default PriceTrends

@@ -1,29 +1,14 @@
-import { Link, useForm } from "@inertiajs/react";
-import { useState } from "react";
-
-import AppLayout from "@/layouts/public-layout";
+import { Link, useForm } from "@inertiajs/react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from "@/components/ui/field"
+import { Field, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Card } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Card } from "@/components/ui/card"
+import { PlusIcon } from "lucide-react"
+import AuthLayout from "@/layouts/auth-layout"
 
-export default function Edit({ crop, categories }) {
+const EditCrop = ({ crop, categories }) => {
     const {
         data,
         setData,
@@ -42,15 +27,12 @@ export default function Edit({ crop, categories }) {
     )
 
     return (
-        <AppLayout
-            title='Edit Vegetable'
-        >
+        <AuthLayout title={'Edit Vegetable'}>
             <form
                 onSubmit={(e) => {
                     e.preventDefault()
                     data._method = 'PUT',
                     post(route('admin.crops.update', crop.id), {
-                        
                         forceFormData: true,
                     })
                 }}
@@ -140,10 +122,11 @@ export default function Edit({ crop, categories }) {
                             <Button type="button" variant="destructive">Cancel</Button>
                         </Link>
                         
-                        <Button type="submit"><Plus />Update Crop</Button>
+                        <Button type="submit"><PlusIcon />Update Crop</Button>
                     </div>
                 </FieldSet>
             </form>
-        </AppLayout>
+        </AuthLayout>
     )
 }
+export default EditCrop

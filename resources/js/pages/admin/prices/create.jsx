@@ -11,7 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 
-export default function Create({ crop }) {
+const CreatePrice = ({ crop }) => {
   const { data, setData, post, processing, errors } = useForm({
     price_min: "",
     price_max: "",
@@ -82,3 +82,4 @@ export default function Create({ crop }) {
     </AdminLayout>
   );
 }
+export default CreatePrice

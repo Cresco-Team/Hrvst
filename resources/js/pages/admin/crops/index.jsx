@@ -1,20 +1,18 @@
 
 import { Link } from "@inertiajs/react"
 import { useState } from "react"
-
-import AdminLayout from "@/layouts/admin-layout"
 import { columns } from "@/components/admin/crops/columns"
 import DataTable from "@/components/admin/data-table"
-
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Plus, Search } from "lucide-react"
+import { PlusIcon, SearchIcon } from "lucide-react"
+import AuthLayout from "@/layouts/auth-layout"
 
-export default function Crops({ crops }) {
+const Crops = ({ crops }) => {
     const [globalFilter, setGlobalFilter] = useState('')
     return (
-        <AdminLayout
+        <AuthLayout
             title="Crops Dashboard"
         >
             <div className="h-95 overflow-y-auto">
@@ -27,7 +25,7 @@ export default function Crops({ crops }) {
                         <>
                             <div>
                                 <Label htmlFor="search" className="text-xs">
-                                    Search <Search size={15} />
+                                    Search <SearchIcon size={15} />
                                 </Label>
                                 <Input
                                     placeholder="Search for vegetable..."
@@ -40,13 +38,14 @@ export default function Crops({ crops }) {
                             
                             <Button asChild>
                                 <Link href={route('admin.crops.create')} method="get">
-                                    <Plus /> Add Vegetable
+                                    <PlusIcon /> Add Vegetable
                                 </Link>
                             </Button>
                         </>
                     }
                 />
             </div>
-        </AdminLayout>
+        </AuthLayout>
     )
 }
+export default Crops
