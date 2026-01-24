@@ -1,82 +1,53 @@
+import AuthLayout from "@/layouts/auth-layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import AuthLayout from "@/layouts/auth-layout"
-import { router, useForm } from "@inertiajs/react"
-import { useEffect } from "react"
+import { useForm } from "@inertiajs/react"
 
-
-const CreatePlantings = ({ availableCrops, today }) => {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        crop_id: '',
-        date_planted: today,
-        expected_harvest_date: '',
-        yield_kg: '',
-    })
-    
-    const selectedCrop = availableCrops.find(crop => crop.id === parseInt(data.crop_id))
-
-    useEffect(() => {
-        if (selectedCrop && data.date_planted) {
-            const plantDate = new Date(data.date_planted)
-            const harvestDate = new Date(plantDate)
-            harvestDate.setDate(harvestDate.getDate() + (selectedCrop.crop_weeks * 7))
-            
-            const year = harvestDate.getFullYear()
-            const month = String(harvestDate.getMonth() + 1).padStart(2, '0')
-            const day = String(harvestDate.getDate()).padStart(2, '0')
-            
-            setData('expected_harvest_date', `${year}-${month}-${day}`)
-        }
-    }, [data.crop_id, data.date_planted])
+const EditPLanting = ({ planting, today }) => {
+    const { data, setData, patch, processing, errors, reset } = useForm({
+            date_planted: planting.date_planted,
+            expected_harvest_date: planting.expected_harvest_date,
+            yield_kg: planting.yield_kg,
+        })
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        post(route('farmer.plantings.store'), {
-            preserveScroll: true,
+        patch(route('farmer.plantings.update', planting), {
+            preventScroll: true,
             onSuccess: () => reset()
         })
     }
 
     return (
-        <AuthLayout title={'Create Plantings'}>
+        <AuthLayout title={`Edit ${planting.crop_name}`}>
             <div className="container mx-auto p-6 space-y-6">
-                {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Add Plants</h1>
                         <p className="text-muted-foreground">Add new vegetables for sale</p>
                     </div>
                 </div>
-                
+
                 <Card className="overflow-hidden p-0 mx-10">
                     <CardContent className="grid p-0 grid-cols-4">
                         <form onSubmit={handleSubmit} className="col-span-3 p-8">
                             <FieldGroup>
                                 <Field>
-                                    <FieldLabel htmlFor="crop_id">Crop</FieldLabel>
-                                    <Select
-                                        value={data.crop_id.toString()}
-                                        onValueChange={(value) => setData('crop_id', value)}
-                                    >
-                                        <SelectTrigger className="cursor-pointer">
-                                            <SelectValue placeholder='Select a crop...' />
+                                    <FieldLabel>Crop</FieldLabel>
+                                    <Select disabled defaultValue={planting.crop_name}>
+                                        <SelectTrigger>
+                                            <SelectValue></SelectValue>
                                         </SelectTrigger>
-
                                         <SelectContent>
-                                            {availableCrops.map((crop) => (
-                                                <SelectItem key={crop.id} value={crop.id.toString()} className="cursor-pointer">
-                                                    {crop.name} ({crop.category}) - {crop.crop_weeks} weeks
-                                                </SelectItem>
-                                            ))}
+                                            <SelectItem value={planting.crop_name}>
+                                                {planting.crop_name} ({planting.category})
+                                            </SelectItem>
                                         </SelectContent>
                                     </Select>
-                                    {errors.crop_id && (
-                                        <p className="text-sm text-destructive">{errors.crop_id}</p>
-                                    )}
                                 </Field>
 
                                 <Field>
@@ -109,11 +80,6 @@ const CreatePlantings = ({ availableCrops, today }) => {
                                             )}
                                         </Field>
                                     </Field>
-                                    {selectedCrop && (
-                                        <p className="text-xs text-muted-foreground">
-                                            Auto-calculated based on {selectedCrop.crop_weeks} weeks growth cycle
-                                        </p>
-                                    )}
                                 </Field>
 
                                 <Field>
@@ -148,18 +114,21 @@ const CreatePlantings = ({ availableCrops, today }) => {
                                             disabled={processing}
                                             className="cursor-pointer"
                                         >
-                                            {processing ? 'Adding...' : 'Add Planting'}
+                                            {processing ? 'Saving...' : 'Save Planting'}
                                         </Button>
                                     </div>
                                 </Field>
                             </FieldGroup>
                         </form>
 
-                        <div className="bg-green-300 relative block" />
+                        <div className="relative block overflow-hidden h-full w-full">
+                            <div style={{ backgroundImage: `url(${planting.crop_image})` }} className="absolute inset-0 bg-cover bg-center" />
+                            <div className="absolute inset-0 bg-green-500/40" />
+                        </div>
                     </CardContent>
                 </Card>
             </div>
         </AuthLayout>
     )
 }
-export default CreatePlantings
+export default EditPLanting

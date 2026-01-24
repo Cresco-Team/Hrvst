@@ -91,6 +91,9 @@ Route::middleware(['auth', 'farmer'])->prefix('farmer')->as('farmer.')->group(fu
         
         Route::post('/plantings', [FarmerPlantingController::class, 'store'])
             ->name('plantings.store');
+
+        Route::get('/plantings/{planting}/edit', [FarmerPlantingController::class, 'edit'])
+            ->name('plantings.edit');
         
         Route::patch('/plantings/{planting}', [FarmerPlantingController::class, 'update'])
             ->name('plantings.update');
