@@ -18,10 +18,8 @@ import {
     Calendar,
     Clock
 } from 'lucide-react';
-import EditPlantingDialog from '../dialogs/edit-planting-dialog';
 
-export default function PlantingCard({ planting, today }) {
-    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+export default function PlantingCard({ planting }) {
     
     const handleHarvest = () => {
         if (!confirm('Mark this crop as harvested?')) return;
@@ -150,13 +148,6 @@ export default function PlantingCard({ planting, today }) {
                     )}
                 </CardContent>
             </Card>
-
-            <EditPlantingDialog
-                open={isEditDialogOpen}
-                onOpenChange={setIsEditDialogOpen}
-                planting={planting}
-                today={today}
-            />
         </>
     );
 }

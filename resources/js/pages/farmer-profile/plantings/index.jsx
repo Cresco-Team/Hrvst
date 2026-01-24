@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Calendar, TrendingUp, Archive } from 'lucide-react';
 import PlantingCard from '@/components/profiles/farmer/cards/planting-card';
 import PlantingsTable from '@/components/profiles/farmer/tables/plantings-table';
-import AddPlantingDialog from '@/components/profiles/farmer/dialogs/add-planting-dialog';
 import AuthLayout from '@/layouts/auth-layout';
 import { Link } from '@inertiajs/react';
 
@@ -119,14 +118,6 @@ const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
                         )}
                     </TabsContent>
                 </Tabs>
-
-                {/* Add Planting Dialog */}
-                <AddPlantingDialog
-                    open={isAddDialogOpen}
-                    onOpenChange={setIsAddDialogOpen}
-                    availableCrops={availableCrops}
-                    today={today}
-                />
             </div>
         </AuthLayout>
     );
