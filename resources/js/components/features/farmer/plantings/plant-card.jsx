@@ -8,7 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { MoreVerticalIcon, EditIcon, CheckCircleIcon, Trash2Icon, CalendarIcon, ClockIcon } from 'lucide-react'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
 
-const PlantingCard = ({ planting }) => {
+const PlantCard = ({ planting }) => {
     const handleHarvest = () => {
         if (!confirm('Mark this crop as harvested?')) return
         
@@ -135,4 +135,4 @@ const PlantingCard = ({ planting }) => {
         </Card>
     )
 }
-export default PlantingCard
+export default PlantCard

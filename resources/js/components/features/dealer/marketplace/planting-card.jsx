@@ -1,14 +1,14 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon, MapPinIcon, PackageIcon, PhoneIcon, UserIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { CalendarIcon, MapPinIcon, MessageSquareIcon, PackageIcon, PhoneIcon, UserIcon } from "lucide-react"
 
 
-const FarmerPlantingCard = ({ planting, onViewDetails }) => {
+const PlantingCard = ({ planting, onContactFarmer }) => {
     const getStatusColor = () => {
-        if (planting.status_badge === 'Overdue') return 'destructive';
-        if (planting.status_badge === 'Growing') return 'default';
-        return 'secondary';
+        if (planting.status_badge === 'Overdue') return 'destructive'
+        if (planting.status_badge === 'Growing') return 'default'
+        return 'secondary'
     }
 
     return (
@@ -51,12 +51,10 @@ const FarmerPlantingCard = ({ planting, onViewDetails }) => {
                         </div>
                     </div>
 
-                    {planting.farmer.phone && (
-                        <div className="flex items-center gap-2 text-sm">
-                            <PhoneIcon className="h-4 w-4 text-muted-foreground" />
-                            <span>{planting.farmer.phone}</span>
-                        </div>
-                    )}
+                    <div className="flex items-center gap-2 text-sm">
+                        <PhoneIcon className="h-4 w-4 text-muted-foreground" />
+                        <span>{planting.farmer.phone}</span>
+                    </div>
                 </div>
 
                 {/* Harvest Timeline */}
@@ -101,11 +99,15 @@ const FarmerPlantingCard = ({ planting, onViewDetails }) => {
             </CardContent>
 
             <CardFooter>
-                <Button onClick={onViewDetails} variant="outline" className="w-full">
-                    View Farmer Details
+                <Button 
+                    onClick={() => onContactFarmer(planting.farmer.id)} 
+                    className="w-full"
+                >
+                    <MessageSquareIcon className="mr-2 h-4 w-4" />
+                    Contact Farmer
                 </Button>
             </CardFooter>
         </Card>
     )
 }
-export default FarmerPlantingCard
+export default PlantingCard
