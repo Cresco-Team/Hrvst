@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -84,9 +84,11 @@ export default function PlantingCard({ planting, today }) {
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
-                                    <Edit className="mr-2 h-4 w-4" />
-                                    Edit
+                                <DropdownMenuItem asChild>
+                                    <Link href={route('farmer.plantings.edit', planting)}>
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit
+                                    </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem onClick={handleHarvest}>
                                     <CheckCircle className="mr-2 h-4 w-4" />

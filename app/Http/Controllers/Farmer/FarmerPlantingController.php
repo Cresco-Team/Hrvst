@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Farmer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Farmer\StorePlantingRequest;
 use App\Http\Requests\Farmer\UpdatePlantingRequest;
+use App\Http\Resources\PlantingResource;
 use App\Models\Crop;
 use App\Models\FarmerCrop;
 use Carbon\Carbon;
@@ -124,25 +125,32 @@ class FarmerPlantingController extends Controller
             ->with('success', 'Planting record created successfully.');
     }
 
+    public function edit(FarmerCrop $planting)
+    {
+        if ($planting->farmer_id !== Auth::user()->farmer->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if ($planting->status !== 'active') {
+            return back()
+                ->with('error', 'Cannot edit harvested or expired plantings.');
+        }
+
+        return Inertia::render('farmer-profile/plantings/edit', [
+            'planting' => new PlantingResource($planting),
+            'today' => Carbon::now()->format('Y-m-d'),
+        ]);
+    }
+
     /**
      * Update existing planting record (only if active)
      */
     public function update(UpdatePlantingRequest $request, FarmerCrop $planting): RedirectResponse
     {
-        // Verify ownership
-        if ($planting->farmer_id !== Auth::user()->farmer->id) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        // Only active plantings can be edited
-        if ($planting->status !== 'active') {
-            return back()->with('error', 'Cannot edit harvested or expired plantings.');
-        }
-
         $planting->update($request->validated());
 
         return redirect()->route('farmer.plantings.index')
-            ->with('success', 'Planting record updated successfully.');
+            ->with('success', 'Your plant is updated successfully.');
     }
 
     /**
