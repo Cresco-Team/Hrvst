@@ -1,7 +1,7 @@
 // Reusable map Component
 
 import { MapContainer, TileLayer } from 'react-leaflet';
-import '../../utils/leafletSetup';
+import '../../../utils/leafletSetup';
 
 export default function BaseMap({ center, zoom, children, className = '' }) {
     return (
