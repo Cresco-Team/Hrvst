@@ -4,8 +4,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import AuthLayout from "@/layouts/auth-layout"
-import { Link, router, useForm } from "@inertiajs/react"
-import { PlusIcon } from "lucide-react"
+import { router, useForm } from "@inertiajs/react"
 import { useEffect } from "react"
 
 
@@ -38,9 +37,7 @@ const CreatePlantings = ({ availableCrops, today }) => {
 
         post(route('farmer.plantings.store'), {
             preserveScroll: true,
-            onSuccess: () => {
-                reset()
-            },
+            onSuccess: () => reset()
         })
     }
 
