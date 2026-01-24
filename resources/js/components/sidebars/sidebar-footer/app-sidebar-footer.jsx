@@ -1,14 +1,13 @@
 
-import { router, usePage } from "@inertiajs/react"
-import { ChevronsUpDown, CircleUserRoundIcon, ExternalLink, LayoutDashboardIcon, LogOut, StoreIcon } from "lucide-react"
+import { Link, router, usePage } from "@inertiajs/react"
+import { ChevronsUpDown, ExternalLink, LayoutDashboardIcon, LogOut, SproutIcon, StoreIcon, UserCircleIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { SidebarFooter, SidebarMenuButton, useSidebar } from '@/components/ui/sidebar'
-import { PageProps } from "@/types"
 
 const AppSidebarFooter = () => {
     const { isMobile } = useSidebar()
-    const { auth } = usePage<PageProps>().props
+    const { auth } = usePage().props
 
     const roles = [
         {
@@ -23,9 +22,9 @@ const AppSidebarFooter = () => {
             route: route('dealer.marketplace.index'),
         }, {
             name: 'farmer',
-            label: 'Farmer Profile',
-            icon: CircleUserRoundIcon,
-            route: route('farmer.show'),
+            label: 'Garden',
+            icon: SproutIcon,
+            route: route('farmer.plantings.index'),
 
         }
     ]
@@ -67,6 +66,15 @@ const AppSidebarFooter = () => {
                             </div>
                         </div>
                     </DropdownMenuLabel>
+                    
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem
+                            onSelect={() => router.get(route('profile', auth.user))}
+                        >
+                            <UserCircleIcon />
+                            My Profile
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
 
                     <DropdownMenuSeparator />
 
