@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "@inertiajs/react"
 
 const EditPLanting = ({ planting, today }) => {
-    console.log(planting)
     const { data, setData, patch, processing, errors, reset } = useForm({
             date_planted: planting.date_planted,
             expected_harvest_date: planting.expected_harvest_date,
