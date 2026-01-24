@@ -12,15 +12,15 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasRole('admin') || $user->hasRole('dealer');
+        return $user->isApproved;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user): bool
     {
-        return $user->hasRole('admin') || $user->hasRole('dealer');
+        return $user->isApproved;
     }
 
     /**
@@ -36,7 +36,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return false;
+        return $user->id === $model->id;
     }
 
     /**
