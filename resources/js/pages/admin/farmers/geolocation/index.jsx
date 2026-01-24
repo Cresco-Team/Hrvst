@@ -1,8 +1,8 @@
 
-import BaseMap from "@/components/Map/BaseMap"
-import FarmerMarker from "@/components/Map/FarmerMarker"
-import MapResizer from "@/components/Map/map-resizer"
-import MapUpdater from "@/components/Map/MapUpdater"
+import BaseMap from "@/components/shared/map/BaseMap"
+import FarmerMarker from "@/components/shared/map/FarmerMarker"
+import MapResizer from "@/components/shared/map/map-resizer"
+import MapUpdater from "@/components/shared/map/MapUpdater"
 import AuthLayout from "@/layouts/auth-layout"
 
 export default function Geolocation({ farmers }) {

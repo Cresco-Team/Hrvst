@@ -3,13 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Calendar, TrendingUp, Archive } from 'lucide-react';
-import PlantingCard from '@/components/profiles/farmer/cards/planting-card';
-import PlantingsTable from '@/components/profiles/farmer/tables/plantings-table';
 import AuthLayout from '@/layouts/auth-layout';
 import { Link } from '@inertiajs/react';
+import PlantCard from '@/components/features/farmer/plantings/plant-card';
+import PlantingsTable from '@/components/features/farmer/plantings/plantings-table';
 
 const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
-    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
     const activePlantings = plantings.filter(p => p.status === 'active');
     const archivedPlantings = plantings.filter(p => ['harvested', 'expired'].includes(p.status));
@@ -94,11 +93,9 @@ const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {activePlantings.map(planting => (
-                                    <PlantingCard 
+                                    <PlantCard 
                                         key={planting.id} 
                                         planting={planting}
-                                        availableCrops={availableCrops}
-                                        today={today}
                                     />
                                 ))}
                             </div>

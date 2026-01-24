@@ -5,10 +5,10 @@ import {
  } from 'react';
 import PublicLayout from '@/layouts/public-layout';
 import FarmersPageFilter from '@/components/sidebars/sidebar-content/farmers-page-filter';
-import BaseMap from '@/components/Map/BaseMap';
-import MapResizer from '@/components/Map/map-resizer'
-import MapUpdater from '@/components/Map/MapUpdater';
-import FarmerMarker from '@/components/Map/FarmerMarker';
+import BaseMap from '@/components/shared/map/BaseMap';
+import MapResizer from '@/components/shared/map/map-resizer'
+import MapUpdater from '@/components/shared/map/MapUpdater';
+import FarmerMarker from '@/components/shared/map/FarmerMarker';
 /* import { useState, useEffect, useRef } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import BaseMap from '@/components/Map/BaseMap';
