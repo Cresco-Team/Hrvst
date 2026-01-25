@@ -17,12 +17,26 @@ class DealerMessageController extends Controller
     /**
      * Show all dealer conversations
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $conversations = $this->messagingService->getUserConversations(Auth::id());
 
+        $selectedConversation = null;
+        $messages = null;
+
+        // If conversation_id is provided, load that conversation
+        if ($request->has('conversation_id')) {
+            $conversationId = (int) $request->query('conversation_id');
+            $data = $this->messagingService->getConversationMessages($conversationId, Auth::id());
+            
+            $selectedConversation = $data['conversation'];
+            $messages = $data['messages'];
+        }
+
         return Inertia::render('dealer-profile/messages/index', [
             'conversations' => $conversations,
+            'selectedConversation' => $selectedConversation,
+            'messages' => $messages,
         ]);
     }
 
