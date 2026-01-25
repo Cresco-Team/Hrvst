@@ -84,8 +84,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/messages', [DealerMessageController::class, 'index'])
                 ->name('messages.index');
             
-            Route::get('/messages/farmer/{farmer}', [DealerMessageController::class, 'show'])
-                ->name('messages.show');
+            Route::get('/messages/start/{farmer}', [DealerMessageController::class, 'startConversation'])
+                ->name('messages.start');
             
             Route::post('/messages', [DealerMessageController::class, 'store'])
                 ->name('messages.store');
@@ -124,9 +124,6 @@ Route::middleware(['auth'])->group(function () {
             /* Messaging */
             Route::get('/messages', [FarmerMessageController::class, 'index'])
                 ->name('messages.index');
-            
-            Route::get('/messages/{conversation}', [FarmerMessageController::class, 'show'])
-                ->name('messages.show');
             
             Route::post('/messages', [FarmerMessageController::class, 'store'])
                 ->name('messages.store');
