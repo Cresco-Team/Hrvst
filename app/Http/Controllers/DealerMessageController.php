@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MessagingService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -43,7 +44,7 @@ class DealerMessageController extends Controller
     /**
      * Start conversation with farmer (redirects to index with conversation loaded)
      */
-    public function startConversation(int $farmerId, Request $request): Response
+    public function startConversation(int $farmerId, Request $request): RedirectResponse
     {
         $plantingId = $request->query('planting_id');
 
@@ -55,7 +56,7 @@ class DealerMessageController extends Controller
         );
 
         // Redirect to index with conversation selected
-        return Inertia::redirect()->route('dealer.messages.index', [
+        return redirect()->route('dealer.messages.index', [
             'conversation_id' => $conversation->id
         ]);
     }
@@ -96,9 +97,6 @@ class DealerMessageController extends Controller
             $validated['message']
         );
 
-        return response()->json([
-            'success' => true,
-            'message' => $message,
-        ]);
+        return back();
     }
 }
