@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,6 +52,27 @@ class User extends Authenticatable
     public function hasRole(string $role): bool
     {
         return $this->roles()->where('name', $role)->exists();
+    }
+
+    public function dealerConversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, 'dealer_id');
+    }
+
+    public function farmerConversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, 'farmer_id');
+    }
+
+    public function conversations()
+    {
+        return Conversation::where('dealer_id', $this->id)
+            ->orWhere('farmer_id', $this->id);
+    }
+
+    public function sentMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id');
     }
 
     protected function casts(): array
