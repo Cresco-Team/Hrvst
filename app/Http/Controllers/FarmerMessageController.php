@@ -66,6 +66,9 @@ class FarmerMessageController extends Controller
             $validated['message']
         );
 
-        return back();
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+        ]);
     }
 }
