@@ -26,7 +26,7 @@ class Conversation extends Model
 
     public function farmer(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'farmer_id');
+        return $this->belongsTo(Farmer::class, 'farmer_id');
     }
 
     public function planting(): BelongsTo
@@ -49,7 +49,7 @@ class Conversation extends Model
      */
     public function getOtherParticipant(int $userId): User
     {
-        return $this->dealer_id === $userId ? $this->farmer : $this->dealer;
+        return $this->dealer_id === $userId ? $this->farmer->user : $this->dealer;
     }
 
     /**

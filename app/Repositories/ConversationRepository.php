@@ -29,7 +29,7 @@ class ConversationRepository
             'planting.crop:id,name,image_path',
             'latestMessage' => fn($q) => $q->limit(1),
         ])
-        ->where('dealer_id', $userId)
+        ->where('dealer_id', fn($q) => $q->where('user_id', $userId))
         ->orWhere('farmer_id', $userId)
         ->orderByDesc('last_message_at')
         ->get();
