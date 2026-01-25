@@ -1,11 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import { cn } from "@/lib/utils"
 
 
 const ConversationListItem = ({ conversation, isActive, onClick }) => {
     
     return (
-<div
+        <div
             onClick={onClick}
             className={cn(
                 'flex items-start gap-3 p-4 cursor-pointer transition-colors hover:bg-muted/50 border-b',
