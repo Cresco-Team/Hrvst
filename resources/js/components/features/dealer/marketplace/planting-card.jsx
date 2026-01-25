@@ -10,7 +10,7 @@ const PlantingCard = ({ planting, onContactFarmer }) => {
         if (planting.status_badge === 'Growing') return 'default'
         return 'secondary'
     }
-
+    
     return (
         <Card className="overflow-hidden hover:shadow-lg transition-shadow">
             <CardHeader className="relative pb-0">
