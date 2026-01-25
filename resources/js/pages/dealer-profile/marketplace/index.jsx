@@ -40,7 +40,7 @@ const Marketplace = ({ crops, municipalities, plantings, filters, stats }) => {
     }
 
     const handleContactFarmer = (farmerId, plantingId) => {
-        router.get(route('dealer.messages.show', farmerId), {
+        router.get(route('dealer.messages.start', farmerId), {
             planting_id: plantingId
         })
     }
