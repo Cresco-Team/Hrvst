@@ -84,9 +84,11 @@ const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
                                     <TrendingUp className="h-12 w-12 text-muted-foreground mb-4" />
                                     <h3 className="text-lg font-semibold mb-2">No Active Plantings</h3>
                                     <p className="text-muted-foreground mb-4">Start tracking your crops today</p>
-                                    <Button onClick={() => setIsAddDialogOpen(true)}>
-                                        <Plus className="mr-2 h-4 w-4" />
-                                        Add Your First Planting
+                                    <Button asChild>
+                                        <Link href={route('farmer.plantings.create')}>
+                                            <Plus className="mr-2 h-4 w-4" />
+                                            Add Your First Planting
+                                        </Link>
                                     </Button>
                                 </CardContent>
                             </Card>
