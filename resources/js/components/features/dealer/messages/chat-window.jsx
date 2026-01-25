@@ -62,7 +62,7 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
             sender_id: auth.user.id,
             sender_name: auth.user.name,
             message: newMessage.trim(),
-            is_mine: true,
+            is_mine: event.sender_id === auth.user.id,
             is_read: false,
             sent_at: 'Just now',
         }
