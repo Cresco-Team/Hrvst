@@ -57,7 +57,17 @@ class Conversation extends Model
      */
     public function hasParticipant(int $userId): bool
     {
-        return $this->dealer_id === $userId || $this->farmer_id === $userId;
+        if ($this->dealer_id === $userId) {
+            return true;
+        }
+
+        // Check if user is the farmer (through farmer relationship)
+        // Load farmer if not already loaded
+        if (!$this->relationLoaded('farmer')) {
+            $this->load('farmer');
+        }
+
+        return $this->farmer && $this->farmer->user_id === $userId;
     }
 
     /**
