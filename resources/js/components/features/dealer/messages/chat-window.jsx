@@ -1,17 +1,28 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { router } from "@inertiajs/react"
+import { router, usePage } from "@inertiajs/react"
 import { ArrowLeftIcon, SendIcon } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import MessageBubble from "./message-bubble"
 
 
 const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
+    const { auth } = usePage().props
     const [messages, setMessages] = useState(initialMessages)
     const [newMessage, setNewMessage] = useState('')
     const [isSending, setIsSending] = useState(false)
     const scrollRef = useRef(null)
+
+    const getMessageRoute = () => {
+        const userRoles = auth.user.roles || []
+
+        if (userRoles.includes('farmer')) return 'farmer.messages.store'
+        if (userRoles.includes('dealer')) return 'dealer.messages.store'
+
+        throw new Error('User role not recognized')
+    }
+    const messageRoute = getMessageRoute()
 
     // Listen for real-time messages
     useEffect(() => {
@@ -49,7 +60,7 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
         setIsSending(true)
 
         try {
-            await router.post(route('dealer.messages.store'), {
+            await router.post(route(messageRoute), {
                 conversation_id: conversation.id,
                 message: newMessage.trim(),
             }, {
