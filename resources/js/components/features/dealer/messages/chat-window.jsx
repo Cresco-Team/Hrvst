@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { router } from "@inertiajs/react"
-import { ArrowLeftIcon } from "lucide-react"
+import { ArrowLeftIcon, SendIcon } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import MessageBubble from "./message-bubble"
 
 
 const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
