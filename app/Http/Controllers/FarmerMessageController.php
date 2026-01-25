@@ -66,6 +66,8 @@ class FarmerMessageController extends Controller
             $validated['message']
         );
 
-        return back();
+        return redirect()->route('dealer.messages.index', [
+            'conversation_id' => $validated['conversation_id']
+        ]);
     }
 }
