@@ -21,19 +21,19 @@ class ConversationRepository
         );
     }
 
-    public function getUserConversations(int $userId): Collection
-    {
-        return Conversation::with([
-            'dealer:id,name,email',
-            'farmer.user:id,name,email',
-            'planting.crop:id,name,image_path',
-            'latestMessage' => fn($q) => $q->limit(1),
-        ])
-        ->where('dealer_id', fn($q) => $q->where('user_id', $userId))
-        ->orWhere('farmer_id', $userId)
-        ->orderByDesc('last_message_at')
-        ->get();
-    }
+        public function getUserConversations(int $userId): Collection
+        {
+            return Conversation::with([
+                'dealer:id,name,email',
+                'farmer.user:id,name,email',
+                'planting.crop:id,name,image_path',
+                'latestMessage' => fn($q) => $q->limit(1),
+            ])
+            ->where('dealer_id', $userId)
+            ->orWhereHas('farmer', fn($q) => $q->where('user_id', $userId))
+            ->orderByDesc('last_message_at')
+            ->get();
+        }
 
     public function findById(int $conversationId): ?Conversation
     {
