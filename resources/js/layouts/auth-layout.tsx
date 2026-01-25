@@ -34,7 +34,7 @@ const AuthLayout = ({
                 <header className="flex h-14 sm:h-16 shrink-0 items-center gap-2 px-3 sm:px-4 transition-[height] ease-linear">
                     <div className="flex items-center gap-2 w-full">
                         <SidebarTrigger className="size-9" />
-                        <Separator orientation="vertical" className="mr-2 h4"/>
+                        <Separator orientation="vertical" className="mr-2 h-4"/>
 
                         {!hideBreadcrumbs && (
                             <DynamicBreadcrumbs 

@@ -8,9 +8,11 @@ use App\Http\Controllers\Admin\AdminGisController;
 use App\Http\Controllers\Admin\AdminPriceController;
 use App\Http\Controllers\CropController;
 use App\Http\Controllers\Dealer\DealerMarketplaceController;
+use App\Http\Controllers\DealerMessageController;
 use App\Http\Controllers\DealerProfileController;
 use App\Http\Controllers\FarmerController;
 use App\Http\Controllers\Farmer\FarmerPlantingController;
+use App\Http\Controllers\FarmerMessageController;
 use App\Http\Controllers\PriceTrends;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Foundation\Application;
@@ -77,6 +79,16 @@ Route::middleware(['auth'])->group(function () {
         
             Route::get('/farmers/{farmer}', [DealerMarketplaceController::class, 'showFarmer'])
                 ->name('farmers.show');
+
+            /* Messaging */
+            Route::get('/messages', [DealerMessageController::class, 'index'])
+                ->name('messages.index');
+            
+            Route::get('/messages/start/{farmer}', [DealerMessageController::class, 'startConversation'])
+                ->name('messages.start');
+            
+            Route::post('/messages', [DealerMessageController::class, 'store'])
+                ->name('messages.store');
         });
     });
 
@@ -86,6 +98,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['farmer'])->prefix('farmer')->as('farmer.')->group(function () {
         
         Route::middleware(['approved'])->group(function () {
+
+            /* Plantings / garden */
             Route::get('/plantings', [FarmerPlantingController::class, 'index'])
                 ->name('plantings.index');
 
@@ -106,6 +120,13 @@ Route::middleware(['auth'])->group(function () {
             
             Route::delete('/plantings/{planting}', [FarmerPlantingController::class, 'destroy'])
                 ->name('plantings.destroy');
+
+            /* Messaging */
+            Route::get('/messages', [FarmerMessageController::class, 'index'])
+                ->name('messages.index');
+            
+            Route::post('/messages', [FarmerMessageController::class, 'store'])
+                ->name('messages.store');
         });
     });
     
