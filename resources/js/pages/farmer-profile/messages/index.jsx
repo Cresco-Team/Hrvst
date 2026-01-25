@@ -6,7 +6,7 @@ import { MessageSquareIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 
 
-const FarmerMessages = ({ conversations, selectedConversation,  }) => {
+const FarmerMessages = ({ conversations, selectedConversation, messages }) => {
     const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
@@ -17,7 +17,9 @@ const FarmerMessages = ({ conversations, selectedConversation,  }) => {
     }, [])
 
     const handleSelectConversation = (conversationId) => {
-        router.get(route('farmer.messages.show', conversationId), {}, {
+        router.get(route('farmer.messages.index'), {
+            conversation_id: conversationId
+        }, {
             preserveState: true,
             preserveScroll: true,
         })

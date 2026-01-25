@@ -17,11 +17,8 @@ const DealerMessages = ({ conversations, selectedConversation, messages }) => {
     }, [])
 
     const handleSelectConversation = (conversationId) => {
-        const conversation = conversations.find(c => c.id === conversationId)
-        if (!conversation) return
-
-        router.get(route('dealer.messages.show', conversation.other_user.id), {
-            planting_id: conversation.planting?.id
+        router.get(route('dealer.messages.index', conversation.other_user.id), {
+            conversation_id: conversationId
         }, {
             preserveState: true,
             preserveScroll: true,
