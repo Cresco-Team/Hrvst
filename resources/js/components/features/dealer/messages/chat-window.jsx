@@ -12,6 +12,27 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
     const [isSending, setIsSending] = useState(false)
     const scrollRef = useRef(null)
 
+    // Listen for real-time messages
+    useEffect(() => {
+        const channel = window.Echo.private(`conversation.${conversation.id}`)
+            .listen('.message.sent', (event) => {
+                setMessages(prev => [...prev, {
+                    id: event.id,
+                    sender_id: event.sender_id,
+                    sender_name: event.sender_name,
+                    message: event.message,
+                    image_path: event.image_path,
+                    is_mine: false, // Incoming message
+                    is_read: false,
+                    sent_at: new Date(event.created_at).toLocaleString(),
+                }])
+            })
+
+        return () => {
+            channel.stopListening('.message.sent')
+        }
+    }, [conversation.id])
+
     // Auto-scroll to bottom when messages change
     useEffect(() => {
         if (scrollRef.current) {
