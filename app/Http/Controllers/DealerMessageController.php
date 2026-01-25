@@ -39,6 +39,26 @@ class DealerMessageController extends Controller
             'messages' => $messages,
         ]);
     }
+    
+    /**
+     * Start conversation with farmer (redirects to index with conversation loaded)
+     */
+    public function startConversation(int $farmerId, Request $request): Response
+    {
+        $plantingId = $request->query('planting_id');
+
+        // Create or get existing conversation
+        $conversation = $this->messagingService->startConversation(
+            Auth::id(),
+            $farmerId,
+            $plantingId
+        );
+
+        // Redirect to index with conversation selected
+        return Inertia::redirect()->route('dealer.messages.index', [
+            'conversation_id' => $conversation->id
+        ]);
+    }
 
     /**
      * Show specific conversation with a farmer
