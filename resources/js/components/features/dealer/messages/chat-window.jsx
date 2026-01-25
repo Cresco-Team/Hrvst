@@ -57,6 +57,20 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
         
         if (!newMessage.trim() || isSending) return
 
+        const tempMessage = {
+            id: Date.now(),
+            sender_id: auth.user.id,
+            sender_name: auth.user.name,
+            message: newMessage.trim(),
+            is_mine: true,
+            is_read: false,
+            sent_at: 'Just now',
+        }
+
+        setMessages(prev => [...prev, tempMessage])
+        const messageContent = newMessage.trim()
+        setNewMessage('')
+
         setIsSending(true)
 
         try {
@@ -66,11 +80,11 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
             }, {
                 preserveState: true,
                 preserveScroll: true,
-                onSuccess: () => {
-                    setNewMessage('')
-                    // Optimistically add message to UI
-                    // Real-time update will come via Reverb
-                },
+                onSuccess: () => {},
+                onError: () => {
+                    setMessages(prev => prev.filter(m => m.id !== tempMessage.id))
+                    setNewMessage(messageContent)
+                }
             })
         } finally {
             setIsSending(false)
