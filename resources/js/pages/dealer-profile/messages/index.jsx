@@ -17,7 +17,7 @@ const DealerMessages = ({ conversations, selectedConversation, messages }) => {
     }, [])
 
     const handleSelectConversation = (conversationId) => {
-        router.get(route('dealer.messages.index', conversation.other_user.id), {
+        router.get(route('dealer.messages.index'), {
             conversation_id: conversationId
         }, {
             preserveState: true,
