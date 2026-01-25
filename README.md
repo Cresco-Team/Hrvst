@@ -27,12 +27,14 @@ In partnership with La Trinidad Vegetable Trading Post (LTVTP).
 ## How to install
 * Clone the repository with `git clone`
 * Copy the `env.example` file to `.env` and edit database credentials there
-* Run `componer install`
+* Run `composer install`
 * Run `npm install`
+* Run `php artisan reverb:install`
 * Run `php artisan key:generate`
 * Run `php artisan migrate --seed` (it has some seeded data for your testing)
 * Run `php artisan storage:link`
 * Run `composer run dev` (If you're using server hosts other than Herd)
-* Run `npm run dev`
+* Run `npm run dev` in separate terminal
+* Run `php artisan reverb:start` in separate terminal
 * That's it: launch the main URL and see the front homepage.
   * To login as Admin, use `admin@email.com` / `password`
