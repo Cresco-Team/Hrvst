@@ -66,9 +66,8 @@ class FarmerMessageController extends Controller
             $validated['message']
         );
 
-        return response()->json([
-            'success' => true,
-            'message' => $message,
+        return redirect()->route('dealer.messages.index', [
+            'conversation_id' => $validated['conversation_id']
         ]);
     }
 }
