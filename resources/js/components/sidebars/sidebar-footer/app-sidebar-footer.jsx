@@ -1,6 +1,6 @@
 
 import { Link, router, usePage } from "@inertiajs/react"
-import { ChevronsUpDown, ExternalLink, LayoutDashboardIcon, LogOut, SproutIcon, StoreIcon, UserCircleIcon } from "lucide-react"
+import { ChevronsUpDown, ExternalLink, LayoutDashboardIcon, LogOut, MessagesSquareIcon, SproutIcon, StoreIcon, UserCircleIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { SidebarFooter, SidebarMenuButton, useSidebar } from '@/components/ui/sidebar'
@@ -74,6 +74,18 @@ const AppSidebarFooter = () => {
                             <UserCircleIcon />
                             My Profile
                         </DropdownMenuItem>
+
+                        {auth.user.roles.includes('dealer') ? (
+                            <DropdownMenuItem onSelect={() => router.get(route('dealer.messages.index'))}>
+                                <MessagesSquareIcon />
+                                Chats (under construction)
+                            </DropdownMenuItem>
+                        ) : (auth.user.roles.includes('farmer') ? (
+                            <DropdownMenuItem onSelect={() => router.get(route('farmer.messages.index'))}>
+                                <MessagesSquareIcon />
+                                Chats (under construction)
+                            </DropdownMenuItem>
+                        ) : null)}
                     </DropdownMenuGroup>
 
                     <DropdownMenuSeparator />
