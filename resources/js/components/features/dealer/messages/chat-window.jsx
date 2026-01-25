@@ -41,7 +41,8 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
             })
 
         return () => {
-            channel.stopListening('.message.sent')
+            window.Echo.leave(channelName)
+
         }
     }, [conversation.id])
 
