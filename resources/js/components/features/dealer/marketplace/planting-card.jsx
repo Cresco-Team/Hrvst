@@ -100,7 +100,7 @@ const PlantingCard = ({ planting, onContactFarmer }) => {
 
             <CardFooter>
                 <Button 
-                    onClick={() => onContactFarmer(planting.farmer.id)} 
+                    onClick={() => onContactFarmer(planting.farmer.id, planting.id)} 
                     className="w-full"
                 >
                     <MessageSquareIcon className="mr-2 h-4 w-4" />
