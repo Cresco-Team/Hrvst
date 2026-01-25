@@ -39,10 +39,10 @@ const Marketplace = ({ crops, municipalities, plantings, filters, stats }) => {
         })
     }
 
-    const handleContactFarmer = (farmerId) => {
-        // TODO: Navigate to chat page when ready
-        console.log('Contact farmer:', farmerId)
-        // router.get(route('dealer.messages.show', farmerId))
+    const handleContactFarmer = (farmerId, plantingId) => {
+        router.get(route('dealer.messages.show', farmerId), {
+            planting_id: plantingId
+        })
     }
 
     return (
