@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,14 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/', [CategoryController::class]);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/messages', [MessageController::class, 'store'])
+        ->name('api.messages.store');
+    
+    Route::get('/conversations/{conversation}/messages/load-more', [MessageController::class, 'loadMore'])
+        ->name('api.messages.load-more');
+});
 
 // --------------------------------------------------------
 // Public API Routes for registration
