@@ -16,14 +16,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -64,10 +58,14 @@ class User extends Authenticatable
         return $this->hasMany(Conversation::class, 'farmer_id');
     }
 
-    public function conversations()
+    public function conversations(): BelongsToMany
     {
-        return Conversation::where('dealer_id', $this->id)
-            ->orWhere('farmer_id', $this->id);
+        return $this->belongsToMany(Conversation::class, 'conversation_participants');
+    }
+
+    public function conversationParticipations(): HasMany
+    {
+        return $this->hasMany(ConversationParticipant::class);
     }
 
     public function sentMessages(): HasMany
