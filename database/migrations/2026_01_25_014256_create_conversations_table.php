@@ -10,13 +10,12 @@ return new class extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dealer_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('farmer_id')->constrained('farmers')->cascadeOnDelete();
-            $table->foreignId('planting_id')->nullable()->constrained('farmer_crop', 'plant_id')->nullOnDelete();
+            $table->foreignId('planting_id')->nullable()
+                ->constrained('farmer_crop', 'plant_id')
+                ->nullOnDelete();
             $table->timestamp('last_message_at')->nullable();
             $table->timestamps();
-            
-            $table->unique(['dealer_id', 'farmer_id', 'planting_id']);
+
             $table->index('last_message_at');
         });
     }
