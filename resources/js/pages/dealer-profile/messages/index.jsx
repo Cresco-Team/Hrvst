@@ -10,6 +10,13 @@ const DealerMessages = ({ conversations, selectedConversation, messages }) => {
     const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
+        window.Echo.channel('test-channel')
+            .listen('TestEvent', (e) => {
+                console.log('Real-time message received!', e);
+            });
+    }, []);
+    
+    useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768)
         checkMobile()
         window.addEventListener('resize', checkMobile)
