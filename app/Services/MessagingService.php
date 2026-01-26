@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\MessageRead;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -94,8 +95,13 @@ class MessagingService
 
         $conversation->markAsReadForUser($userId);
 
-        $messages = $this->conversationRepo->getConversationMessages($conversationId);
+        broadcast(new MessageRead(
+            $conversationId,
+            $userId,
+            now()->toIso8601String()
+        ))->toOthers();
 
+        $messages = $this->conversationRepo->getConversationMessages($conversationId);
         $otherUser = $conversation->getOtherParticipant($userId);
 
         return [
