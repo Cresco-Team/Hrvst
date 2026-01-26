@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Conversation extends Model
 {
     protected $fillable = [
-        'dealer_id',
-        'farmer_id',
         'planting_id',
         'last_message_at',
     ];
@@ -19,14 +18,12 @@ class Conversation extends Model
         'last_message_at' => 'datetime',
     ];
 
-    public function dealer(): BelongsTo
+    public function participants(): BelongsToMany
     {
-        return $this->belongsTo(User::class, 'dealer_id');
-    }
-
-    public function farmer(): BelongsTo
-    {
-        return $this->belongsTo(Farmer::class, 'farmer_id');
+        return $this->belongsToMany(User::class, 'conversation_participants')
+            ->using(ConversationParticipant::class)
+            ->withPivot(['last_read_at'])
+            ->withTimestamps();
     }
 
     public function planting(): BelongsTo
@@ -44,51 +41,41 @@ class Conversation extends Model
         return $this->messages()->latest();
     }
 
-    /**
-     * Get the other participant in the conversation
-     */
-    public function getOtherParticipant(int $userId): User
+    public function getOtherParticipant(int $userId): ?User
     {
-        return $this->dealer_id === $userId ? $this->farmer->user : $this->dealer;
+        return $this->participants()
+            ->where('user_id', '!=', $userId)
+            ->first();
     }
 
-    /**
-     * Check if user is participant
-     */
     public function hasParticipant(int $userId): bool
     {
-        if ($this->dealer_id === $userId) {
-            return true;
-        }
-
-        // Check if user is the farmer (through farmer relationship)
-        // Load farmer if not already loaded
-        if (!$this->relationLoaded('farmer')) {
-            $this->load('farmer');
-        }
-
-        return $this->farmer && $this->farmer->user_id === $userId;
+        return $this->participants()
+            ->where('user_id', $userId)
+            ->exists();
     }
 
-    /**
-     * Get unread messages count for a user
-     */
     public function getUnreadCountForUser(int $userId): int
     {
-        return $this->messages()
-            ->where('sender_id', '!=', $userId)
-            ->whereNull('read_at')
-            ->count();
+        $participant = ConversationParticipant::where('conversation_id', $this->id)
+            ->where('user_id', $userId)
+            ->first();
+
+        return $participant ? $participant->getUnreadCount() : 0;
     }
 
-    /**
-     * Mark all messages as read for a user
-     */
     public function markAsReadForUser(int $userId): void
     {
-        $this->messages()
-            ->where('sender_id', '!=', $userId)
-            ->whereNull('read_at')
-            ->update(['read_at' => now()]);
+        ConversationParticipant::where('conversation_id', $this->id)
+            ->where('user_id', $userId)
+            ->update(['last_read_at' => now()]);
+    }
+
+    public function addParticipant(int $userId): void
+    {
+        $this->participants()->syncWithoutDetaching([$userId => [
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]]);
     }
 }
