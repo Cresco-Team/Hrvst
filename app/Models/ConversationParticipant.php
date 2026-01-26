@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ConversationParticipant extends Model
+class ConversationParticipant extends Pivot
 {
     protected $fillable = [
         'conversation_id',
