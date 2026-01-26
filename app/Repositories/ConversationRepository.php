@@ -29,8 +29,8 @@ class ConversationRepository
                 'planting.crop:id,name,image_path',
                 'latestMessage' => fn($q) => $q->limit(1),
             ])
-            ->where('dealer_id', $userId)
-            ->orWhereHas('farmer', fn($q) => $q->where('user_id', $userId))
+            ->where(fn($q) => $q->where('dealer_id', $userId)
+                ->orWhereHas('farmer', fn($q2) => $q2->where('user_id', $userId)))
             ->orderByDesc('last_message_at')
             ->get();
         }
