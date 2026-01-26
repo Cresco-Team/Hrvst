@@ -28,23 +28,25 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
     useEffect(() => {
         const channel = window.Echo.private(`conversation.${conversation.id}`)
             .listen('.message.sent', (event) => {
-                setMessages(prev => [...prev, {
-                    id: event.id,
-                    sender_id: event.sender_id,
-                    sender_name: event.sender_name,
-                    message: event.message,
-                    image_path: event.image_path,
-                    is_mine: false, // Incoming message
-                    is_read: false,
-                    sent_at: new Date(event.created_at).toLocaleString(),
-                }])
+                // Only add message if it's from the other user (avoid duplicates)
+                if (event.sender_id !== auth.user.id) {
+                    setMessages(prev => [...prev, {
+                        id: event.id,
+                        sender_id: event.sender_id,
+                        sender_name: event.sender_name,
+                        message: event.message,
+                        image_path: event.image_path,
+                        is_mine: false,
+                        is_read: event.read_at !== null,
+                        sent_at: new Date(event.created_at).toLocaleString(),
+                    }])
+                }
             })
 
         return () => {
-            window.Echo.leave(channelName)
-
+            window.Echo.leave(`conversation.${conversation.id}`)
         }
-    }, [conversation.id])
+    }, [conversation.id, auth.user.id])
 
     // Auto-scroll to bottom when messages change
     useEffect(() => {
@@ -58,32 +60,24 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
         
         if (!newMessage.trim() || isSending) return
 
-        const tempMessage = {
-            id: Date.now(),
-            sender_id: auth.user.id,
-            sender_name: auth.user.name,
-            message: newMessage.trim(),
-            is_mine: event.sender_id === auth.user.id,
-            is_read: false,
-            sent_at: 'Just now',
-        }
-
-        setMessages(prev => [...prev, tempMessage])
         const messageContent = newMessage.trim()
         setNewMessage('')
-
         setIsSending(true)
 
         try {
             await router.post(route(messageRoute), {
                 conversation_id: conversation.id,
-                message: newMessage.trim(),
+                message: messageContent,
             }, {
                 preserveState: true,
                 preserveScroll: true,
-                onSuccess: () => {},
+                onSuccess: (page) => {
+                    // Refresh messages from server response
+                    if (page.props.messages) {
+                        setMessages(page.props.messages)
+                    }
+                },
                 onError: () => {
-                    setMessages(prev => prev.filter(m => m.id !== tempMessage.id))
                     setNewMessage(messageContent)
                 }
             })
@@ -118,7 +112,7 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
             </div>
 
             {/* Messages Area */}
-            <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+            <div className="flex-1 overflow-y-auto p-4" ref={scrollRef}>
                 {messages.length === 0 ? (
                     <div className="flex items-center justify-center h-full text-muted-foreground">
                         <p className="text-sm">No messages yet. Start the conversation!</p>
@@ -128,7 +122,7 @@ const ChatWindow = ({ conversation, messages: initialMessages, onBack }) => {
                         <MessageBubble key={message.id} message={message} />
                     ))
                 )}
-            </ScrollArea>
+            </div>
 
             {/* Message Input */}
             <form onSubmit={handleSendMessage} className="p-4 border-t">

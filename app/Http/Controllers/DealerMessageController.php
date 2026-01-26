@@ -84,7 +84,7 @@ class DealerMessageController extends Controller
     /**
      * Send a message
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'conversation_id' => 'required|exists:conversations,id',
@@ -97,8 +97,16 @@ class DealerMessageController extends Controller
             $validated['message']
         );
 
+        // Get updated messages for this conversation
+        $data = $this->messagingService->getConversationMessages(
+            $validated['conversation_id'],
+            Auth::id()
+        );
+
         return redirect()->route('dealer.messages.index', [
             'conversation_id' => $validated['conversation_id']
+        ])->with([
+            'messages' => $data['messages']
         ]);
     }
 }
