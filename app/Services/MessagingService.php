@@ -7,53 +7,60 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Repositories\ConversationRepository;
 use App\Repositories\MessageRepository;
+use Illuminate\Http\UploadedFile;
 
 class MessagingService
 {
     public function __construct(
         protected ConversationRepository $conversationRepo,
-        protected MessageRepository $messageRepo
+        protected MessageRepository $messageRepo,
+        protected ImageUploadService $imageService,
     ) {}
 
-    /**
-     * Start or get existing conversation
-     */
-    public function startConversation(int $dealerId, int $farmerId, ?int $plantingId = null): Conversation
+    public function startConversation(int $userId1, int $userId2, ?int $plantingId = null): Conversation
     {
         return $this->conversationRepo
-            ->findOrCreateConversation($dealerId, $farmerId, $plantingId);
+            ->findOrCreateConversation($userId1, $userId2, $plantingId);
     }
 
     /**
      * Send a message in a conversation
      */
-    public function sendMessage(int $conversationId, int $senderId, string $messageText): Message
-    {
+    public function sendMessage(
+        int $conversationId, 
+        int $senderId, 
+        ?string $messageText = null, 
+        ?UploadedFile $image = null, 
+    ): Message {
+        if (empty($messageText) && !$image) {
+            throw new \InvalidArgumentException('Message must contain text or image');
+        }
+
+        $imagePath = null;
+        if ($image) {
+            $imagePath = $this->imageService->uploadMessageImage($image);
+        }
+
         $message = $this->messageRepo->create([
             'conversation_id' => $conversationId,
             'sender_id' => $senderId,
             'message' => $messageText,
+            'image_path' => $imagePath,
         ]);
 
-        // Update conversation last message time
         $this->conversationRepo->updateLastMessageTime($conversationId);
 
-        // Broadcast the message via Reverb
         broadcast(new MessageSent($message))->toOthers();
 
         return $message;
     }
 
-    /**
-     * Get all conversations for a user
-     */
     public function getUserConversations(int $userId): array
     {
         $conversations = $this->conversationRepo->getUserConversations($userId);
 
         return $conversations->map(function ($conversation) use ($userId) {
-            $otherUser = $conversation->getOtherParticipant($userId);
-            $latestMsg = $conversation->latestMessage->first();
+            $otherUser = $conversation->participants->first();
 
             return [
                 'id' => $conversation->id,
@@ -66,20 +73,17 @@ class MessagingService
                     'crop_name' => $conversation->planting->crop->name,
                     'crop_image' => $conversation->planting->crop->image_path,
                 ] : null,
-                'latest_message' => $latestMsg ? [
-                    'text' => $latestMsg->message,
-                    'sent_at' => $latestMsg->created_at->diffForHumans(),
-                    'is_read' => $latestMsg->isRead(),
+                'latest_message' => $conversation->latestMessage->first() ? [
+                    'text' => $conversation->latestMessage->first()->message
+                        ?? ($conversation->latestMessage->first()->image_path ? '📷 Image' : ''),
+                    'sent_at' => $conversation->latestMessage->first()->created_at->diffForHumans(),
                 ] : null,
-                'unread_count' => $conversation->getUnreadCountForUser($userId),
+                'unread_count' => $conversation->unread_count ?? 0,
                 'last_message_at' => $conversation->last_message_at?->diffForHumans(),
             ];
         })->toArray();
     }
 
-    /**
-     * Get messages for a conversation
-     */
     public function getConversationMessages(int $conversationId, int $userId): array
     {
         $conversation = $this->conversationRepo->findById($conversationId);
@@ -88,17 +92,18 @@ class MessagingService
             abort(403, 'Unauthorized access to conversation');
         }
 
-        // Mark messages as read
         $conversation->markAsReadForUser($userId);
 
         $messages = $this->conversationRepo->getConversationMessages($conversationId);
+
+        $otherUser = $conversation->getOtherParticipant($userId);
 
         return [
             'conversation' => [
                 'id' => $conversation->id,
                 'other_user' => [
-                    'id' => $conversation->getOtherParticipant($userId)->id,
-                    'name' => $conversation->getOtherParticipant($userId)->name,
+                    'id' => $otherUser->id,
+                    'name' => $otherUser->name,
                 ],
                 'planting' => $conversation->planting ? [
                     'crop_name' => $conversation->planting->crop->name,
@@ -110,9 +115,9 @@ class MessagingService
                 'sender_id' => $msg->sender_id,
                 'sender_name' => $msg->sender->name,
                 'message' => $msg->message,
-                'image_path' => $msg->image_path,
+                'image_url' => $msg->image_url,
                 'is_mine' => $msg->isSentBy($userId),
-                'is_read' => $msg->isRead(),
+                'is_read' => $msg->isReadBy($otherUser->id),
                 'sent_at' => $msg->created_at->format('M d, Y h:i A'),
             ])->toArray(),
         ];
