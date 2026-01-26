@@ -7,6 +7,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -48,19 +49,13 @@ class User extends Authenticatable
         return $this->roles()->where('name', $role)->exists();
     }
 
-    public function dealerConversations(): HasMany
-    {
-        return $this->hasMany(Conversation::class, 'dealer_id');
-    }
-
-    public function farmerConversations(): HasMany
-    {
-        return $this->hasMany(Conversation::class, 'farmer_id');
-    }
-
     public function conversations(): BelongsToMany
     {
-        return $this->belongsToMany(Conversation::class, 'conversation_participants');
+        return $this->belongsToMany(Conversation::class, 'conversation_participants')
+            ->using(ConversationParticipant::class)
+            ->withPivot(['last_read_at'])
+            ->withTimestamps()
+            ->orderByDesc('last_message_at');
     }
 
     public function conversationParticipations(): HasMany
@@ -82,7 +77,6 @@ class User extends Authenticatable
         ];
     }
 
-    /* Scope Methods */
     public function scopeActiveUsers(Builder $query, Carbon $start, Carbon $end): void
     {
         $query->whereHas('farmer')
