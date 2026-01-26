@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-export const useEffect = (channelName, eventName, callback) => {
+export const useEcho = (channelName, eventName, callback) => {
     useEffect(() => {
         if (!channelName) return
 
