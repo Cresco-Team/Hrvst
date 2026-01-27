@@ -78,12 +78,12 @@ const AppSidebarFooter = () => {
                         {auth.user.roles.includes('dealer') ? (
                             <DropdownMenuItem onSelect={() => router.get(route('dealer.messages.index'))}>
                                 <MessagesSquareIcon />
-                                Chats (under construction)
+                                Chats
                             </DropdownMenuItem>
                         ) : (auth.user.roles.includes('farmer') ? (
                             <DropdownMenuItem onSelect={() => router.get(route('farmer.messages.index'))}>
                                 <MessagesSquareIcon />
-                                Chats (under construction)
+                                Chats
                             </DropdownMenuItem>
                         ) : null)}
                     </DropdownMenuGroup>
