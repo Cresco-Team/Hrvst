@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminDemoController;
 use App\Http\Controllers\Admin\AdminFarmerController;
 use App\Http\Controllers\Admin\AdminGisController;
 use App\Http\Controllers\Admin\AdminPriceController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\CropController;
 use App\Http\Controllers\Dealer\DealerMarketplaceController;
 use App\Http\Controllers\DealerMessageController;
@@ -40,6 +41,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::patch('/profile/{user}', [UserProfileController::class, 'update'])
         ->name('update');
+
+    Route::prefix('api')->group(function () {
+        Route::post('/messages', [MessageController::class, 'store'])
+            ->name('api.messages.store');
+        
+        Route::get('/conversations/{conversation}/messages/load-more', [MessageController::class, 'loadMore'])
+            ->name('api.messages.load-more');
+    });
 
     // --------------------------------------------------------
     // Admin Only Page

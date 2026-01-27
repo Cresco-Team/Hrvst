@@ -1,9 +1,7 @@
 import { cn } from "@/lib/utils"
 import { CheckCheckIcon, CheckIcon } from "lucide-react"
 
-
 const MessageBubble = ({ message }) => {
-
     return (
         <div className={cn(
             'flex gap-2 mb-4',
@@ -20,11 +18,25 @@ const MessageBubble = ({ message }) => {
                         {message.sender_name}
                     </p>
                 )}
-                
-                <p className="text-sm whitespace-pre-wrap wrap-break-word">
-                    {message.message}
-                </p>
 
+                {/* Image */}
+                {message.image_url && (
+                    <img 
+                        src={message.image_url}
+                        alt="Attachment"
+                        className="rounded max-w-full mb-2 cursor-pointer hover:opacity-90"
+                        onClick={() => window.open(message.image_url, '_blank')}
+                    />
+                )}
+                
+                {/* Text */}
+                {message.message && (
+                    <p className="text-sm whitespace-pre-wrap break-words">
+                        {message.message}
+                    </p>
+                )}
+
+                {/* Timestamp & read status */}
                 <div className={cn(
                     'flex items-center gap-1 mt-1',
                     message.is_mine ? 'justify-end' : 'justify-start'
@@ -45,4 +57,5 @@ const MessageBubble = ({ message }) => {
         </div>
     )
 }
+
 export default MessageBubble

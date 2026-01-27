@@ -66,8 +66,16 @@ class FarmerMessageController extends Controller
             $validated['message']
         );
 
-        return redirect()->route('dealer.messages.index', [
+        // Get updated messages for this conversation
+        $data = $this->messagingService->getConversationMessages(
+            $validated['conversation_id'],
+            Auth::id()
+        );
+
+        return redirect()->route('farmer.messages.index', [
             'conversation_id' => $validated['conversation_id']
+        ])->with([
+            'messages' => $data['messages']
         ]);
     }
 }

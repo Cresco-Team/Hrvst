@@ -7,6 +7,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -16,14 +17,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -54,20 +49,18 @@ class User extends Authenticatable
         return $this->roles()->where('name', $role)->exists();
     }
 
-    public function dealerConversations(): HasMany
+    public function conversations(): BelongsToMany
     {
-        return $this->hasMany(Conversation::class, 'dealer_id');
+        return $this->belongsToMany(Conversation::class, 'conversation_participants')
+            ->using(ConversationParticipant::class)
+            ->withPivot(['last_read_at'])
+            ->withTimestamps()
+            ->orderByDesc('last_message_at');
     }
 
-    public function farmerConversations(): HasMany
+    public function conversationParticipations(): HasMany
     {
-        return $this->hasMany(Conversation::class, 'farmer_id');
-    }
-
-    public function conversations()
-    {
-        return Conversation::where('dealer_id', $this->id)
-            ->orWhere('farmer_id', $this->id);
+        return $this->hasMany(ConversationParticipant::class);
     }
 
     public function sentMessages(): HasMany
@@ -84,7 +77,6 @@ class User extends Authenticatable
         ];
     }
 
-    /* Scope Methods */
     public function scopeActiveUsers(Builder $query, Carbon $start, Carbon $end): void
     {
         $query->whereHas('farmer')
