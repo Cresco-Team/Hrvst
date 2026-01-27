@@ -47,24 +47,27 @@ class ConversationRepository
     public function getUserConversations(int $userId): Collection
     {
         return Conversation::whereHas('participants', fn($q) => $q->where('user_id', $userId))
-        ->with([
-            'participants' => fn($q) => $q->where('user_id', '!=', $userId),
-            'planting.crop:id,name,image_path',
-            'latestMessage' => fn($q) => $q->limit(1),
-        ])
-        ->withCount([
-            'messages as unread_count' => function ($q) use ($userId) {
-                $q->where('sender_id', '!=', $userId)
-                    ->whereRaw('created_at > COALESCE(
-                        (SELECT last_read_at FROM conversation_participants 
-                         WHERE conversation_id = conversations.id 
-                         AND user_id = ?),
-                        conversations.created_at
-                    )', [$userId]);
-            }
-        ])
-        ->orderByDesc('last_message_at')
-        ->get();
+            ->with([
+                'participants' => fn($q) => $q->where('user_id', '!=', $userId)
+                    ->select('users.id', 'users.name'),
+                'planting.crop:id,name,image_path',
+                'latestMessage' => fn($q) => $q->select('id', 'conversation_id', 'sender_id', 'message', 'image_path', 'created_at')
+                    ->limit(1),
+            ])
+            ->withCount([
+                'messages as unread_count' => function ($q) use ($userId) {
+                    $q->where('sender_id', '!=', $userId)
+                        ->whereRaw('created_at > COALESCE(
+                            (SELECT last_read_at FROM conversation_participants 
+                            WHERE conversation_id = conversations.id 
+                            AND user_id = ?),
+                            conversations.created_at
+                        )', [$userId]);
+                }
+            ])
+            ->orderByDesc('last_message_at')
+            ->get()
+            ->filter(fn($conv) => $conv->participants->isNotEmpty());
     }
 
     public function findById(int $conversationId): ?Conversation

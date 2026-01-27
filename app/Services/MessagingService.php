@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Repositories\ConversationRepository;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
 class MessagingService
 {
@@ -63,6 +64,16 @@ class MessagingService
         return $conversations->map(function ($conversation) use ($userId) {
             $otherUser = $conversation->participants->first();
 
+            if (!$otherUser) {
+                Log::warning('Conversation has no other participant', [
+                    'conversation_id' => $conversation->id,
+                    'user_id' => $userId
+                ]);
+                return null; // Skip this conversation
+            }
+
+            $latestMsg = $conversation->latestMessage->first();
+
             return [
                 'id' => $conversation->id,
                 'other_user' => [
@@ -74,15 +85,18 @@ class MessagingService
                     'crop_name' => $conversation->planting->crop->name,
                     'crop_image' => $conversation->planting->crop->image_path,
                 ] : null,
-                'latest_message' => $conversation->latestMessage->first() ? [
-                    'text' => $conversation->latestMessage->first()->message
-                        ?? ($conversation->latestMessage->first()->image_path ? '📷 Image' : ''),
-                    'sent_at' => $conversation->latestMessage->first()->created_at->diffForHumans(),
+                'latest_message' => $latestMsg ? [
+                    'text' => $latestMsg->message 
+                        ?? ($latestMsg->image_path ? '📷 Image' : ''),
+                    'sent_at' => $latestMsg->created_at->diffForHumans(),
                 ] : null,
                 'unread_count' => $conversation->unread_count ?? 0,
                 'last_message_at' => $conversation->last_message_at?->diffForHumans(),
             ];
-        })->toArray();
+        })
+        ->filter()
+        ->values()
+        ->toArray();
     }
 
     public function getConversationMessages(int $conversationId, int $userId): array
