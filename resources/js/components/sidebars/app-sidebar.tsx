@@ -8,7 +8,7 @@ import farmerPages from "@/services/AuthPages/farmer-pages"
 import AppSidebarHeader from "./sidebar-header/app-sidebar-header"
 import AppSidebarFooter from "./sidebar-footer/app-sidebar-footer"
 
-const AuthSidebar = ({...props}) => {
+const AppSidebar = ({...props}) => {
     const { auth } = usePage<PageProps>().props
     const roles = auth.user.roles
 
@@ -29,4 +29,4 @@ const AuthSidebar = ({...props}) => {
         </Sidebar>
     )
 }
-export default AuthSidebar
+export default AppSidebar
