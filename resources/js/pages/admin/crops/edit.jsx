@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card } from "@/components/ui/card"
 import { PlusIcon } from "lucide-react"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 const EditCrop = ({ crop, categories }) => {
     const {
@@ -27,7 +27,7 @@ const EditCrop = ({ crop, categories }) => {
     )
 
     return (
-        <AuthLayout title={'Edit Vegetable'}>
+        <AppLayout title={'Edit Vegetable'}>
             <form
                 onSubmit={(e) => {
                     e.preventDefault()
@@ -126,7 +126,7 @@ const EditCrop = ({ crop, categories }) => {
                     </div>
                 </FieldSet>
             </form>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default EditCrop

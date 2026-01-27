@@ -1,11 +1,11 @@
-import AuthLayout from "@/layouts/auth-layout";
+import AppLayout from "@/layouts/app-layout";
 
 
 export default function Show({ farmer }) {
 
     return (
-        <AuthLayout title={farmer.name}>
+        <AppLayout title={farmer.name}>
             Show user
-        </AuthLayout>
+        </AppLayout>
     )
 }

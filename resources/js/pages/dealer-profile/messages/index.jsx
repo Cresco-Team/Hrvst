@@ -1,6 +1,6 @@
 import ChatWindow from "@/components/features/dealer/messages/chat-window"
 import ConversationList from "@/components/features/dealer/messages/conversation-list"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 import { router } from "@inertiajs/react"
 import { MessageSquareIcon } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -40,7 +40,7 @@ const DealerMessages = ({ conversations, selectedConversation, messages }) => {
 
     if (isMobile) {
         return (
-            <AuthLayout title="Messages">
+            <AppLayout title="Messages">
                 <div className="h-[calc(100vh-4rem)]">
                     {selectedConversation ? (
                         <ChatWindow
@@ -56,7 +56,7 @@ const DealerMessages = ({ conversations, selectedConversation, messages }) => {
                         />
                     )}
                 </div>
-            </AuthLayout>
+            </AppLayout>
         )
     }
 

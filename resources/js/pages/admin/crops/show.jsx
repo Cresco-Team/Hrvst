@@ -11,7 +11,7 @@ import {
 import { Bar } from 'react-chartjs-2'
 import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react"
-import AuthLayout from '@/layouts/auth-layout'
+import AppLayout from '@/layouts/app-layout'
 
 ChartJS.register(
 BarElement,
@@ -65,7 +65,7 @@ const ShowCrop = ({ crop, chart }) => {
     
 
     return (
-        <AuthLayout title={crop.name}>
+        <AppLayout title={crop.name}>
             <Bar data={data} options={options} />
 
             <Link href={route('admin.crops.prices.create', crop.id)}>
@@ -74,7 +74,7 @@ const ShowCrop = ({ crop, chart }) => {
               </Button>
             </Link>
             
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default ShowCrop

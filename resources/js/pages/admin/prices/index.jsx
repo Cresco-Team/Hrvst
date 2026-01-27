@@ -10,7 +10,7 @@ import {
     Legend,
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 ChartJS.register(
     LineElement,
@@ -155,7 +155,7 @@ const Prices = ({ categories, selectedCategoryId, chartData, currentPeriod }) =>
     }
 
     return (
-        <AuthLayout title={"Vegetable Price"}>
+        <AppLayout title={"Vegetable Price"}>
             <div className="space-y-6">
                 {/* Controls */}
                 <div className="bg-white p-4 rounded-lg shadow space-y-4">
@@ -253,7 +253,7 @@ const Prices = ({ categories, selectedCategoryId, chartData, currentPeriod }) =>
                     </div>
                 )}
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default Prices

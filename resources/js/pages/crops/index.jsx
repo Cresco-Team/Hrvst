@@ -1,4 +1,4 @@
-import AppLayout from '@/layouts/public-layout'
+
 import { useState } from 'react'
 import CropsPageFilter from '@/components/sidebars/sidebar-content/crops-page-filter'
 
@@ -8,6 +8,7 @@ import { Separator } from '@/components/ui/separator'
 
 import { ImageOff } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import AppLayout from '@/layouts/app-layout'
 
 const Crops = ({ crops, categories, filters }) => {
     const [selectedCategory, setSelectedCategory] = useState(null)

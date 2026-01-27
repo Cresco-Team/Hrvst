@@ -7,12 +7,12 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { PlusIcon, SearchIcon } from "lucide-react"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 const Crops = ({ crops }) => {
     const [globalFilter, setGlobalFilter] = useState('')
     return (
-        <AuthLayout
+        <AppLayout
             title="Crops Dashboard"
         >
             <div className="h-95 overflow-y-auto">
@@ -45,7 +45,7 @@ const Crops = ({ crops }) => {
                     }
                 />
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default Crops

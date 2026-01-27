@@ -2,7 +2,7 @@ import MarketplaceFilters from "@/components/features/dealer/marketplace/marketp
 import MarketplaceStats from "@/components/features/dealer/marketplace/marketplace-stats"
 import PlantingCard from "@/components/features/dealer/marketplace/planting-card"
 import { Card, CardContent } from "@/components/ui/card"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 import { router } from "@inertiajs/react"
 import { SearchIcon } from "lucide-react"
 import { useState } from "react"
@@ -46,7 +46,7 @@ const Marketplace = ({ crops, municipalities, plantings, filters, stats }) => {
     }
 
     return (
-        <AuthLayout title="Marketplace">
+        <AppLayout title="Marketplace">
             <div className="container mx-auto p-6 space-y-6">
                 {/* Header */}
                 <div>
@@ -96,7 +96,7 @@ const Marketplace = ({ crops, municipalities, plantings, filters, stats }) => {
                     )}
                 </div>
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default Marketplace

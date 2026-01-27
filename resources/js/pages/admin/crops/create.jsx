@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card } from "@/components/ui/card"
 import { PlusIcon } from "lucide-react"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 const CreateCrop = ({ categories }) => {
     const {
@@ -29,7 +29,7 @@ const CreateCrop = ({ categories }) => {
     }
 
     return (
-        <AuthLayout title={"New Vegetable"}>
+        <AppLayout title={"New Vegetable"}>
             <form onSubmit={submit}>
                 <FieldSet>
                     <FieldLegend>Add Vegetable</FieldLegend>
@@ -128,7 +128,7 @@ const CreateCrop = ({ categories }) => {
                     </div>
                 </FieldSet>
             </form>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default CreateCrop

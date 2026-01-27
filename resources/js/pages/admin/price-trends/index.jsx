@@ -17,7 +17,7 @@ import "chartjs-adapter-date-fns"
 import {  Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 ChartJS.register(
     LineElement,
@@ -33,7 +33,7 @@ ChartJS.register(
 
 const PriceTrends = ({ trends, marketMovers, volatilityAlert, marketPulse }) => {
     return(
-        <AuthLayout title={'Price Trends'}>
+        <AppLayout title={'Price Trends'}>
             <div className="grid grid-cols-10 row-cols-3 gap-4 h-full">
 
                 {/* Market Movers */}
@@ -91,7 +91,7 @@ const PriceTrends = ({ trends, marketMovers, volatilityAlert, marketPulse }) => 
                 </Card>
                 
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default PriceTrends

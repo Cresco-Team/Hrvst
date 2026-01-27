@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 import { router, useForm } from "@inertiajs/react"
 import { useEffect } from "react"
 
@@ -42,7 +42,7 @@ const CreatePlantings = ({ availableCrops, today }) => {
     }
 
     return (
-        <AuthLayout title={'Create Plantings'}>
+        <AppLayout title={'Create Plantings'}>
             <div className="container mx-auto p-6 space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -159,7 +159,7 @@ const CreatePlantings = ({ availableCrops, today }) => {
                     </CardContent>
                 </Card>
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default CreatePlantings

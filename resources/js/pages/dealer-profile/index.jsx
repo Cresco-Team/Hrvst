@@ -1,10 +1,10 @@
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 const DealerProfile = () => {
     return (
-        <AuthLayout>
+        <AppLayout>
             Hello
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default DealerProfile

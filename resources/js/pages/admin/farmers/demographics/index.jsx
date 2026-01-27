@@ -10,7 +10,7 @@ import {
     Colors,
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, Colors)
 
@@ -80,7 +80,7 @@ const Demographics = ({ municipalities, barangays: barangaysByMunicipality }) =>
     }
 
     return (
-        <AuthLayout title={"Farmers Demographics"}>
+        <AppLayout title={"Farmers Demographics"}>
             {currentView === "barangays" && (
                 <div className="mb-4">
                     <button
@@ -95,7 +95,7 @@ const Demographics = ({ municipalities, barangays: barangaysByMunicipality }) =>
                 </div>
             )}
             <Bar data={data} options={options} />
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default Demographics

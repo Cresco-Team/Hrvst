@@ -3,7 +3,7 @@ import Stats from "@/components/admin/dashboard/stats";
 import Market from "@/components/admin/dashboard/market";
 import Volatility from "@/components/admin/dashboard/volatility";
 import TopMunicipality from "@/components/admin/dashboard/top-municipality";
-import AuthLayout from "@/layouts/auth-layout";
+import AppLayout from "@/layouts/app-layout";
 
 export default function Dashboard({ 
     stats,
@@ -14,7 +14,7 @@ export default function Dashboard({
 }) {
 
     return (
-        <AuthLayout title={"Dashboard"}>
+        <AppLayout title={"Dashboard"}>
             <div className="h-95 overflow-y-auto">
                 <div className="grid grid-cols-8 grid-rows-6 gap-2">
                     <Stats stats={stats} />
@@ -23,6 +23,6 @@ export default function Dashboard({
                     <TopMunicipality topMunicipality={topMunicipality} /> 
                 </div>
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }

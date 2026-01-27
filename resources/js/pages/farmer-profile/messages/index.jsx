@@ -1,6 +1,6 @@
 import ChatWindow from "@/components/features/dealer/messages/chat-window"
 import ConversationList from "@/components/features/dealer/messages/conversation-list"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 import { router } from "@inertiajs/react"
 import { MessageSquareIcon } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -33,7 +33,7 @@ const FarmerMessages = ({ conversations, selectedConversation, messages }) => {
 
     if (isMobile) {
         return (
-            <AuthLayout title="Messages">
+            <AppLayout title="Messages">
                 <div className="h-[calc(100vh-4rem)]">
                     {selectedConversation ? (
                         <ChatWindow
@@ -49,12 +49,12 @@ const FarmerMessages = ({ conversations, selectedConversation, messages }) => {
                         />
                     )}
                 </div>
-            </AuthLayout>
+            </AppLayout>
         )
     }
 
     return (
-        <AuthLayout title="Messages">
+        <AppLayout title="Messages">
             <div className="h-[calc(100vh-4rem)]">
                 <div className="flex h-full border rounded-lg overflow-hidden bg-card">
                     <div className="w-95 shrink-0">
@@ -81,7 +81,7 @@ const FarmerMessages = ({ conversations, selectedConversation, messages }) => {
                     </div>
                 </div>
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default FarmerMessages

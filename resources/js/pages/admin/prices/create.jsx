@@ -9,7 +9,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
-import AuthLayout from "@/layouts/auth-layout";
+import AppLayout from "@/layouts/app-layout";
 
 const CreatePrice = ({ crop }) => {
   const { data, setData, post, processing, errors } = useForm({
@@ -25,7 +25,7 @@ const CreatePrice = ({ crop }) => {
   };
 
   return (
-    <AuthLayout title={`Update Price — ${crop.name}`}>
+    <AppLayout title={`Update Price — ${crop.name}`}>
       <form onSubmit={handleSubmit} className="container mx-auto p-6">
         <FieldSet>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -79,7 +79,7 @@ const CreatePrice = ({ crop }) => {
           </div>
         </FieldSet>
       </form>
-    </AuthLayout>
+    </AppLayout>
   );
 }
 export default CreatePrice

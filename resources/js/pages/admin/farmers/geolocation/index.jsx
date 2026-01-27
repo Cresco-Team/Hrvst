@@ -3,7 +3,7 @@ import BaseMap from "@/components/shared/map/BaseMap"
 import FarmerMarker from "@/components/shared/map/FarmerMarker"
 import MapResizer from "@/components/shared/map/map-resizer"
 import MapUpdater from "@/components/shared/map/MapUpdater"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 export default function Geolocation({ farmers }) {
 
@@ -30,7 +30,7 @@ export default function Geolocation({ farmers }) {
     } = getMapCenter()
 
     return (
-        <AuthLayout title={'Farmers Geolocation'}>
+        <AppLayout title={'Farmers Geolocation'}>
             <div className="container h-full rounded-2xl overflow-hidden">
                 <BaseMap
                     center={center}
@@ -50,6 +50,6 @@ export default function Geolocation({ farmers }) {
                 </BaseMap>
             </div>
             
-        </AuthLayout>
+        </AppLayout>
     )
 }

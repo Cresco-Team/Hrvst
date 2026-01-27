@@ -1,12 +1,12 @@
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 
 const ShowProfile = ({ user, can }) => {
 
     return (
-        <AuthLayout>
+        <AppLayout>
             <h1>{user.name}'s profile</h1>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default ShowProfile

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Calendar, TrendingUp, Archive } from 'lucide-react';
-import AuthLayout from '@/layouts/auth-layout';
+import AppLayout from '@/layouts/app-layout';
 import { Link } from '@inertiajs/react';
 import PlantCard from '@/components/features/farmer/plantings/plant-card';
 import PlantingsTable from '@/components/features/farmer/plantings/plantings-table';
@@ -14,7 +14,7 @@ const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
     const archivedPlantings = plantings.filter(p => ['harvested', 'expired'].includes(p.status));
 
     return (
-        <AuthLayout title="My Plantings">
+        <AppLayout title="My Plantings">
             <div className="container mx-auto p-6 space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -118,7 +118,7 @@ const FarmerPlantings = ({ plantings, availableCrops, today, stats }) => {
                     </TabsContent>
                 </Tabs>
             </div>
-        </AuthLayout>
+        </AppLayout>
     );
 }
 export default FarmerPlantings

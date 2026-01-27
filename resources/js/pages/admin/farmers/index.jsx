@@ -4,14 +4,14 @@ import { columns as columnsPending } from "@/components/admin/farmers/columns/co
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 
 
 const Farmers = ({ approvedFarmers, pendingFarmers }) => {
     const [globalFilter, setGlobalFilter] = useState('')
 
     return(
-        <AuthLayout title={'Farmers Spreadsheet'}>
+        <AppLayout title={'Farmers Spreadsheet'}>
             <div className="h-95 p-0 space-y-5 overflow-y-auto">
                 <Card>
                     <CardContent>
@@ -63,7 +63,7 @@ const Farmers = ({ approvedFarmers, pendingFarmers }) => {
                     </CardContent>
                 </Card>
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default Farmers

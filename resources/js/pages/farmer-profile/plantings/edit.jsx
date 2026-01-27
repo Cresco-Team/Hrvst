@@ -1,4 +1,4 @@
-import AuthLayout from "@/layouts/auth-layout"
+import AppLayout from "@/layouts/app-layout"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
@@ -23,7 +23,7 @@ const EditPLanting = ({ planting, today }) => {
     }
 
     return (
-        <AuthLayout title={`Edit ${planting.crop_name}`}>
+        <AppLayout title={`Edit ${planting.crop_name}`}>
             <div className="container mx-auto p-6 space-y-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
@@ -128,7 +128,7 @@ const EditPLanting = ({ planting, today }) => {
                     </CardContent>
                 </Card>
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default EditPLanting
