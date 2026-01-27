@@ -61,7 +61,7 @@ const DealerMessages = ({ conversations, selectedConversation, messages }) => {
     }
 
     return (
-        <AuthLayout>
+        <AppLayout>
             <div className="h-[calc(100vh-4rem)]">
                 <div className="flex h-full border rounded-lg overflow-hidden bg-card">
                     {/* Conversation List - 30% */}
@@ -90,7 +90,7 @@ const DealerMessages = ({ conversations, selectedConversation, messages }) => {
                     </div>
                 </div>
             </div>
-        </AuthLayout>
+        </AppLayout>
     )
 }
 export default DealerMessages
