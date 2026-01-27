@@ -7,11 +7,11 @@ const publicPages = [
         pages: [
             {
                 title: 'Vegetables',
-                url: 'crops',
+                url: 'crops.index',
                 icon: SproutIcon,
             }, {
                 title: 'Farmers',
-                url: 'farmers',
+                url: 'farmers.index',
                 icon: MapPinnedIcon,
             }
         ]
