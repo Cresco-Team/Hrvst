@@ -7,7 +7,7 @@ import { BreadcrumbItem } from '@/lib/breadcrumbs'
 import { Head } from '@inertiajs/react'
 import React from 'react'
 
-interface AuthLayoutProps {
+interface AppLayoutProps {
     children: React.ReactNode
     title: string
 
@@ -16,13 +16,13 @@ interface AuthLayoutProps {
     hideBreadcrumbs?: boolean
 }
 
-const AuthLayout = ({ 
+const AppLayout = ({ 
     children, 
     title, 
     breadcrumbs, 
     breadcrumbParams,
     hideBreadcrumbs = false
-}:  AuthLayoutProps) => {
+}:  AppLayoutProps) => {
     return (
         <SidebarProvider className="h-full overflow-hidden flex">
             <Head title={title} />
@@ -63,4 +63,4 @@ const AuthLayout = ({
         </SidebarProvider>
     )
 }
-export default AuthLayout
+export default AppLayout
