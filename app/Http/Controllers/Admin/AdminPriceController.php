@@ -40,7 +40,7 @@ class AdminPriceController extends Controller
         CropPrice::updateOrCreate(
             [
                 'crop_id' => $crop->id,
-                'recorded_at' => $saturday(),
+                'recorded_at' => $saturday,
             ],
             [
                 'price_min' => $validated['price_min'],
