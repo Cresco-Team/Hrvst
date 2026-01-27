@@ -1,14 +1,10 @@
-import { 
-    useState,
-    useEffect,
-    useRef,
- } from 'react';
-import PublicLayout from '@/layouts/public-layout';
+import { useState, useEffect, useRef } from 'react';
 import FarmersPageFilter from '@/components/sidebars/sidebar-content/farmers-page-filter';
 import BaseMap from '@/components/shared/map/BaseMap';
 import MapResizer from '@/components/shared/map/map-resizer'
 import MapUpdater from '@/components/shared/map/MapUpdater';
 import FarmerMarker from '@/components/shared/map/FarmerMarker';
+import AppLayout from '@/layouts/app-layout';
 /* import { useState, useEffect, useRef } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import BaseMap from '@/components/Map/BaseMap';
@@ -16,7 +12,7 @@ import BaseMap from '@/components/Map/BaseMap';
 
 import FarmerDetailModal from '@/components/Modals/Farmers/FarmerDetailModal'; */
 
-const Index = ({ farmers, municipalities, filters }) => {
+const Farmers = ({ farmers, municipalities, filters }) => {
     // State management
     const [selectedMunicipality, setSelectedMunicipality] = useState(filters.municipality_id || '');
     const [selectedBarangay, setSelectedBarangay] = useState(filters.barangay_id || '');
@@ -57,7 +53,7 @@ const Index = ({ farmers, municipalities, filters }) => {
     const { center, zoom } = getMapCenterAndZoom()
 
     return (
-        <PublicLayout
+        <AppLayout
             title='Farmers'
             sidebarHeader='Farmer Filters'
             sidebarContent={
@@ -87,11 +83,10 @@ const Index = ({ farmers, municipalities, filters }) => {
                     ))}
                 </BaseMap>
             </div>
-        </PublicLayout>
+        </AppLayout>
     )
 }
-
-export default Index;
+export default Farmers;
 
 /* export default function Index({ farmers, municipalities, barangays: initialBarangays, filters }) {
     const { auth, pendingFarmers } = usePage().props;
