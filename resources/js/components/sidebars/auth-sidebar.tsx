@@ -17,7 +17,7 @@ const AuthSidebar = ({...props}) => {
             <AppSidebarHeader />
 
             <AuthSidebarContent
-                sidebarContents = {
+                authContents = {
                     roles.includes('admin') ? adminPages
                     : roles.includes('dealer') ? dealerPages
                     : roles.includes('farmer') ? farmerPages
