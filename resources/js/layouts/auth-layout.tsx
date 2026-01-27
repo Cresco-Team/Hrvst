@@ -1,6 +1,6 @@
 import FlashToaster from '@/components/flash-toaster'
 import DynamicBreadcrumbs from '@/components/navigation/dynamic-breadcrumb'
-import AuthSidebar from '@/components/sidebars/auth-sidebar'
+import AppSidebar from '@/components/sidebars/app-sidebar'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { BreadcrumbItem } from '@/lib/breadcrumbs'
@@ -28,7 +28,7 @@ const AuthLayout = ({
             <Head title={title} />
             <FlashToaster />
 
-            <AuthSidebar />
+            <AppSidebar />
 
             <SidebarInset className="flex flex-col flex-1 overflow-hidden">
                 <header className="flex h-14 sm:h-16 shrink-0 items-center gap-2 px-3 sm:px-4 transition-[height] ease-linear">
