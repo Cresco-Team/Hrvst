@@ -9,33 +9,13 @@ const AppSidebarFooter = () => {
     const { isMobile } = useSidebar()
     const { auth } = usePage().props
 
-    const roles = [
-        {
-            name: 'admin',
-            label: 'Admin Dashboard',
-            icon: LayoutDashboardIcon,
-            route: route('admin.dashboard'),
-        }, {
-            name: 'dealer',
-            label: 'Marketplace',
-            icon: StoreIcon,
-            route: route('dealer.marketplace.index'),
-        }, {
-            name: 'farmer',
-            label: 'Garden',
-            icon: SproutIcon,
-            route: route('farmer.plantings.index'),
-
-        }
-    ]
-
     return (
         <SidebarFooter>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <SidebarMenuButton
                         size="lg"
-                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground cursor-pointer"
                     >
                         <Avatar className="h-8 w-8 rounded-lg">
                             <AvatarImage src={auth.user.image_path} />
@@ -69,6 +49,7 @@ const AppSidebarFooter = () => {
                     
                     <DropdownMenuGroup>
                         <DropdownMenuItem
+                            className="cursor-pointer"
                             onSelect={() => router.get(route('profile', auth.user))}
                         >
                             <UserCircleIcon />
@@ -76,39 +57,21 @@ const AppSidebarFooter = () => {
                         </DropdownMenuItem>
 
                         {auth.user.roles.includes('dealer') ? (
-                            <DropdownMenuItem onSelect={() => router.get(route('dealer.messages.index'))}>
+                            <DropdownMenuItem
+                                className="cursor-pointer"
+                                onSelect={() => router.get(route('dealer.messages.index'))}
+                            >
                                 <MessagesSquareIcon />
                                 Chats
                             </DropdownMenuItem>
                         ) : (auth.user.roles.includes('farmer') ? (
-                            <DropdownMenuItem onSelect={() => router.get(route('farmer.messages.index'))}>
+                            <DropdownMenuItem
+                                className="cursor-pointer"
+                                onSelect={() => router.get(route('farmer.messages.index'))}>
                                 <MessagesSquareIcon />
                                 Chats
                             </DropdownMenuItem>
                         ) : null)}
-                    </DropdownMenuGroup>
-
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem
-                            onSelect={() => router.get(route('home'))}
-                        >
-                            <ExternalLink />
-                            Home
-                        </DropdownMenuItem>
-
-                        {roles.map((role) => (
-                            auth.user.roles.includes(role.name) ? (
-                                <DropdownMenuItem
-                                    key={role.name}
-                                    onSelect={() => router.get(role.route)}
-                                >
-                                    <role.icon />
-                                    <span>{role.label}</span>
-                                </DropdownMenuItem>
-                            ) : null
-                        ))}
                     </DropdownMenuGroup>
 
                     <DropdownMenuSeparator />
