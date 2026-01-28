@@ -6,11 +6,12 @@ import adminPages from "@/services/AuthPages/admin-pages"
 import dealerPages from "@/services/AuthPages/dealer-pages"
 import farmerPages from "@/services/AuthPages/farmer-pages"
 import AppSidebarHeader from "./sidebar-header/app-sidebar-header"
-import AppSidebarFooter from "./sidebar-footer/app-sidebar-footer"
+import AuthSidebarFooter from "./sidebar-footer/auth-sidebar-footer"
+import GuestSidebarFooter from "./sidebar-footer/guest-sidebar-footer"
 
 const AppSidebar = ({...props}) => {
     const { auth } = usePage<PageProps>().props
-    const roles = auth.user.roles
+    const roles = auth?.user?.roles ?? []
 
     return (
         <Sidebar collapsible="icon" {...props} variant="inset">
@@ -25,7 +26,11 @@ const AppSidebar = ({...props}) => {
                 }
             />
 
-            <AppSidebarFooter />
+            {auth.user ? (
+                <AuthSidebarFooter />
+            ) : (
+                <GuestSidebarFooter />
+            )}
         </Sidebar>
     )
 }
