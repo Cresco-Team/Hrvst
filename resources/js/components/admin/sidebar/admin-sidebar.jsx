@@ -1,6 +1,6 @@
 
 import NavHeader from "@/components/sidebars/sidebar-header/app-sidebar-header";
-import AppSidebarFooter from "@/components/sidebars/sidebar-footer/app-sidebar-footer";
+import AppSidebarFooter from "@/components/sidebars/sidebar-footer/guest-sidebar-footer";
 import { usePage } from "@inertiajs/react";
 import { AdminPages } from "@/components/admin/sidebar/admin-pages";
 import {
