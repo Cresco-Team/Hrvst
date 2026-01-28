@@ -1,11 +1,11 @@
 
-import { Link, router, usePage } from "@inertiajs/react"
-import { ChevronsUpDown, ExternalLink, LayoutDashboardIcon, LogOut, MessagesSquareIcon, SproutIcon, StoreIcon, UserCircleIcon } from "lucide-react"
+import { router, usePage } from "@inertiajs/react"
+import { ChevronsUpDown, LogOut, MessagesSquareIcon, UserCircleIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { SidebarFooter, SidebarMenuButton, useSidebar } from '@/components/ui/sidebar'
 
-const AppSidebarFooter = () => {
+const AuthSidebarFooter = () => {
     const { isMobile } = useSidebar()
     const { auth } = usePage().props
 
@@ -88,4 +88,4 @@ const AppSidebarFooter = () => {
         </SidebarFooter>
     )
   }
-  export default AppSidebarFooter
+  export default AuthSidebarFooter
